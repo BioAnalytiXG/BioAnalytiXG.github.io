@@ -1,3 +1,14 @@
+const faqs = document.querySelectorAll(".faq");
+
+faqs.forEach(faq => {
+  faq.addEventListener("click", () => {
+    faq.classList.toggle("active");
+  })
+})
+
+
+
+
 /* -----------------------------------------------
 /* How to use? : Check the GitHub README
 /* ----------------------------------------------- */

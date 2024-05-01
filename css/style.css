@@ -936,6 +936,7 @@ section {
 .answer {
   max-height: 0;
   overflow: hidden;
+  transition: max-height 1.4s ease;
 }
 
 .answer p {
@@ -944,7 +945,23 @@ section {
   font-size: 1.4rem;
 }
 
-.faq.active.answer {
+.faq.active .answer {
   max-height: 300px;
-  
+  animation: fade 1s ease-in-out;
+}
+
+.faq.active svg {
+  transform: rotate(180deg);
+}
+
+svg {
+  transition: transform .5s ease-in;
+}
+
+
+@keyframes fade {
+  from {
+    opacity: 0;
+    transform: translateY(0px);
+  }
 }
