@@ -600,8 +600,8 @@ a:focus {
   -webkit-transition: all .1s;
   transition: all .1s;
   margin-top: 45px;
-  background: -webkit-gradient(linear, left top, left bottom, from(#002759), to(#002b64));
-  background: linear-gradient(to bottom, #002759, #002b64);
+  background: -webkit-gradient(linear, left top, left bottom, from(#3c3f44), to(#566b8b));
+  background: linear-gradient(to bottom, #55657a, #0c2c57);
 }
 
 .team_section .team_container .box .img-box {
