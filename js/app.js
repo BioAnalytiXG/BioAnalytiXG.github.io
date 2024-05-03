@@ -1,11 +1,3 @@
-const faqs = document.querySelectorAll(".faq");
-
-faqs.forEach(faq => {
-  faq.addEventListener("click", () => {
-    faq.classList.toggle("active");
-  })
-})
-
 /* -----------------------------------------------
 /* How to use? : Check the GitHub README
 /* ----------------------------------------------- */
@@ -31,13 +23,13 @@ particlesJS('particles-js',
         }
       },
       "color": {
-        "value": "#7CCDB3"
+        "value": "#2ee1a7"
       },
       "shape": {
         "type": "circle",
         "stroke": {
           "width": 0,
-          "color": "#000000"
+          "color": "#2ee1a7"
         },
         "polygon": {
           "nb_sides": 5
@@ -71,13 +63,13 @@ particlesJS('particles-js',
       "line_linked": {
         "enable": true,
         "distance": 150,
-        "color": "#7CCDB3",
+        "color": "#DAF7EC",
         "opacity": 0.4,
         "width": 1
       },
       "move": {
         "enable": true,
-        "speed": 6,
+        "speed": 1.5,
         "direction": "none",
         "random": false,
         "straight": false,
