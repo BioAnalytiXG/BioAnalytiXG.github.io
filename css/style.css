@@ -907,8 +907,8 @@ a:focus {
 /*# sourceMappingURL=style.css.map */
 
 section {
-  min-height: 100vh;
-  width: 80%;
+  min-height: 1.5px;
+  width: 100%;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
