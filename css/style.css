@@ -533,7 +533,7 @@ a:focus {
   min-width: 120px;
   min-height: 120px;
   border-radius: 100%;
-  border: 5px solid #00204a;
+  border: 5px solid #fefefe;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -907,7 +907,7 @@ a:focus {
 /* footer section*/
 .footer_section {
   position: relative;
-  background-color: black;
+  background-color: #666666;
   text-align: center;
 }
 
