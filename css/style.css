@@ -50,7 +50,7 @@ body {
 }
 
 .heading_container h2 span {
-  color: #00bbf0;
+  color: #7CCDB3;
 }
 
 .heading_container p {
@@ -168,7 +168,7 @@ a:focus {
 }
 
 .custom_nav-container .navbar-nav .nav-item:hover .nav-link, .custom_nav-container .navbar-nav .nav-item.active .nav-link {
-  color: #00bbf0;
+  color:#7CCDB3;
 }
 
 .custom_nav-container .navbar-nav .nav-item.active .nav-link {
