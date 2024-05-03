@@ -2,7 +2,7 @@
 body {
   font-family: "Open Sans", sans-serif;
   color: #0c0c0c;
-  background-color: #000000;
+  background-color: #ffffff;
   overflow-x: hidden;
 }
 
@@ -426,7 +426,7 @@ a:focus {
 }
 
 .service_section .box .detail-box a {
-  color: #00204a;
+  color: #ffffff;
   font-weight: 600;
 }
 
