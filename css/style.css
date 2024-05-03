@@ -664,6 +664,11 @@ a:focus {
 
 /*team section end*/
 /* client section start */
+
+.client_section {
+  background-color: #000;
+}
+
 .client_section .heading_container {
   margin-bottom: 30px;
 }
