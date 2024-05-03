@@ -57,6 +57,7 @@ body {
 .heading_container p {
   margin-top: 10px;
   margin-bottom: 0;
+  color: #fefefe;
 }
 
 .heading_container.heading_center {
