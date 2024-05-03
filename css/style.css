@@ -338,7 +338,7 @@ a:focus {
 }
 
 .slider_section .img-box img {
-  width: 20%;
+  width: 55%;
   margin-left: 100px; /* Adjust this value to move the image more or less */
   -webkit-animation: upDown 5s infinite;
           animation: upDown 5s infinite;
