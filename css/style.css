@@ -906,6 +906,31 @@ a:focus {
 }
 /*# sourceMappingURL=style.css.map */
 
+
+header {
+  position: relative;
+}
+
+.logo {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 300px;
+  height: auto;
+}
+
+#particles-js {
+  background-color: #000;
+}
+
+#particles-js {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
 section {
   min-height: 100vh;
   width: 80%;
@@ -963,7 +988,6 @@ svg {
   transition: transform 0.5s ease-in;
 }
 
-
 @keyframes fade {
   from {
     opacity: 0;
@@ -973,28 +997,4 @@ svg {
     opacity: 1;
     transform: translateY(0px);
   }
-}
-
-header {
-  position: relative;
-}
-
-.logo {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 300px;
-  height: auto;
-}
-
-#particles-js {
-  background-color: #000;
-}
-
-#particles-js {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
 }
