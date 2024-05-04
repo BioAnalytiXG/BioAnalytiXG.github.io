@@ -524,11 +524,27 @@ a:focus {
 }
 
 #myGif {
-  width: 100%;
+  width: 90%;
   height: auto;
-  display: block;
-  margin: auto;
+  display: flex;
+  justify-content: center !important;
+  align-items: center !important;
 
+}
+
+.centered-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: px auto; /* This sets the top and bottom margins to 10px, and the left and right margins to auto */
+}
+
+
+.img-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .why_section{
@@ -630,6 +646,7 @@ a:focus {
 
 .team_section .team_container .box {
   padding: 35px 0 0 0;
+  height: 350px; /* Adjust as needed */
   border-radius: 5px;
   overflow: hidden;
   -webkit-transition: all .1s;
