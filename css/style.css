@@ -529,8 +529,11 @@ a:focus {
   display: flex;
   justify-content: center !important;
   align-items: center !important;
-
+  border: 3px solid #7CCDB3; /* This adds a 3px wide red border around the GIF */
+  box-shadow: 0 0 10px #7CCDB3, 0 0 20px #7CCDB3, 0 0 30px #7CCDB3, 0 0 40px #7CCDB3;
 }
+
+
 
 .centered-content {
   display: flex;
