@@ -17,7 +17,7 @@ function typeDeleteWord() {
     changingWord.textContent = word.substring(0, letterIndex++);
     if (letterIndex > word.length) {
       isDeleting = true;
-      setTimeout(typeDeleteWord, 6000); // pause before start deleting
+      setTimeout(typeDeleteWord, 4500); // pause before start deleting
       return;
     }
   }

@@ -106,3 +106,12 @@
     max-width: 1170px;
   }
 }
+
+@media only screen and (max-width: 1000px) {
+  .animated-text {
+    font-size: 1rem; /* Adjusted font size for smaller screens */
+  }
+  #changing-word {
+    font-size: 1.5rem; /* Adjusted font size for changing word on smaller screens */
+  }
+}
