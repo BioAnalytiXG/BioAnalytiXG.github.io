@@ -275,6 +275,12 @@ a:focus {
 }
 
 .slider_section .detail-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 80vh; /* Adjust this to change the vertical positioning */
+  width: 300%; 
+  text-align: left;
   color: #50637a;
 }
 
@@ -285,6 +291,7 @@ a:focus {
   margin-bottom: 15px;
   color: #ffffff;
 }
+
 
 .slider_section .detail-box p {
   color: #fefefe;
@@ -341,7 +348,7 @@ a:focus {
 
 .slider_section .img-box img {
   width: 55%;
-  margin-left: 100px; /* Adjust this value to move the image more or less */
+  margin-left: 200px; /* Adjust this value to move the image more or less */
   -webkit-animation: upDown 5s infinite;
           animation: upDown 5s infinite;
 }
@@ -464,6 +471,7 @@ a:focus {
   background-color: #007fa4;
 }
 
+
 .about_section {
   background-color: black;
   color: #ffffff;
@@ -480,7 +488,7 @@ a:focus {
 }
 
 .about_section .img-box img {
-  max-width: 100%;
+  width: 100%;
 }
 
 .about_section .detail-box h3 {
@@ -506,6 +514,14 @@ a:focus {
 
 .about_section .detail-box a:hover {
   background-color: #007fa4;
+}
+
+#myGif {
+  width: 800px;
+  height: auto;
+  display: block;
+  margin: auto;
+  margin-left: 200px;
 }
 
 .why_section{
@@ -629,7 +645,7 @@ a:focus {
 }
 
 .team_section .team_container .box .img-box img {
-  width: 120px;
+  width: 130px;
   border-radius: 100%;
   border: 5px solid #ffffff;
 }
@@ -1015,4 +1031,22 @@ svg {
     opacity: 1;
     transform: translateY(0px);
   }
+}
+
+#changing-word {
+  font-weight: normal; /* Adjust thickness here */
+  color: #7CCDB3; /* Adjust color here */
+  border-right: 0.1em solid;
+  white-space: nowrap;
+  overflow: hidden;
+  animation: typing 4s steps(40, end), blink 1s step-end infinite;
+}
+
+@keyframes typing {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+@keyframes blink {
+  50% { border-color: transparent; }
 }
