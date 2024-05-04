@@ -1051,3 +1051,15 @@ svg {
 @keyframes blink {
   50% { border-color: transparent; }
 }
+
+/* CSS for larger screens */
+h1 {
+  font-size: 50px;
+}
+
+/* CSS for screens smaller than 600px */
+@media screen and (max-width: 600px) {
+  h1 {
+    font-size: 30px;
+  }
+}
