@@ -614,7 +614,7 @@ a:focus {
 /*team section */
 .team_section {
   text-align: center;
-  background-color: #666666;
+  background-color: #000000;
   color: #ffffff;
 }
 
@@ -636,7 +636,7 @@ a:focus {
   transition: all .1s;
   margin-top: 45px;
   background: -webkit-gradient(linear, left top, left bottom, from(#3c3f44), to(#566b8b));
-  background: linear-gradient(to bottom, #55657a, #0c2c57);
+  background: linear-gradient(to bottom, #55657a, #7CCDB3);
 }
 
 .team_section .team_container .box .img-box {
@@ -662,7 +662,7 @@ a:focus {
 }
 
 .team_section .team_container .box .detail-box h5 {
-  color: #00bbf0;
+  color: #ffffff;
   font-weight: 600;
   position: relative;
 }
@@ -683,7 +683,7 @@ a:focus {
 }
 
 .team_section .team_container .box .social_box a:hover {
-  color: #00bbf0;
+  color: #7CCDB3;
 }
 
 /*team section end*/
