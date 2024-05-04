@@ -107,11 +107,11 @@
   }
 }
 
-@media only screen and (max-width: 1000px) {
+@media only screen and (max-width: 900px) {
   .animated-text {
-    font-size: 1rem; /* Adjusted font size for smaller screens */
+    font-size: 1.5rem; /* Adjusted font size for smaller screens */
   }
   #changing-word {
-    font-size: 1.5rem; /* Adjusted font size for changing word on smaller screens */
+    font-size: 2rem; /* Adjusted font size for changing word on smaller screens */
   }
 }
