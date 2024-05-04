@@ -1063,3 +1063,10 @@ h1 {
     font-size: 30px;
   }
 }
+
+/* CSS for screens smaller than 600px */
+@media screen and (max-width: 600px) {
+  #myGif {
+    width: 100%; /* Make the gif take the full width of the screen */
+  }
+}
