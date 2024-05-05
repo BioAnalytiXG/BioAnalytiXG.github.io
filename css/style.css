@@ -830,6 +830,7 @@ a:focus {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  margin-right: 20px; /* Adjust as needed */
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
@@ -846,6 +847,30 @@ a:focus {
 }
 
 .info_section .info_contact .contact_link_box a:hover {
+  color: #00bbf0;
+}
+
+.info_section .info_social_media .contact_link_box {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  justify-content: space-between;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+.info_section .info_social_media .contact_link_box a {
+  margin: 5px 0;
+  color: #ffffff;
+}
+
+.info_section .info_social_media .contact_link_box a i {
+  margin-right: 5px;
+}
+
+.info_section .info_social_media .contact_link_box a:hover {
   color: #00bbf0;
 }
 
@@ -951,12 +976,12 @@ a:focus {
 /* footer section*/
 .footer_section {
   position: relative;
-  background-color: #666666;
+  background-color: #000000;
   text-align: center;
 }
 
 .footer_section p {
-  color: #7CCDB3;
+  color: #ffffff;
   padding: 25px 0;
   margin: 0;
 }
@@ -1011,6 +1036,7 @@ section {
   padding-bottom: 1rem;
   border-bottom: 2px solid #fff;
   cursor: pointer;
+  text-align: left;
 }
 
 .question {
@@ -1048,6 +1074,12 @@ section {
 
 svg {
   transition: transform 0.5s ease-in;
+}
+
+.flex-container {
+  display: flex;
+  justify-content: space-between;
+  
 }
 
 @keyframes fade {
