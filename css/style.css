@@ -152,14 +152,7 @@ a:focus {
   
 }
 
-.custom_nav-container {
-  padding: 0;
-  position: fixed;
-  top: 0;
-  width: 100%; /* Ensure the navbar spans the full width */
-  z-index: 1000; /* This ensures the navbar stays on top of other elements */
-  background-color: rgba(255, 255, 255, 0.1); /* 80% opaque white */
-}
+
 
 .custom_nav-container .navbar-nav {
   margin-left: auto;
