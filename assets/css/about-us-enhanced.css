@@ -1543,4 +1543,38 @@ body.mobile-menu-open {
         height: 180px !important; /* Use a slightly smaller height for very small screens */
     }
 }
+
+/* === AWARDS SECTION MOBILE FIX === */
+
+@media (max-width: 768px) {
+    /*
+      This targets any grid within the team or awards sections
+      and forces it into a single column on mobile.
+    */
+    .team-grid,
+    .values-grid,
+    .awards-grid { /* Adding .awards-grid here if it exists */
+        grid-template-columns: 1fr !important;
+        justify-items: center;
+    }
+
+    /*
+      This ensures the carousel itself is centered and behaves correctly,
+      even if it's not being used, this is good practice.
+    */
+    .awards-carousel {
+        width: 100%;
+        padding: 1rem 0 3rem;
+    }
+
+    /*
+      This ensures individual carousel slides take up most of the screen
+      to encourage a single-column feel.
+    */
+    .awards-carousel .swiper-slide {
+        width: 85% !important; /* Make slides wider */
+        max-width: 300px;
+    }
+}
+
 }
