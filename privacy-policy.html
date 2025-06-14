@@ -35,6 +35,9 @@
             z-index: 1000;
             backdrop-filter: blur(10px);
             border-bottom: 1px solid rgba(124, 205, 179, 0.1);
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
+                        background-color 0.3s ease,
+                        backdrop-filter 0.3s ease;
         }
 
         /* Mobile Navigation Styles */
@@ -48,7 +51,9 @@
             background: rgba(0, 0, 0, 0.95);
             backdrop-filter: blur(10px);
             z-index: 10001;
-            transition: transform 0.3s ease-in-out;
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+                        background-color 0.3s ease,
+                        backdrop-filter 0.3s ease;
         }
 
         .mobile-nav-container {
@@ -163,6 +168,15 @@
 
         #mobile-header.header-hidden {
             transform: translateY(-100%);
+        }
+
+        /* Header animation states */
+        #header.header-hidden {
+            transform: translateY(-100%);
+        }
+
+        #header.header-visible {
+            transform: translateY(0);
         }
 
         @media (max-width: 768px) {
@@ -763,22 +777,6 @@
         </div>
     </section>
 
-    <!-- Quick Navigation -->
-    <section class="quick-nav">
-        <div class="quick-nav-container">
-            <h3>Quick Navigation</h3>
-            <ul>
-                <li><a href="#overview"><i class="fas fa-info-circle"></i> Overview</a></li>
-                <li><a href="#data-collection"><i class="fas fa-database"></i> Data We Collect</a></li>
-                <li><a href="#data-use"><i class="fas fa-chart-line"></i> How We Use Data</a></li>
-                <li><a href="#data-protection"><i class="fas fa-shield-alt"></i> Data Protection</a></li>
-                <li><a href="#compliance"><i class="fas fa-hospital"></i> Planned Compliance</a></li>
-                <li><a href="#rights"><i class="fas fa-user-shield"></i> Your Rights</a></li>
-                <li><a href="#contact"><i class="fas fa-envelope"></i> Contact</a></li>
-            </ul>
-        </div>
-    </section>
-
     <!-- Content Sections -->
     <section class="content-section">
         <div class="content-container">
@@ -1189,34 +1187,69 @@
             });
         });
 
-        // Header scroll effect
+        // Header scroll effect with smooth animations
         let lastScroll = 0;
+        let ticking = false;
         const header = document.getElementById('header');
         const mobileHeader = document.getElementById('mobile-header');
 
-        window.addEventListener('scroll', () => {
+        function updateHeaderOnScroll() {
             const currentScroll = window.pageYOffset;
             
-            // Header background change
+            // Header background change with smooth transition
             if (currentScroll > 50) {
-                if (header) header.style.backgroundColor = 'rgba(0, 0, 0, 0.98)';
+                if (header) {
+                    header.style.backgroundColor = 'rgba(0, 0, 0, 0.98)';
+                    header.style.backdropFilter = 'blur(15px)';
+                }
+                if (mobileHeader) {
+                    mobileHeader.style.backgroundColor = 'rgba(0, 0, 0, 0.98)';
+                    mobileHeader.style.backdropFilter = 'blur(15px)';
+                }
             } else {
-                if (header) header.style.backgroundColor = 'rgba(0, 0, 0, 0.95)';
+                if (header) {
+                    header.style.backgroundColor = 'rgba(0, 0, 0, 0.95)';
+                    header.style.backdropFilter = 'blur(10px)';
+                }
+                if (mobileHeader) {
+                    mobileHeader.style.backgroundColor = 'rgba(0, 0, 0, 0.95)';
+                    mobileHeader.style.backdropFilter = 'blur(10px)';
+                }
             }
             
-            // Header hide/show on scroll
+            // Header hide/show on scroll with smooth animation
             if (currentScroll > lastScroll && currentScroll > 100) {
-                // Scrolling down
-                if (header) header.style.transform = 'translateY(-100%)';
-                if (mobileHeader) mobileHeader.classList.add('header-hidden');
-            } else {
-                // Scrolling up
-                if (header) header.style.transform = 'translateY(0)';
-                if (mobileHeader) mobileHeader.classList.remove('header-hidden');
+                // Scrolling down - hide header
+                if (header) {
+                    header.classList.add('header-hidden');
+                    header.classList.remove('header-visible');
+                }
+                if (mobileHeader) {
+                    mobileHeader.classList.add('header-hidden');
+                }
+            } else if (currentScroll < lastScroll || currentScroll <= 100) {
+                // Scrolling up or at top - show header
+                if (header) {
+                    header.classList.remove('header-hidden');
+                    header.classList.add('header-visible');
+                }
+                if (mobileHeader) {
+                    mobileHeader.classList.remove('header-hidden');
+                }
             }
             
             lastScroll = currentScroll;
-        });
+            ticking = false;
+        }
+
+        function requestHeaderUpdate() {
+            if (!ticking) {
+                requestAnimationFrame(updateHeaderOnScroll);
+                ticking = true;
+            }
+        }
+
+        window.addEventListener('scroll', requestHeaderUpdate, { passive: true });
 
         // Mobile Navigation Functionality
         (function() {
