@@ -495,10 +495,6 @@ body {
     line-height: 1.6;
 }
 
-.awards-section {
-    overflow-x: hidden;
-}
-
 .award-badge {
     display: inline-block;
     background: #7CCDB3;
@@ -701,6 +697,7 @@ body {
 .awards-section {
     padding: 6rem 3rem;
     background: linear-gradient(180deg, #0a0a0a 0%, #000000 100%);
+    overflow-x: hidden;
 }
 
 .awards-container {
