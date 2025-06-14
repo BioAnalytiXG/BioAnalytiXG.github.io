@@ -381,6 +381,7 @@ body {
 .timeline-section {
     padding: 6rem 3rem;
     background: #000000;
+    overflow-x: hidden;
 }
 
 .timeline {
