@@ -1,0 +1,1337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy - BioAnalytiX</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&display=swap">
+    <style>
+        /* Reset and base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Manrope', sans-serif;
+            background-color: #000000;
+            color: #ffffff;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        /* Header styles */
+        #header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 3rem;
+            background-color: rgba(0, 0, 0, 0.95);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(124, 205, 179, 0.1);
+        }
+
+        /* Mobile Navigation Styles */
+        #mobile-header {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 75px;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 10001;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .mobile-nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            height: 100%;
+        }
+
+        .mobile-logo img {
+            height: auto;
+            width: 100%;
+            max-width: 220px;
+            max-height: none;
+            object-fit: contain;
+        }
+
+        .hamburger {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            width: 25px;
+            height: 20px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            z-index: 10002;
+        }
+
+        .hamburger span {
+            display: block;
+            height: 2px;
+            width: 100%;
+            background-color: #7CCDB3;
+            border-radius: 1px;
+            transition: all 0.3s ease;
+            transform-origin: center;
+        }
+
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(6px, 6px);
+        }
+
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(6px, -6px);
+        }
+
+        .mobile-nav {
+            position: fixed;
+            top: 75px;
+            left: 0;
+            width: 100%;
+            height: calc(100vh - 75px);
+            background: rgba(0, 0, 0, 0.98);
+            backdrop-filter: blur(15px);
+            z-index: 10000;
+            transform: translateX(-100%);
+            transition: transform 0.3s ease-in-out;
+            overflow-y: auto;
+        }
+
+        .mobile-nav.active {
+            transform: translateX(0);
+        }
+
+        .mobile-nav ul {
+            list-style: none;
+            padding: 40px 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .mobile-nav-link {
+            color: #ffffff !important;
+            text-decoration: none;
+            font-size: 1.2em;
+            font-weight: 600;
+            padding: 15px 30px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            text-align: center;
+            min-width: 200px;
+            display: block;
+        }
+
+        .mobile-nav-link:hover {
+            background: rgba(124, 205, 179, 0.1);
+            color: #7CCDB3 !important;
+            transform: translateY(-2px);
+        }
+
+        .mobile-nav .beta-btn-filled {
+            background: linear-gradient(135deg, #7CCDB3, #5fb39a);
+            color: #000000 !important;
+            font-weight: 700;
+            border: none;
+            box-shadow: 0 4px 15px rgba(124, 205, 179, 0.3);
+        }
+
+        body.mobile-menu-open {
+            overflow: hidden;
+        }
+
+        #mobile-header.header-hidden {
+            transform: translateY(-100%);
+        }
+
+        @media (max-width: 768px) {
+            #header {
+                display: none;
+            }
+
+            #mobile-header {
+                display: block;
+            }
+
+            .container {
+                padding-top: 80px !important;
+            }
+        }
+        
+        #header img {
+            height: 80px;
+            width: auto;
+        }
+        
+        #header nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+        
+        #header nav a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        #header nav a:hover,
+        #header nav a.active {
+            color: #7CCDB3;
+        }
+
+        #header nav a.active::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: #7CCDB3;
+        }
+
+        /* Beta Button Styling for Header Navigation */
+        #header nav a.beta-btn {
+            background: linear-gradient(135deg, #7CCDB3 0%, #6fbfa5 100%);
+            color: #000000;
+            border-radius: 25px;
+            padding: 0.6rem 1.5rem;
+            margin: 0 0.5rem;
+            font-weight: 600;
+            text-transform: none;
+            letter-spacing: 0.05em;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        #header nav a.beta-btn::after {
+            display: none;
+        }
+
+        #header nav a.beta-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(124, 205, 179, 0.4);
+            background: linear-gradient(135deg, #6fbfa5 0%, #7CCDB3 100%);
+            color: #000000;
+        }
+        
+        /* Hero Section */
+        .hero-section {
+            margin-top: 100px;
+            padding: 4rem 3rem 2rem;
+            background: linear-gradient(135deg, rgba(124, 205, 179, 0.1) 0%, transparent 50%);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-content h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #ffffff 0%, #7CCDB3 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            color: transparent;
+        }
+        
+        .hero-content p {
+            font-size: 1.25rem;
+            color: rgba(255, 255, 255, 0.8);
+            max-width: 600px;
+            margin: 0 auto 1rem;
+        }
+        
+        .last-updated {
+            display: inline-block;
+            background: rgba(124, 205, 179, 0.2);
+            color: #7CCDB3;
+            padding: 0.5rem 1.5rem;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+        
+        /* Development Notice */
+        .dev-notice {
+            background: rgba(255, 193, 7, 0.1);
+            border: 1px solid rgba(255, 193, 7, 0.3);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin: 2rem auto;
+            max-width: 900px;
+            text-align: center;
+        }
+        
+        .dev-notice h4 {
+            color: #ffc107;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        
+        .dev-notice h4 i {
+            font-size: 1.2rem;
+        }
+        
+        /* Quick Navigation */
+        .quick-nav {
+            padding: 2rem 3rem;
+            background: #0a0a0a;
+            border-bottom: 1px solid rgba(124, 205, 179, 0.1);
+            position: sticky;
+            top: 100px;
+            width: 100%;
+            z-index: 100;
+        }
+        
+        .quick-nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .quick-nav h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: #7CCDB3;
+        }
+        
+        .quick-nav ul {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            list-style: none;
+        }
+        
+        .quick-nav a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .quick-nav a:hover {
+            color: #7CCDB3;
+        }
+        
+        .quick-nav a i {
+            font-size: 0.8rem;
+        }
+        
+        /* Content Section */
+        .content-section {
+            padding: 4rem 3rem;
+            background: #000000;
+        }
+        
+        .content-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        .content-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            color: #7CCDB3;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .content-section h2 i {
+            font-size: 2rem;
+            opacity: 0.7;
+        }
+        
+        .content-section h3 {
+            font-size: 1.8rem;
+            margin: 2rem 0 1rem;
+            color: #ffffff;
+        }
+        
+        .content-section h4 {
+            font-size: 1.3rem;
+            margin: 1.5rem 0 0.5rem;
+            color: rgba(255, 255, 255, 0.9);
+        }
+        
+        .content-section p {
+            margin-bottom: 1.5rem;
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.8;
+        }
+        
+        .content-section ul,
+        .content-section ol {
+            margin: 1rem 0 2rem 2rem;
+            color: rgba(255, 255, 255, 0.8);
+        }
+        
+        .content-section li {
+            margin-bottom: 0.8rem;
+            line-height: 1.8;
+        }
+        
+        /* Info Box */
+        .info-box {
+            background: rgba(124, 205, 179, 0.1);
+            border: 1px solid rgba(124, 205, 179, 0.3);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .info-box h4 {
+            color: #7CCDB3;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .info-box h4 i {
+            font-size: 1.2rem;
+        }
+        
+        /* Table Styles */
+        .data-table {
+            width: 100%;
+            margin: 2rem 0;
+            border-collapse: collapse;
+            overflow-x: auto;
+            display: block;
+        }
+        
+        .data-table table {
+            width: 100%;
+            min-width: 600px;
+        }
+        
+        .data-table th,
+        .data-table td {
+            padding: 1rem;
+            text-align: left;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .data-table th {
+            background: rgba(124, 205, 179, 0.1);
+            color: #7CCDB3;
+            font-weight: 600;
+        }
+        
+        .data-table td {
+            background: rgba(255, 255, 255, 0.02);
+            color: rgba(255, 255, 255, 0.8);
+        }
+        
+        .data-table tr:hover td {
+            background: rgba(124, 205, 179, 0.05);
+        }
+        
+        /* Contact Section */
+        .contact-section {
+            background: linear-gradient(135deg, rgba(124, 205, 179, 0.1) 0%, rgba(124, 205, 179, 0.05) 100%);
+            border-radius: 20px;
+            padding: 2rem;
+            margin: 3rem 0;
+        }
+        
+        .contact-section h3 {
+            color: #7CCDB3;
+            margin-bottom: 1rem;
+        }
+        
+        .contact-info {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            margin-top: 1.5rem;
+        }
+        
+        .contact-item {
+            display: flex;
+            align-items: start;
+            gap: 1rem;
+        }
+        
+        .contact-item i {
+            color: #7CCDB3;
+            font-size: 1.2rem;
+            margin-top: 0.2rem;
+        }
+        
+        .contact-item div {
+            flex: 1;
+        }
+        
+        .contact-item h4 {
+            color: #ffffff;
+            margin-bottom: 0.3rem;
+        }
+        
+        .contact-item p {
+            color: rgba(255, 255, 255, 0.7);
+            margin: 0;
+            font-size: 0.9rem;
+        }
+        
+        .contact-item a {
+            color: #7CCDB3;
+            text-decoration: none;
+        }
+        
+        .contact-item a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Footer */
+        #footer {
+            background: #000000;
+            color: #ffffff;
+            padding: 3rem 3rem 1rem;
+            border-top: 1px solid rgba(124, 205, 179, 0.1);
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 3rem;
+            max-width: 1200px;
+            margin: 0 auto 2rem;
+        }
+        
+        .footer-column h3 {
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            color: #7CCDB3;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+        
+        .footer-column ul {
+            list-style: none;
+        }
+        
+        .footer-column ul li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .footer-column ul li a {
+            color: rgba(255, 255, 255, 0.6);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-column ul li a:hover {
+            color: #7CCDB3;
+        }
+        
+        .footer-logo {
+            height: 60px;
+            margin-bottom: 1rem;
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .social-icons a {
+            width: 40px;
+            height: 40px;
+            background: rgba(124, 205, 179, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #7CCDB3;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 1.2rem;
+        }
+        
+        .social-icons a:hover {
+            background: #7CCDB3;
+            color: #000000;
+            transform: translateY(-2px);
+        }
+        
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+            padding: 1.5rem 0;
+            margin-top: 2rem;
+            color: rgba(255, 255, 255, 0.5);
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 968px) {
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+            
+            .contact-info {
+                grid-template-columns: 1fr;
+            }
+            
+            .quick-nav {
+                position: fixed;
+                top: 80px; /* Adjusted for mobile header */
+                padding: 1rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            #header {
+                flex-direction: column;
+                padding: 1rem;
+            }
+            
+            #header nav ul {
+                margin-top: 1rem;
+                gap: 1rem;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            #header nav a.beta-btn {
+                padding: 0.5rem 1rem;
+                font-size: 0.8rem;
+                margin: 0.2rem;
+            }
+            
+            .hero-content h1 {
+                font-size: 2rem;
+            }
+            
+            .content-section h2 {
+                font-size: 1.8rem;
+            }
+            
+            .content-section {
+                padding: 2rem 1rem;
+            }
+            
+            /* Hide Quick Navigation on mobile devices */
+            .quick-nav {
+                display: none;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .mobile-nav-container {
+                padding: 0 15px;
+            }
+
+            .mobile-logo img {
+                height: auto;
+                width: 100%;
+                max-width: 200px;
+                max-height: none;
+                object-fit: contain;
+            }
+
+            .hamburger {
+                width: 22px;
+                height: 18px;
+            }
+
+            .mobile-nav ul {
+                padding: 30px 0;
+                gap: 25px;
+            }
+
+            .mobile-nav-link {
+                font-size: 1.1em;
+                min-width: 180px;
+                padding: 12px 25px;
+            }
+
+            .hero-content h1 {
+                font-size: 2em !important;
+            }
+
+            .hero-content p {
+                font-size: 1em !important;
+            }
+
+            /* Quick Navigation remains hidden on very small screens too */
+            .quick-nav {
+                display: none;
+            }
+
+            #header nav a.beta-btn {
+                padding: 0.4rem 0.8rem;
+                font-size: 0.75rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Mobile Navigation Header -->
+    <header id="mobile-header">
+        <div class="mobile-nav-container">
+            <div class="mobile-logo">
+                <img src="images/BioAnalytiX_Banner_V3 (1) (1).PNG" alt="BioAnalytiX Banner" />
+            </div>
+            <button id="mobile-menu-toggle" class="hamburger" aria-label="Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Mobile Navigation Menu -->
+    <nav id="mobile-nav" class="mobile-nav">
+        <ul>
+            <li><a href="index.html" class="mobile-nav-link">Home</a></li>
+            <li><a href="About_us.html" class="mobile-nav-link">About</a></li>
+            <li><a href="our_product.html" class="mobile-nav-link">Our Product</a></li>
+            <li><a href="index.html#three" class="mobile-nav-link">Contact</a></li>
+            <li><a href="beta-tester-form.html" class="beta-btn-filled mobile-nav-link">Join Alpha</a></li>
+        </ul>
+    </nav>
+
+    <!-- Header -->
+    <header id="header">
+        <a href="index.html">
+            <img src="images/Complete_Logo_2.svg" alt="BIOANALYTIX Logo" />
+        </a>
+        <nav>            
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="About_us.html">About</a></li>
+                <li><a href="our_product.html">Our Product</a></li>
+                <li><a href="index.html#three">Contact us</a></li>
+                <li><a href="beta-tester-form.html" class="beta-btn">Join Alpha</a></li>
+            </ul>
+        </nav>
+    </header><!-- Wrapper -->
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="hero-content">
+            <h1>Privacy Policy</h1>
+            <p>Learn how we plan to protect your data as we develop our AI-powered medical diagnostic platform.</p>
+            <span class="last-updated">Last Updated: June 11, 2025</span>
+        </div>
+        
+        <div class="dev-notice">
+            <h4><i class="fas fa-hard-hat"></i> Development Phase Notice</h4>
+            <p>BioAnalytiX is currently under development. This privacy policy outlines our commitment to data protection and our intended practices. As we progress toward launch and obtain necessary certifications, this policy will be updated accordingly.</p>
+        </div>
+    </section>
+
+    <!-- Quick Navigation -->
+    <section class="quick-nav">
+        <div class="quick-nav-container">
+            <h3>Quick Navigation</h3>
+            <ul>
+                <li><a href="#overview"><i class="fas fa-info-circle"></i> Overview</a></li>
+                <li><a href="#data-collection"><i class="fas fa-database"></i> Data We Collect</a></li>
+                <li><a href="#data-use"><i class="fas fa-chart-line"></i> How We Use Data</a></li>
+                <li><a href="#data-protection"><i class="fas fa-shield-alt"></i> Data Protection</a></li>
+                <li><a href="#compliance"><i class="fas fa-hospital"></i> Planned Compliance</a></li>
+                <li><a href="#rights"><i class="fas fa-user-shield"></i> Your Rights</a></li>
+                <li><a href="#contact"><i class="fas fa-envelope"></i> Contact</a></li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Content Sections -->
+    <section class="content-section">
+        <div class="content-container">
+            <!-- Overview -->
+            <section id="overview">
+                <h2><i class="fas fa-info-circle"></i> Overview</h2>
+                <p>BioAnalytiX ("we," "our," or "us") is developing an AI-powered medical diagnostic platform. While we are still in the development phase, we are committed to establishing the highest standards of data protection and privacy from the outset.</p>
+                
+                <p>This Privacy Policy explains our intended practices for collecting, using, and protecting information once our platform is operational. As a company in development, we are working toward compliance with:</p>
+                <ul>
+                    <li>General Data Protection Regulation (GDPR) - In progress</li>
+                    <li>Health Insurance Portability and Accountability Act (HIPAA) - Planned</li>
+                    <li>Other applicable healthcare and privacy regulations - Under review</li>
+                </ul>
+                
+                <div class="info-box">
+                    <h4><i class="fas fa-info-circle"></i> Current Status</h4>
+                    <p>We are currently in the beta testing phase. All data collection is limited to volunteer beta testers who have provided explicit consent. We do not yet process actual patient data or operate as a commercial service.</p>
+                </div>
+            </section>
+
+            <!-- Data Collection -->
+            <section id="data-collection">
+                <h2><i class="fas fa-database"></i> Information We Currently Collect</h2>
+                
+                <h3>1. Beta Testing Phase Data</h3>
+                <p>During our development and beta testing phase, we collect:</p>
+                <ul>
+                    <li><strong>Beta Tester Information:</strong> Name, email, professional credentials (if applicable)</li>
+                    <li><strong>Test Data:</strong> Sample medical images (anonymized or synthetic only)</li>
+                    <li><strong>Feedback:</strong> Bug reports, feature suggestions, user experience feedback</li>
+                    <li><strong>Usage Analytics:</strong> How testers interact with our prototype</li>
+                </ul>
+
+                <h3>2. Website Visitor Information</h3>
+                <ul>
+                    <li><strong>Contact Forms:</strong> Information you provide when contacting us</li>
+                    <li><strong>Newsletter Signups:</strong> Email addresses for updates</li>
+                    <li><strong>Basic Analytics:</strong> Page views, browser type (anonymized)</li>
+                </ul>
+
+                <h3>3. Future Data Collection (Planned)</h3>
+                <div class="info-box">
+                    <h4><i class="fas fa-calendar-alt"></i> When Fully Operational</h4>
+                    <p>Once certified and operational, we intend to process medical images and health data as described below. This will only occur after obtaining necessary regulatory approvals and implementing all required security measures.</p>
+                </div>
+                
+                <ul>
+                    <li><strong>Medical Images:</strong> CT scans, MRI images, X-rays (with proper authorization)</li>
+                    <li><strong>Account Information:</strong> Healthcare professional credentials and contact details</li>
+                    <li><strong>Diagnostic Data:</strong> AI-generated analysis and reports</li>
+                </ul>
+
+                <h3>4. Cookies and Tracking</h3>
+                <div class="data-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Cookie Type</th>
+                                <th>Current Use</th>
+                                <th>Purpose</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Essential</td>
+                                <td>Yes</td>
+                                <td>Basic site functionality</td>
+                            </tr>
+                            <tr>
+                                <td>Analytics</td>
+                                <td>Limited</td>
+                                <td>Understanding visitor behavior</td>
+                            </tr>
+                            <tr>
+                                <td>Marketing</td>
+                                <td>No</td>
+                                <td>Not currently used</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Data Use -->
+            <section id="data-use">
+                <h2><i class="fas fa-chart-line"></i> How We Use Your Information</h2>
+                
+                <h3>Current Use (Development Phase)</h3>
+                <ol>
+                    <li><strong>Platform Development:</strong> Improving our AI algorithms and user interface</li>
+                    <li><strong>Beta Testing:</strong> Evaluating functionality and gathering feedback</li>
+                    <li><strong>Communication:</strong> Sending updates about our progress to interested parties</li>
+                    <li><strong>Research:</strong> Understanding user needs and market requirements</li>
+                </ol>
+
+                <h3>Future Use (When Operational)</h3>
+                <p>Once fully launched, we plan to use data for:</p>
+                <ul>
+                    <li>Processing medical images and generating diagnostic reports</li>
+                    <li>Improving AI accuracy through anonymized, aggregated data</li>
+                    <li>Providing customer support and platform maintenance</li>
+                    <li>Complying with legal and regulatory requirements</li>
+                </ul>
+
+                <h3>What We Will Never Do</h3>
+                <ul>
+                    <li>Sell personal or health information to third parties</li>
+                    <li>Use health data for advertising purposes</li>
+                    <li>Share identifiable information without explicit consent</li>
+                    <li>Process real patient data before obtaining proper certifications</li>
+                </ul>
+            </section>
+
+            <!-- Data Protection -->
+            <section id="data-protection">
+                <h2><i class="fas fa-shield-alt"></i> Data Protection & Security</h2>
+                
+                <h3>Current Security Measures</h3>
+                <p>Even in our development phase, we implement security best practices:</p>
+                <ul>
+                    <li><strong>Encryption:</strong> SSL/TLS for all data transmission</li>
+                    <li><strong>Access Control:</strong> Limited access to development team only</li>
+                    <li><strong>Secure Development:</strong> Following secure coding practices</li>
+                    <li><strong>Regular Updates:</strong> Keeping all systems and dependencies current</li>
+                </ul>
+
+                <h3>Planned Security Enhancements</h3>
+                <p>Before processing any real medical data, we will implement:</p>
+                <ul>
+                    <li>End-to-end encryption for all medical images</li>
+                    <li>HIPAA-compliant infrastructure (pending certification)</li>
+                    <li>Multi-factor authentication for all users</li>
+                    <li>Regular third-party security audits</li>
+                    <li>24/7 security monitoring</li>
+                    <li>Incident response procedures</li>
+                </ul>
+
+                <div class="info-box">
+                    <h4><i class="fas fa-lock"></i> Security Commitment</h4>
+                    <p>We are committed to achieving the highest security standards before handling any real patient data. Our platform will not be available for clinical use until all necessary security measures and certifications are in place.</p>
+                </div>
+            </section>
+
+            <!-- Planned Compliance -->
+            <section id="compliance">
+                <h2><i class="fas fa-hospital"></i> Planned Compliance & Certifications</h2>
+                
+                <h3>Current Status</h3>
+                <p>As a company under development, we are actively working toward:</p>
+                <ul>
+                    <li><strong>GDPR Compliance:</strong> Implementing privacy by design principles</li>
+                    <li><strong>HIPAA Readiness:</strong> Preparing infrastructure and policies</li>
+                    <li><strong>Medical Device Regulations:</strong> Researching requirements in target markets</li>
+                    <li><strong>ISO Standards:</strong> Planning for relevant certifications</li>
+                </ul>
+
+                <h3>Future Compliance Goals</h3>
+                <div class="data-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Compliance Area</th>
+                                <th>Target Timeline</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>GDPR Full Compliance</td>
+                                <td>Before EU Launch</td>
+                                <td>In Progress</td>
+                            </tr>
+                            <tr>
+                                <td>HIPAA Certification</td>
+                                <td>Before US Launch</td>
+                                <td>Planning</td>
+                            </tr>
+                            <tr>
+                                <td>CE Marking (MDR)</td>
+                                <td>2025-2026</td>
+                                <td>Research Phase</td>
+                            </tr>
+                            <tr>
+                                <td>FDA Clearance</td>
+                                <td>TBD</td>
+                                <td>Under Evaluation</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="dev-notice">
+                    <h4><i class="fas fa-exclamation-circle"></i> Important Notice</h4>
+                    <p>BioAnalytiX is not yet certified as a medical device. Our platform is currently for research and development purposes only and should not be used for clinical decision-making.</p>
+                </div>
+            </section>
+
+            <!-- User Rights -->
+            <section id="rights">
+                <h2><i class="fas fa-user-shield"></i> Your Rights</h2>
+                
+                <h3>Current Rights (Beta Testers)</h3>
+                <p>As a beta tester or website visitor, you have the right to:</p>
+                <ul>
+                    <li>Access any personal information we hold about you</li>
+                    <li>Request correction of inaccurate information</li>
+                    <li>Withdraw from beta testing at any time</li>
+                    <li>Request deletion of your data</li>
+                    <li>Opt-out of communications</li>
+                </ul>
+
+                <h3>Future Rights (When Operational)</h3>
+                <p>Once fully operational, we will ensure all users have rights under applicable laws including:</p>
+
+                <h4>GDPR Rights (EU Users)</h4>
+                <ul>
+                    <li>Right to access your personal data</li>
+                    <li>Right to rectification of inaccurate data</li>
+                    <li>Right to erasure ("right to be forgotten")</li>
+                    <li>Right to restrict processing</li>
+                    <li>Right to data portability</li>
+                    <li>Right to object to processing</li>
+                </ul>
+
+                <h4>HIPAA Rights (US Healthcare)</h4>
+                <p>When HIPAA-compliant, patients will have rights to:</p>
+                <ul>
+                    <li>Access their health information</li>
+                    <li>Request amendments to records</li>
+                    <li>Receive an accounting of disclosures</li>
+                    <li>Request restrictions on uses</li>
+                </ul>
+            </section>
+
+            <!-- Beta Testing Specific -->
+            <section id="beta-testing">
+                <h2><i class="fas fa-flask"></i> Beta Testing Data</h2>
+                
+                <p>For our beta testing program:</p>
+                <ul>
+                    <li><strong>Voluntary Participation:</strong> All beta testing is voluntary</li>
+                    <li><strong>Test Data Only:</strong> We only use anonymized or synthetic medical images</li>
+                    <li><strong>No Real Patients:</strong> Beta testing does not involve real patient data</li>
+                    <li><strong>Feedback Usage:</strong> Your feedback helps improve our platform</li>
+                    <li><strong>Confidentiality:</strong> Beta features are confidential</li>
+                </ul>
+
+                <div class="info-box">
+                    <h4><i class="fas fa-user-check"></i> Beta Tester Consent</h4>
+                    <p>All beta testers must provide explicit consent and sign our Beta Testing Agreement. You may withdraw from beta testing at any time by contacting us.</p>
+                </div>
+            </section>
+
+            <!-- Data Retention -->
+            <section id="data-retention">
+                <h2><i class="fas fa-clock"></i> Data Retention</h2>
+                
+                <h3>Current Practice</h3>
+                <div class="data-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Data Type</th>
+                                <th>Retention Period</th>
+                                <th>Purpose</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Beta Tester Info</td>
+                                <td>Until end of beta + 6 months</td>
+                                <td>Program management</td>
+                            </tr>
+                            <tr>
+                                <td>Test Images</td>
+                                <td>Until end of development</td>
+                                <td>Algorithm training</td>
+                            </tr>
+                            <tr>
+                                <td>Feedback</td>
+                                <td>Indefinite (anonymized)</td>
+                                <td>Product improvement</td>
+                            </tr>
+                            <tr>
+                                <td>Website Inquiries</td>
+                                <td>2 years</td>
+                                <td>Business development</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- International Transfers -->
+            <section id="international">
+                <h2><i class="fas fa-globe"></i> International Data</h2>
+                
+                <p>As we develop our platform:</p>
+                <ul>
+                    <li>Our development team is based in Greece (EU)</li>
+                    <li>We use cloud services that may process data internationally</li>
+                    <li>We will implement appropriate safeguards before any commercial launch</li>
+                    <li>Beta testers will be informed of any international transfers</li>
+                </ul>
+            </section>
+
+            <!-- Updates -->
+            <section id="updates">
+                <h2><i class="fas fa-sync-alt"></i> Updates to This Policy</h2>
+                
+                <p>This Privacy Policy will be updated as we:</p>
+                <ul>
+                    <li>Progress through development phases</li>
+                    <li>Obtain necessary certifications</li>
+                    <li>Expand our services</li>
+                    <li>Respond to legal requirements</li>
+                </ul>
+                
+                <p>We will notify all registered users and beta testers of significant changes via email.</p>
+            </section>
+
+            <!-- Contact Information -->
+            <section id="contact" class="contact-section">
+                <h3>Contact Us</h3>
+                <p>For privacy questions or to exercise your rights:</p>
+                
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <div>
+                            <h4>Email</h4>
+                            <p><a href="mailto:privacy@bioanalytix.com">privacy@bioanalytix.com</a></p>
+                            <p>We aim to respond within 72 hours</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <div>
+                            <h4>Address</h4>
+                            <p>BioAnalytiX Development Team<br>
+                            Thessaloniki, Macedonia, Greece</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </section>
+
+    <!-- Footer -->
+        <footer id="footer">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <img src="images/Complete_Logo_2.svg" alt="BioAnalytiX Logo" class="footer-logo">
+                    <p style="color: rgba(255, 255, 255, 0.6); font-size: 0.9rem;">Revolutionizing medical diagnostics with AI</p>
+                </div>
+
+                <div class="footer-column">
+                    <h3>Our Platform</h3>
+                    <ul>
+                        <li><a href="our_product.html">Brain (Orasis AI)</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h3>Company</h3>
+                    <ul>
+                        <li><a href="About_us.html">About</a></li>
+                        <li><a href="privacy-policy.html">Privacy Policy</a></li>
+                        <li><a href="terms-conditions.html">Terms of Conditions</a></li>
+                        <li><a href="index.html#three">Contact Us</a></li>
+                        <li><a href="careers.html">Careers</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h3>Stay Updated</h3>
+                    <div class="social-icons">
+                        <a href="https://www.linkedin.com/company/bioanalytixinc/"><i class="fab fa-linkedin"></i></a>
+                        <a href="https://www.instagram.com/bioanalytix/"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2024 BioAnalytiX. All rights reserved.</p>
+            </div>
+        </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    const headerOffset = 120;
+                    const elementPosition = target.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Header scroll effect
+        let lastScroll = 0;
+        const header = document.getElementById('header');
+        const mobileHeader = document.getElementById('mobile-header');
+
+        window.addEventListener('scroll', () => {
+            const currentScroll = window.pageYOffset;
+            
+            // Header background change
+            if (currentScroll > 50) {
+                if (header) header.style.backgroundColor = 'rgba(0, 0, 0, 0.98)';
+            } else {
+                if (header) header.style.backgroundColor = 'rgba(0, 0, 0, 0.95)';
+            }
+            
+            // Header hide/show on scroll
+            if (currentScroll > lastScroll && currentScroll > 100) {
+                // Scrolling down
+                if (header) header.style.transform = 'translateY(-100%)';
+                if (mobileHeader) mobileHeader.classList.add('header-hidden');
+            } else {
+                // Scrolling up
+                if (header) header.style.transform = 'translateY(0)';
+                if (mobileHeader) mobileHeader.classList.remove('header-hidden');
+            }
+            
+            lastScroll = currentScroll;
+        });
+
+        // Mobile Navigation Functionality
+        (function() {
+            'use strict';
+            
+            function initializeMobileNavigation() {
+                const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+                const mobileNav = document.getElementById('mobile-nav');
+                const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+                const body = document.body;
+
+                if (!mobileMenuToggle || !mobileNav) {
+                    console.warn('Mobile navigation elements not found');
+                    return;
+                }
+
+                // Toggle mobile menu
+                mobileMenuToggle.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
+                    const isActive = mobileNav.classList.contains('active');
+                    
+                    if (isActive) {
+                        closeMobileMenu();
+                    } else {
+                        openMobileMenu();
+                    }
+                });
+
+                // Close menu when clicking on navigation links
+                mobileNavLinks.forEach(function(link) {
+                    link.addEventListener('click', function() {
+                        setTimeout(function() {
+                            closeMobileMenu();
+                        }, 300);
+                    });
+                });
+
+                // Close menu when clicking outside
+                document.addEventListener('click', function(event) {
+                    const isClickInsideNav = mobileNav.contains(event.target);
+                    const isClickOnToggle = mobileMenuToggle.contains(event.target);
+                    
+                    if (!isClickInsideNav && !isClickOnToggle && mobileNav.classList.contains('active')) {
+                        closeMobileMenu();
+                    }
+                });
+
+                // Close menu on escape key
+                document.addEventListener('keydown', function(event) {
+                    if (event.key === 'Escape' && mobileNav.classList.contains('active')) {
+                        closeMobileMenu();
+                    }
+                });
+
+                // Handle window resize
+                window.addEventListener('resize', function() {
+                    if (window.innerWidth > 768 && mobileNav.classList.contains('active')) {
+                        closeMobileMenu();
+                    }
+                });
+
+                function openMobileMenu() {
+                    mobileNav.classList.add('active');
+                    mobileMenuToggle.classList.add('active');
+                    body.classList.add('mobile-menu-open');
+                    
+                    mobileMenuToggle.setAttribute('aria-expanded', 'true');
+                    mobileNav.setAttribute('aria-hidden', 'false');
+                }
+
+                function closeMobileMenu() {
+                    mobileNav.classList.remove('active');
+                    mobileMenuToggle.classList.remove('active');
+                    body.classList.remove('mobile-menu-open');
+                    
+                    mobileMenuToggle.setAttribute('aria-expanded', 'false');
+                    mobileNav.setAttribute('aria-hidden', 'true');
+                }
+            }
+
+            // Initialize when DOM is ready
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', initializeMobileNavigation);
+            } else {
+                // DOM is already ready
+                initializeMobileNavigation();
+            }
+        })();
+
+        // Active section highlighting in quick nav
+        const sections = document.querySelectorAll('section[id]');
+        const navLinks = document.querySelectorAll('.quick-nav a');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (window.pageYOffset >= sectionTop - 150) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.style.color = '';
+                if (link.getAttribute('href').slice(1) === current) {
+                    link.style.color = '#7CCDB3';
+                }
+            });
+        });
+    </script>
+    
+    <!-- JavaScript -->
+    <script src="assets/js/privacy-policy.js"></script>
+</body>
+</html>

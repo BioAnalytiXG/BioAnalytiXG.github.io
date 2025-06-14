@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Form Debug - BioAnalytiX</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            padding: 20px; 
+            background: #1a1a1a; 
+            color: #fff; 
+        }
+        .debug-panel { 
+            background: #2a2a2a; 
+            padding: 20px; 
+            border-radius: 10px; 
+            margin: 20px 0; 
+            border: 1px solid #444;
+        }
+        .result { 
+            margin: 10px 0; 
+            padding: 15px; 
+            border-radius: 5px; 
+            font-family: monospace;
+        }
+        .success { background: #1e5e3e; color: #90EE90; border: 1px solid #4CAF50; }
+        .error { background: #5e1e1e; color: #FFB6C1; border: 1px solid #f44336; }
+        .info { background: #1e3a5e; color: #87CEEB; border: 1px solid #2196F3; }
+        .warning { background: #5e4e1e; color: #FFD700; border: 1px solid #FF9800; }
+        
+        form { 
+            background: #333; 
+            padding: 20px; 
+            border-radius: 10px; 
+            margin: 20px 0;
+        }
+        input, select, textarea, button { 
+            margin: 8px 0; 
+            padding: 12px; 
+            display: block; 
+            width: 300px; 
+            background: #444;
+            color: #fff;
+            border: 1px solid #666;
+            border-radius: 5px;
+        }
+        button { 
+            width: auto; 
+            background: #7CCDB3;
+            color: #000;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        button:hover { background: #6fbfa5; }
+        button:disabled { background: #666; cursor: not-allowed; }
+        
+        .checkbox-group { display: flex; align-items: center; margin: 10px 0; }
+        .checkbox-group input { width: auto; margin-right: 10px; }
+        .checkbox-group label { margin: 0; }
+        
+        pre { 
+            background: #1a1a1a; 
+            padding: 10px; 
+            border-radius: 5px; 
+            overflow-x: auto;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        h1, h2 { color: #7CCDB3; }
+        .status { 
+            font-size: 18px; 
+            font-weight: bold; 
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        .status.online { background: #1e5e3e; color: #90EE90; }
+        .status.offline { background: #5e1e1e; color: #FFB6C1; }
+    </style>
+</head>
+<body>
+    <h1>🔍 Live Form Debug - BioAnalytiX Beta Application</h1>
+    
+    <div class="debug-panel">
+        <h2>🌐 Server Status</h2>
+        <div id="serverStatus" class="status">Checking server...</div>
+        <button onclick="checkServer()">🔄 Refresh Server Status</button>
+    </div>
+    
+    <div class="debug-panel">
+        <h2>📋 Debug Log</h2>
+        <div id="results"></div>
+        <button onclick="clearLog()">🗑️ Clear Log</button>
+    </div>
+    
+    <div class="debug-panel">
+        <h2>🧪 Test Form Submission</h2>
+        <form id="testForm">
+            <input type="text" name="firstName" value="Live" placeholder="First Name" required>
+            <input type="text" name="lastName" value="Test" placeholder="Last Name" required>
+            <input type="email" name="email" value="livetest@example.com" placeholder="Email" required>
+            
+            <select name="country" required>
+                <option value="">Select Country</option>
+                <option value="US" selected>United States</option>
+                <option value="CA">Canada</option>
+                <option value="UK">United Kingdom</option>
+                <option value="GR">Greece</option>
+            </select>
+            
+            <input type="text" name="organization" value="Debug Test Org" placeholder="Organization" required>
+            <input type="text" name="role" value="Live Tester" placeholder="Role" required>
+            
+            <select name="experience" required>
+                <option value="">Select Experience</option>
+                <option value="1-3 years" selected>1-3 years</option>
+                <option value="3-5 years">3-5 years</option>
+                <option value="5+ years">5+ years</option>
+            </select>
+            
+            <textarea name="useCase" placeholder="Use Case" required>Testing live form submission in browser</textarea>
+            <textarea name="motivation" placeholder="Motivation" required>Debug live browser submission issues</textarea>
+            
+            <select name="commitment" required>
+                <option value="">Select Commitment</option>
+                <option value="daily" selected>Daily usage</option>
+                <option value="weekly">Weekly usage</option>
+                <option value="monthly">Monthly usage</option>
+            </select>
+            
+            <div class="checkbox-group">
+                <input type="checkbox" name="imaging[]" value="CT" id="ct" checked>
+                <label for="ct">CT Scans</label>
+            </div>
+            <div class="checkbox-group">
+                <input type="checkbox" name="imaging[]" value="MRI" id="mri">
+                <label for="mri">MRI</label>
+            </div>
+            
+            <div class="checkbox-group">
+                <input type="checkbox" name="terms" id="terms" required checked>
+                <label for="terms">I accept the terms and conditions</label>
+            </div>
+            
+            <button type="submit" id="submitBtn">🚀 Submit Live Test</button>
+        </form>
+    </div>
+
+    <script>
+        let logCount = 0;
+        
+        function addResult(title, content, type = 'info') {
+            logCount++;
+            const results = document.getElementById('results');
+            const div = document.createElement('div');
+            div.className = `result ${type}`;
+            const timestamp = new Date().toLocaleTimeString();
+            div.innerHTML = `
+                <strong>[${logCount}] ${timestamp} - ${title}:</strong><br>
+                <pre>${content}</pre>
+            `;
+            results.insertBefore(div, results.firstChild);
+            
+            // Limit to 20 log entries
+            while (results.children.length > 20) {
+                results.removeChild(results.lastChild);
+            }
+        }
+        
+        function clearLog() {
+            document.getElementById('results').innerHTML = '';
+            logCount = 0;
+        }
+        
+        async function checkServer() {
+            const statusDiv = document.getElementById('serverStatus');
+            statusDiv.textContent = 'Checking server...';
+            statusDiv.className = 'status';
+            
+            try {
+                const response = await fetch('submit-beta-application.php', {
+                    method: 'GET'
+                });
+                
+                if (response.status === 405) {
+                    // Method not allowed is expected for GET request
+                    statusDiv.textContent = '✅ Server Online - PHP script accessible';
+                    statusDiv.className = 'status online';
+                    addResult('🌐 Server Check', 'Server is online and PHP script is accessible (405 Method Not Allowed for GET is expected)', 'success');
+                } else {
+                    statusDiv.textContent = `⚠️ Server responds but unexpected status: ${response.status}`;
+                    statusDiv.className = 'status online';
+                    addResult('🌐 Server Check', `Server responds with status ${response.status}`, 'warning');
+                }
+            } catch (error) {
+                statusDiv.textContent = '❌ Server Offline or Unreachable';
+                statusDiv.className = 'status offline';
+                addResult('🌐 Server Check Failed', error.message, 'error');
+            }
+        }
+        
+        document.getElementById('testForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.disabled = true;
+            submitBtn.textContent = '⏳ Submitting...';
+            
+            const formData = new FormData(this);
+            
+            try {
+                addResult('🚀 Form Submission Started', 'Beginning live form submission test...', 'info');
+                
+                // Log all form data
+                let formDataStr = '';
+                for (let [key, value] of formData.entries()) {
+                    formDataStr += `${key}: ${value}\\n`;
+                }
+                addResult('📋 Form Data Collected', formDataStr, 'info');
+                
+                // Step 1: Check if we can reach the endpoint
+                addResult('🔗 Checking Endpoint', 'Attempting to connect to submit-beta-application.php...', 'info');
+                
+                const response = await fetch('submit-beta-application.php', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                addResult('📡 Response Received', 
+                    `Status: ${response.status}\\n` +
+                    `Status Text: ${response.statusText}\\n` +
+                    `Content-Type: ${response.headers.get('content-type')}\\n` +
+                    `Headers: ${JSON.stringify([...response.headers.entries()], null, 2)}`, 
+                    'info'
+                );
+                
+                // Step 2: Process the response
+                const contentType = response.headers.get('content-type');
+                let result;
+                
+                if (contentType && contentType.includes('application/json')) {
+                    result = await response.json();
+                    addResult('✅ JSON Response Parsed', JSON.stringify(result, null, 2), 'success');
+                    
+                    if (response.ok && result.success) {
+                        addResult('🎉 Form Submission SUCCESS!', 
+                            `Message: ${result.message}\\n` +
+                            `Email Sent: ${result.email_sent ? 'Yes' : 'No'}`,
+                            'success'
+                        );
+                        submitBtn.textContent = '✅ Success!';
+                    } else {
+                        addResult('⚠️ Server Error Response', 
+                            `Message: ${result.message || 'Unknown error'}\\n` +
+                            `Errors: ${result.errors ? result.errors.join(', ') : 'None'}`,
+                            'error'
+                        );
+                        submitBtn.textContent = '❌ Server Error';
+                    }
+                } else {
+                    result = await response.text();
+                    addResult('❌ NON-JSON Response Received', 
+                        `This is why you get "Server configuration error":\\n\\n${result}`, 
+                        'error'
+                    );
+                    submitBtn.textContent = '❌ Config Error';
+                }
+                
+            } catch (error) {
+                addResult('💥 JavaScript Error', 
+                    `Error: ${error.message}\\n\\n` +
+                    `Stack: ${error.stack}\\n\\n` +
+                    `This error triggers the "Server configuration error" message.`,
+                    'error'
+                );
+                submitBtn.textContent = '❌ Failed';
+            } finally {
+                setTimeout(() => {
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = '🚀 Submit Live Test';
+                }, 3000);
+            }
+        });
+        
+        // Auto-check server status on load
+        window.addEventListener('load', checkServer);
+        
+        // Check server status every 30 seconds
+        setInterval(checkServer, 30000);
+    </script>
+</body>
+</html>

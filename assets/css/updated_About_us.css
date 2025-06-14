@@ -1,0 +1,1085 @@
+@import url(fontawesome-all.min.css);
+
+/*
+	Hyperspace by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+*/
+
+html, body, div, span, applet, object,
+iframe, h1, h2, h3, h4, h5, h6, p, blockquote,
+pre, a, abbr, acronym, address, big, cite,
+code, del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var, b,
+u, i, center, dl, dt, dd, ol, ul, li, fieldset,
+form, label, legend, table, caption, tbody,
+tfoot, thead, tr, th, td, article, aside,
+canvas, details, embed, figure, figcaption,
+footer, header, hgroup, menu, nav, output, ruby,
+section, summary, time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;}
+
+
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+	display: block;}
+
+
+		body.is-preload *, body.is-preload *:before, body.is-preload *:after {
+			-moz-animation: none !important;
+			-webkit-animation: none !important;
+			-ms-animation: none !important;
+			animation: none !important;
+			-moz-transition: none !important;
+			-webkit-transition: none !important;
+			-ms-transition: none !important;
+			transition: none !important;
+		}
+
+
+		h1.major {
+			margin: 0 0 1.3em 0;
+			position: relative;
+			padding-bottom: 0.35em;
+		}
+
+
+		hr.major {
+			margin: 3em 0;
+		}
+
+
+			input[type="submit"]:hover:active,
+			input[type="reset"]:hover:active,
+			input[type="button"]:hover:active,
+			button:hover:active,
+			.button:hover:active {
+				border-color: #ffffff !important;
+			}
+
+
+				input[type="submit"]:hover:active:after,
+				input[type="reset"]:hover:active:after,
+				input[type="button"]:hover:active:after,
+				button:hover:active:after,
+				.button:hover:active:after {
+					opacity: 0.1;
+				}
+
+
+		.icon.major {
+			width: 2.5em;
+			height: 2.5em;
+			display: block;
+			background: #000000;
+			border-radius: 100%;
+			color: #312450;
+			text-align: center;
+			line-height: 2.5em;
+			margin: 0 0 1.3em 0;
+		}
+
+
+			.icon.major:before {
+				font-size: 1.25em;
+			}
+
+
+				.wrapper.style1 .icon.major:before {
+					color: #5e42a6;
+				}
+
+
+				.wrapper.style1-alt .icon.major:before {
+					color: #493382;
+				}
+
+
+				.wrapper.style2 .icon.major:before {
+					color: #5052b5;
+				}
+
+
+				.wrapper.style2-alt .icon.major:before {
+					color: #3e4094;
+				}
+
+
+				.wrapper.style3 .icon.major:before {
+					color: #7CCDB3;
+				}
+
+
+				.wrapper.style3-alt .icon.major:before {
+					color: #953d75;
+				}
+
+
+/* Menu */
+
+	ul.menu {
+		list-style: none;
+		padding: 0;
+	}
+
+
+		ul.menu > li {
+			border-left: solid 1px rgba(255, 255, 255, 0.15);
+			display: inline-block;
+			line-height: 1;
+			margin-left: 1.5em;
+			padding: 0 0 0 1.5em;
+		}
+
+
+			ul.menu > li:first-child {
+				border-left: 0;
+				margin: 0;
+				padding-left: 0;
+			}
+
+
+	/* Add to main.css */
+	#header nav ul li a.active {
+   		color: #7CCDB3 !important; /* Use specified color for active page */
+	}
+
+
+	/* Optionally add hover effect */
+	#header nav ul li a:hover {
+    	color: #7CCDB3 !important;
+	}
+
+
+	header p {
+		color: rgba(255, 255, 255, 0.35);
+		position: relative;
+		margin: 0 0 1.5em 0;
+	}
+
+
+	header h2 + p {
+		font-size: 1.25em;
+		margin-top: -1em;
+		line-height: 1.5em;
+	}
+
+
+	header h3 + p {
+		font-size: 1.1em;
+		margin-top: -0.8em;
+		line-height: 1.5em;
+	}
+
+
+	header h4 + p,
+	header h5 + p,
+	header h6 + p {
+		font-size: 0.9em;
+		margin-top: -0.6em;
+		line-height: 1.5em;
+	}
+
+
+/* Inner content */
+.spotlights .spotlight .content .inner {
+    max-width: 600px;
+}
+
+
+/* Wrapper */
+
+	.wrapper {
+		position: relative;
+	}
+
+
+		.wrapper > .inner {
+			padding: 5em 5em 3em 5em ;
+			max-width: 100%;
+			width: 75em;
+		}
+
+
+		.wrapper.alt {
+			background-color: #261c3e;
+		}
+
+
+		.wrapper.style1 {
+			background-color: #5e42a6;
+		}
+
+
+		.wrapper.style1-alt {
+			background-color: #493382;
+		}
+
+
+		.wrapper.style2 {
+			background-color: #5052b5;
+		}
+
+
+		.wrapper.style2-alt {
+			background-color: #3e4094;
+		}
+
+
+		.wrapper.style3 {
+			background-color: #b74e91;
+		}
+
+
+		.wrapper.style3-alt {
+			background-color: #953d75;
+		}
+
+
+		.wrapper.fullscreen {
+			display: -moz-flex;
+			display: -webkit-flex;
+			display: -ms-flex;
+			display: flex;
+			-moz-flex-direction: column;
+			-webkit-flex-direction: column;
+			-ms-flex-direction: column;
+			flex-direction: column;
+			-moz-justify-content: center;
+			-webkit-justify-content: center;
+			-ms-justify-content: center;
+			justify-content: center;
+			min-height: 100vh;
+		}
+
+
+			body.is-ie .wrapper.fullscreen {
+				height: 100vh;
+			}
+
+
+					body.is-ie .wrapper.fullscreen {
+						height: calc(100vh - 2.5em);
+					}
+
+
+					body.is-ie .wrapper.fullscreen {
+						height: auto;
+					}
+
+
+		.wrapper.fade-up > .inner {
+			-moz-transform: translateY(0);
+			-webkit-transform: translateY(0);
+			-ms-transform: translateY(0);
+			transform: translateY(0);
+			-moz-transition: opacity 1s ease, -moz-transform 1s ease;
+			-webkit-transition: opacity 1s ease, -webkit-transform 1s ease;
+			-ms-transition: opacity 1s ease, -ms-transform 1s ease;
+			transition: opacity 1s ease, transform 1s ease;
+			opacity: 1.0;
+		}
+
+
+		.wrapper.fade-up.inactive > .inner,
+		body.is-preload .wrapper.fade-up > .inner {
+			opacity: 0;
+			-moz-transform: translateY(1em);
+			-webkit-transform: translateY(1em);
+			-ms-transform: translateY(1em);
+			transform: translateY(1em);
+		}
+
+
+		.wrapper.fade-down > .inner {
+			-moz-transform: translateY(0);
+			-webkit-transform: translateY(0);
+			-ms-transform: translateY(0);
+			transform: translateY(0);
+			-moz-transition: opacity 1s ease, -moz-transform 1s ease;
+			-webkit-transition: opacity 1s ease, -webkit-transform 1s ease;
+			-ms-transition: opacity 1s ease, -ms-transform 1s ease;
+			transition: opacity 1s ease, transform 1s ease;
+			opacity: 1.0;
+		}
+
+
+		.wrapper.fade-down.inactive > .inner,
+		body.is-preload .wrapper.fade-down > .inner {
+			opacity: 0;
+			-moz-transform: translateY(-1em);
+			-webkit-transform: translateY(-1em);
+			-ms-transform: translateY(-1em);
+			transform: translateY(-1em);
+		}
+
+
+		.wrapper.fade > .inner {
+			-moz-transition: opacity 1s ease;
+			-webkit-transition: opacity 1s ease;
+			-ms-transition: opacity 1s ease;
+			transition: opacity 1s ease;
+			opacity: 1.0;
+		}
+
+
+		.wrapper.fade.inactive > .inner,
+		body.is-preload .wrapper.fade > .inner {
+			opacity: 0;
+		}
+
+
+/* Header */
+
+	#header img {
+    	margin-top: -1.7em; /* Reduce this value to decrease top margin */
+    	max-height: 250px; /* Control the height of the logo */
+    	width: auto;
+    	vertical-align: middle;
+	}
+
+
+	#header {
+    	padding-top: 1em; /* Reduce this value if needed */
+	}
+
+
+	#header {
+		display: -moz-flex;
+		display: -webkit-flex;
+		display: -ms-flex;
+		display: flex;
+		background-color: #000000;
+		cursor: default;
+		padding: 1.75em 2em;
+	}
+
+
+		#header > .title {
+			border: 0;
+			color: #ffffff;
+			display: block;
+			font-size: 1.25em;
+			font-weight: bold;
+		}
+
+
+		#header > nav {
+			-moz-flex: 1;
+			-webkit-flex: 1;
+			-ms-flex: 1;
+			flex: 1;
+			text-align: right;
+		}
+
+
+			#header > nav > ul {
+				margin: 0;
+				padding: 0;
+			}
+
+
+				#header > nav > ul > li {
+					display: inline-block;
+					margin-left: 1.75em;
+					padding: 0;
+					vertical-align: middle;
+				}
+
+
+					#header > nav > ul > li:first-child {
+						margin-left: 0;
+					}
+
+
+					#header > nav > ul > li a {
+						border: 0;
+						color: rgba(255, 255, 255, 0.35);
+						display: inline-block;
+						font-size: 0.6em;
+						font-weight: bold;
+						letter-spacing: 0.25em;
+						text-transform: uppercase;
+					}
+
+
+						#header > nav > ul > li a:hover {
+							color: rgba(255, 255, 255, 0.55);
+						}
+
+
+						#header > nav > ul > li a.active {
+							color: #ffffff;
+						}
+
+
+				#header .title {
+					font-size: 1.25em;
+					padding: 1em 0;
+				}
+
+
+				#header > nav {
+					border-top: solid 1px rgba(255, 255, 255, 0.15);
+					text-align: inherit;
+				}
+
+
+					#header > nav > ul > li {
+						margin-left: 1.5em;
+					}
+
+
+						#header > nav > ul > li a {
+							height: 6em;
+							line-height: 6em;
+						}
+
+	
+	#three .inner {
+		position: relative;
+		z-index: 0; /* Adjust if necessary to ensure content appears above the overlay */
+	}
+
+	
+
+
+	#sidebar + #wrapper {
+		margin-left: 18em;
+	}
+
+
+	#header + #wrapper > .wrapper > .inner {
+		margin: 0 auto;
+	}
+
+
+/* Footer */
+
+	#footer {
+    	background-color: #000000; /* Replace #yourFooterColor with the desired color */
+	}
+
+
+	#sidebar + #wrapper + #footer {
+		margin-left: 18em;
+	}
+
+
+	#footer > .inner a {
+		border-bottom-color: rgba(255, 255, 255, 0.15);
+	}
+
+
+		#footer > .inner a:hover {
+			border-bottom-color: transparent;
+		}
+
+
+	#footer > .inner .menu {
+		font-size: 0.8em;
+		color: #EEEEEE;
+	}
+
+
+	#header + #wrapper + #footer > .inner {
+		margin: 0 auto;
+	}
+
+
+		#sidebar > .inner {
+			display: -moz-flex;
+			display: -webkit-flex;
+			display: -ms-flex;
+			display: flex;
+			-moz-flex-direction: column;
+			-webkit-flex-direction: column;
+			-ms-flex-direction: column;
+			flex-direction: column;
+			-moz-justify-content: center;
+			-webkit-justify-content: center;
+			-ms-justify-content: center;
+			justify-content: center;
+			-moz-transform: translateY(0);
+			-webkit-transform: translateY(0);
+			-ms-transform: translateY(0);
+			transform: translateY(0);
+			-moz-transition: opacity 1s ease;
+			-webkit-transition: opacity 1s ease;
+			-ms-transition: opacity 1s ease;
+			transition: opacity 1s ease;
+			min-height: 100%;
+			opacity: 1;
+			width: 100%;
+		}
+
+
+			body.is-ie #sidebar > .inner {
+				height: 100%;
+			}
+
+
+			#sidebar nav a.active {
+				color: #ffffff;
+			}
+
+
+				#sidebar nav a.active:after {
+					max-width: 100%;
+				}
+
+
+		body.is-preload #sidebar > .inner {
+			opacity: 0;
+		}
+
+
+		body.is-preload #sidebar nav ul li {
+			-moz-transform: translateY(2em);
+			-webkit-transform: translateY(2em);
+			-ms-transform: translateY(2em);
+			transform: translateY(2em);
+			opacity: 0;
+		}
+
+
+				#sidebar > .inner {
+					-moz-flex-direction: row;
+					-webkit-flex-direction: row;
+					-ms-flex-direction: row;
+					flex-direction: row;
+					-moz-align-items: -moz-stretch;
+					-webkit-align-items: -webkit-stretch;
+					-ms-align-items: -ms-stretch;
+					align-items: stretch;
+					height: inherit;
+					line-height: inherit;
+				}
+
+
+	#intro .inner {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		text-align: center;
+		height: 100%;
+		padding-top: 0; /* Remove top padding */
+    	margin-top: -5em; /* Negative margin to move content up */
+	}
+
+
+		  .highlight-text {
+			color: #7CCDB3; /* Using the brand color from your existing theme */
+		}
+
+
+/* Overlay for the title */
+	.image-container .overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #ffffff; /* Bright white text color */
+    text-align: center;
+    width: 100%;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); /* Add text shadow for better readability */
+	}
+
+
+/* Style for the title */
+	.image-container .overlay h1 {
+    	font-size: 2.5em; /* Adjust font size as needed */
+    	margin: 0;
+	}
+
+
+	/* Style for the "Our Journey" title */
+	.timeline-container h2.major {
+    	margin-left: 20px; /* Adjust the value as needed */
+	}/* Background for the About section */
+.about-background {
+    background: #6666662f; /* The box background color */
+    max-width: 1500px;   /* Adjust as desired for width */
+    width: 100%;
+    padding: 50px;       /* Padding inside the box */
+    box-sizing: border-box;
+    border-radius: 8px;  /* Optional: add subtle rounding */
+    color: #EEEEEE;
+    margin: 0 auto;      /* Center the box horizontally */
+    box-shadow: 0 0 20px 10px #7CCDB3; /* Glowing effect */
+}
+
+.about-section {
+    background: #000000; /* Match your existing background color */
+    padding: 200px 20px;
+    color: #EEEEEE;
+    text-align: center;
+    position: relative;
+}
+
+.about-title {
+    font-size: 2rem;
+    font-weight: 600;
+    color: #DAF7EC;
+    margin-bottom: 30px;
+    position: relative;
+    display: inline-block; /* For centering and pseudo-element line */
+}
+
+.about-title:after {
+    content: '';
+    display: block;
+    width: 200px; /* Adjust width as needed */
+    height: 2px;
+    background: #7CCDB3;
+    margin: 15px auto 0; /* Centers the line under the title */
+}
+
+.highlight-text {
+    color: #7CCDB3;
+}
+
+.about-description {
+    max-width: 800px;
+    margin: 0 auto; /* Center the text block */
+    line-height: 1.6;
+    font-size: 1rem;
+    color: #EEEEEE;
+}
+
+.about-description p {
+    margin-bottom: 20px;
+}
+
+/* Fade-in effect if you are using Intersection Observer for all sections */
+.fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.fade-in.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+
+/* General container for the timeline */
+.timeline-container {
+    margin-top: 50px;
+    position: relative;
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    overflow-x: auto;    /* Only horizontal scroll if needed */
+    overflow-y: hidden;  /* Prevent vertical scroll */
+    white-space: nowrap; /* Keep items in one line */
+    padding-bottom: 100px; /* Extra space below line so content doesn't cause vertical scroll */
+    box-sizing: border-box;
+}
+
+.journey-title {
+    margin-top: 100px;
+    text-align: left;
+    margin-left: 110px; /* Adjust this value as needed */
+}
+
+
+/* Title of the timeline */
+.timeline-title {
+    text-align: center;
+    color: #EEEEEE;
+    font-weight: 600;
+    font-size: 1.8rem;
+    margin-bottom: 40px;
+}
+
+/* Timeline wrapper as a horizontal flex container */
+.timeline {
+    position: relative;
+    display: flex;
+    align-items: center;           /* Vertically center items and icons */
+    justify-content: space-evenly; /* Even horizontal spacing for all milestones */
+    padding: 50px 0;
+    box-sizing: border-box;
+}
+
+/* Horizontal line at center */
+.timeline::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;               /* Line at vertical center of the timeline section */
+    transform: translateY(-50%);
+    width: 100%;
+    height: 4px;
+    background: #7CCDB3;
+    box-shadow: 0 0 10px #7CCDB3, 0 0 20px #7CCDB3;
+    z-index: 1;
+}
+
+/* Individual timeline items (milestones) */
+.timeline-item {
+    position: relative;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    white-space: normal; /* Allow wrapping inside content */
+    vertical-align: top;
+    /* No fixed margin needed since we're using space-evenly 
+       If you need more spacing, you can add padding inside .timeline or .timeline-item */
+}
+
+.timeline-icon {
+    position: relative;
+    background: #333333;
+    border: 2px solid #7CCDB3;
+    border-radius: 50%;
+    padding: 15px;
+    z-index: 2; /* Higher than line so it's visible above the line */
+    /* No margin-bottom needed if we place content below with .timeline-content margin-top */
+}
+
+.timeline-icon i {
+    color: #DAF7EC;
+    font-size: 1.5rem;
+}
+
+/* Content box placed below the icon/line */
+.timeline-content {
+    background: #444444;
+    padding: 20px;
+    border-radius: 8px;
+    max-width: 250px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    transition: background 0.3s ease;
+    margin-top: 40px; /* Ensure content box sits below the icon line */
+    position: relative;
+    z-index: 2;
+}
+
+.timeline-item:hover .timeline-content {
+    background: #333333;
+}
+
+/* Images in the milestone */
+.milestone-image {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    box-shadow: 0 0 5px rgba(0,0,0,0.3);
+}
+
+.timeline-content h4 {
+    font-size: 1.2rem;
+    margin-bottom: 5px;
+    color: #7CCDB3;
+}
+
+.timeline-content h5 {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: #DAF7EC;
+}
+
+.timeline-content p {
+    font-size: 0.9rem;
+    color: #EEEEEE;
+    line-height: 1.5;
+}
+
+/* Responsive fallback: vertical layout on small screens */
+@media (max-width: 600px) {
+    .timeline {
+        flex-direction: column;
+    }
+
+    .timeline::before {
+        height: 100%;
+        width: 4px;
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .timeline-item {
+        margin: 40px 0;
+    }
+
+    .timeline-content {
+        margin-top: 20px;
+    }
+}
+
+.team-section {
+    padding: 50px 20px;
+    background: #000000; /* Match your page background */
+    color: #EEEEEE;
+    position: relative;
+}
+
+.team-section .major {
+    text-align: center;
+    margin-bottom: 60px;
+    color: #DAF7EC;
+    font-weight: 600;
+    font-size: 2rem;
+    position: relative;
+}
+
+.team-section .major:after {
+    content: '';
+    display: block;
+    width: 150px; /* Adjust width as desired to be slightly larger than text */
+    height: 2px;
+    background: #7CCDB3;
+    margin: 15px auto 0; /* Space above the line */
+}
+
+.team-section .highlight-text {
+    color: #7CCDB3;
+}
+
+.team-group {
+    margin-bottom: 60px;
+}
+
+/* Remove line under team titles */
+.team-heading {
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin-bottom: 30px;
+    color: #ffffff;
+    padding-bottom: 10px;
+    text-align: center;
+    position: relative;
+}
+
+.team-heading:after {
+    content: '';
+    display: block;
+    width: 100px; /* Adjust width as desired */
+    height: 2px;
+    background: #7CCDB3;
+    margin: 10px auto 0; /* auto horizontally centers the line */
+}
+
+/* IT Team: 4 columns, cards smaller */
+.it-team-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 30px; /* Slightly smaller gap for a tighter layout */
+    justify-items: center; /* Center items within their columns */
+}
+
+/* Medical team: single card centered */
+.medical-team-grid {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Team member cards: smaller width */
+.team-member {
+    background: #333333;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    transition: background 0.3s ease;
+    min-height: 350px; 
+    max-width: 300px; /* Limit the card width to make them smaller */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    text-align: center;
+}
+
+.team-member:hover {
+    background: #333333;
+}
+
+.team-member-image {
+    margin-bottom: 20px;
+}
+
+.team-member-image img {
+    width: 120px; /* Slightly smaller image to match smaller card size */
+    height: 120px;
+    object-fit: cover;
+    border-radius: 50%;
+    box-shadow: 0 0 5px rgba(0,0,0,0.3);
+}
+
+.team-member-info h4 {
+    font-size: 1rem;
+    margin-bottom: 10px;
+    color: #DAF7EC;
+}
+
+.team-member-info p {
+    font-size: 0.8rem;
+    line-height: 1.5;
+    color: #EEEEEE;
+}
+
+.team-background-section {
+    background: #000000; /* Match your page background */
+    padding: 50px 20px; /* Some padding around the box */
+    display: flex;
+    justify-content: center; /* Center the box horizontally */
+}
+
+.team-background-box {
+    background: #6666662f; /* The box background color */
+    max-width: 1800px;   /* Adjust as desired for width */
+    width: 100%;
+    padding: 50px;       /* Padding inside the box */
+    box-sizing: border-box;
+    border-radius: 8px;  /* Optional: add subtle rounding */
+    color: #EEEEEE;
+    box-shadow: 0 0 20px 10px #7CCDB3; /* Glowing effect */
+}
+
+.awards-section {
+    background: #000000; /* Match your page background */
+    padding: 50px 20px;
+    color: #EEEEEE;
+    position: relative;
+    text-align: center;
+}
+
+.awards-section .major {
+    position: relative;
+    display: inline-block; /* Ensures the pseudo-element aligns with the text */
+    margin-bottom: 60px;
+    color: #EEEEEE;
+    font-weight: 600;
+    font-size: 2rem;
+    text-align: center; /* Center the title itself */
+}
+
+.awards-section .major:after {
+    content: '';
+    display: block;
+    width: 200px; /* Adjust as needed */
+    height: 2px;
+    background: #7CCDB3;
+    margin: 10px auto 0; /* Center the line under the text */
+}
+
+.highlight-text {
+    color: #7CCDB3;
+}
+
+.awards-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 70px; /* Adjust spacing between badges */
+    justify-content: center;
+    align-items: center;
+}
+
+.award-badge img {
+    width: 200px; /* Adjust size as needed */
+    height: 200px;
+    object-fit: contain;
+    filter: grayscale(100%); /* Make badge black and white initially */
+    transition: filter 0.3s ease; /* Smooth transition on hover */
+    cursor: pointer;
+}
+
+.award-badge img:hover {
+    filter: none; /* Remove grayscale to show full color on hover */
+}
+
+/* Apply Manrope font to all elements */
+body, h1, h2, h3, h4, h5, h6, p, a, span, div, input, textarea, button {
+    font-family: 'Manrope', sans-serif;
+}
+
+.fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.fade-in.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+
+/* Responsive adjustments if needed */
+@media (max-width: 600px) {
+    .award-badge img {
+        width: 80px;
+        height: 80px;
+    }
+}
+
+
+/* Responsive adjustments */
+@media (max-width: 1200px) {
+    .it-team-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .it-team-grid {
+        grid-template-columns: 1fr; /* Stack all IT members vertically on small screens */
+    }
+}
+
+@media (max-width: 600px) {
+    .journey-title {
+        font-size: 2rem; /* Slightly larger or at least maintain at 2rem */
+    }
+
+    .timeline-title {
+        font-size: 2rem; /* Increase from 1.8rem for better visibility */
+    }
+
+    .team-section .major{
+        font-size: 5rem; /* Increase from 2rem */
+    }
+    .awards-section .major {
+        font-size: 2.2rem; /* Increase from 2rem */
+    }
+}
+
+/* Beta Button Styling for Header Navigation */
+#header nav a.beta-btn {
+    background: linear-gradient(135deg, #7CCDB3 0%, #6fbfa5 100%) !important;
+    color: #000000 !important;
+    border-radius: 25px !important;
+    padding: 0.6rem 1.5rem !important;
+    margin: 0 0.5rem !important;
+    font-weight: 600 !important;
+    text-transform: none !important;
+    letter-spacing: 0.05em !important;
+    transition: all 0.3s ease !important;
+    position: relative !important;
+    overflow: hidden !important;
+}
+
+#header nav a.beta-btn::after {
+    display: none !important;
+}
+
+#header nav a.beta-btn:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 5px 15px rgba(124, 205, 179, 0.4) !important;
+    background: linear-gradient(135deg, #6fbfa5 0%, #7CCDB3 100%) !important;
+    color: #000000 !important;
+}

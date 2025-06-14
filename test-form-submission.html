@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Submission Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .result { margin: 10px 0; padding: 10px; border-radius: 5px; }
+        .success { background: #d4edda; color: #155724; }
+        .error { background: #f8d7da; color: #721c24; }
+        .info { background: #d1ecf1; color: #0c5460; }
+        form { margin: 20px 0; }
+        input, select, textarea, button { margin: 5px 0; padding: 8px; display: block; width: 200px; }
+        button { width: auto; }
+    </style>
+</head>
+<body>
+    <h1>Form Submission Test</h1>
+    
+    <div id="results"></div>
+    
+    <form id="testForm">
+        <input type="text" name="firstName" value="Test" placeholder="First Name" required>
+        <input type="text" name="lastName" value="User" placeholder="Last Name" required>
+        <input type="email" name="email" value="test@example.com" placeholder="Email" required>
+        <select name="country" required>
+            <option value="">Select Country</option>
+            <option value="US" selected>United States</option>
+        </select>
+        <input type="text" name="organization" value="Test Org" placeholder="Organization" required>
+        <input type="text" name="role" value="Tester" placeholder="Role" required>
+        <select name="experience" required>
+            <option value="">Select Experience</option>
+            <option value="1-3 years" selected>1-3 years</option>
+        </select>
+        <textarea name="useCase" placeholder="Use Case" required>Testing the form</textarea>
+        <textarea name="motivation" placeholder="Motivation" required>Debug testing</textarea>
+        <select name="commitment" required>
+            <option value="">Select Commitment</option>
+            <option value="daily" selected>Daily</option>
+        </select>
+        <label><input type="checkbox" name="imaging[]" value="CT" checked> CT Scans</label>
+        <label><input type="checkbox" name="terms" required checked> Accept Terms</label>
+        <button type="submit">Submit Test</button>
+    </form>
+
+    <script>
+        function addResult(title, content, type = 'info') {
+            const results = document.getElementById('results');
+            const div = document.createElement('div');
+            div.className = `result ${type}`;
+            div.innerHTML = `<strong>${title}:</strong><br><pre>${content}</pre>`;
+            results.appendChild(div);
+        }
+
+        document.getElementById('testForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            
+            try {
+                addResult('🚀 Starting Form Submission', 'Submitting to submit-beta-application.php...', 'info');
+                
+                // Log all form data
+                let formDataStr = '';
+                for (let [key, value] of formData.entries()) {
+                    formDataStr += `${key}: ${value}\n`;
+                }
+                addResult('📋 Form Data', formDataStr, 'info');
+                
+                const response = await fetch('submit-beta-application.php', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                addResult('📡 Response Info', 
+                    `Status: ${response.status}\nStatus Text: ${response.statusText}\nContent-Type: ${response.headers.get('content-type')}`, 
+                    'info'
+                );
+                
+                const contentType = response.headers.get('content-type');
+                let result;
+                
+                if (contentType && contentType.includes('application/json')) {
+                    result = await response.json();
+                    addResult('✅ JSON Response', JSON.stringify(result, null, 2), 'success');
+                } else {
+                    result = await response.text();
+                    addResult('❌ Non-JSON Response', result, 'error');
+                }
+                
+                if (response.ok) {
+                    addResult('🎉 Success', 'Form submitted successfully!', 'success');
+                } else {
+                    addResult('⚠️ HTTP Error', `Status ${response.status}: ${response.statusText}`, 'error');
+                }
+                
+            } catch (error) {
+                addResult('💥 JavaScript Error', error.message + '\n\nStack:\n' + error.stack, 'error');
+            }
+        });
+    </script>
+</body>
+</html>
