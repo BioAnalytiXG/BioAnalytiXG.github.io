@@ -152,7 +152,17 @@
                 </div>
             </div>
             
-            <form id="betaForm" action="../submit-beta-application.php" method="post">
+            <form id="betaForm" action="#" method="POST">
+                <!-- Web3Forms Access Key -->
+                <input type="hidden" name="access_key" value="8bbac0a7-2854-4123-bd6a-4e6eda5c6b97">
+                
+                <!-- Honeypot Spam Protection -->
+                <input type="checkbox" name="botcheck" class="hidden" style="display: none;">
+                
+                <!-- Custom fields for better email formatting -->
+                <input type="hidden" name="subject" value="New Beta Tester Application - BioAnalytiX">
+                <input type="hidden" name="from_name" value="BioAnalytiX Beta Form">
+                <input type="hidden" name="to_email" value="info@bioanalytix.info">
                 <!-- Step 1: Personal Information -->
                 <div class="form-step active" data-step="1">
                     <h3>Personal Information</h3>
@@ -312,7 +322,17 @@
                     <i class="fas fa-check-circle"></i>
                 </div>
                 <h2>Application Submitted Successfully!</h2>
-                <p>Thank you for your interest in the BioAnalytiX alpha program. We'll review your application and get back to you within 48 hours.</p>
+                <p>Thank you for your interest in the BioAnalytiX alpha program. We've received your application and will review it carefully.</p>
+                <div class="success-details">
+                    <p><strong>📧 Confirmation:</strong> Your application has been sent to our team at <a href="mailto:info@bioanalytix.info">info@bioanalytix.info</a></p>
+                    <p><strong>⏰ What happens next?</strong></p>
+                    <ul>
+                        <li>We'll review your application within 1 week</li>
+                        <li>If selected, you'll receive access instructions via email</li>
+                        <li>Alpha testing begins in September 2025</li>
+                    </ul>
+                    <p><strong>❓ Questions?</strong> Contact us at <a href="mailto:info@bioanalytix.info">info@bioanalytix.info</a></p>
+                </div>
                 <a href="/" class="btn btn-primary">Back to Home</a>
             </div>
         </div>

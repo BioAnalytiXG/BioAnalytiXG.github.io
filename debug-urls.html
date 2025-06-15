@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>URL Debug - BioAnalytiX</title>
+    <meta charset="utf-8">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f0f0f0;
+        }
+        .test-link {
+            display: block;
+            margin: 10px 0;
+            padding: 10px;
+            background: #007cba;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .test-link:hover {
+            background: #005a87;
+        }
+        .result {
+            margin: 10px 0;
+            padding: 10px;
+            background: #ddd;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>BioAnalytiX URL Test Page</h1>
+    <p>Click these links to test if the directory-based URLs work:</p>
+    
+    <a href="/About_us/" class="test-link">Test /About_us/</a>
+    <a href="/our_product/" class="test-link">Test /our_product/</a>
+    <a href="/careers/" class="test-link">Test /careers/</a>
+    <a href="/privacy-policy/" class="test-link">Test /privacy-policy/</a>
+    <a href="/terms-conditions/" class="test-link">Test /terms-conditions/</a>
+    <a href="/beta-tester-form/" class="test-link">Test /beta-tester-form/</a>
+    
+    <div class="result">
+        <h3>Expected behavior:</h3>
+        <ul>
+            <li>Each link should take you to the respective page</li>
+            <li>If you get a 404, the directory structure needs fixing</li>
+            <li>If pages load but look broken, it's a CSS/asset path issue</li>
+        </ul>
+    </div>
+    
+    <div class="result">
+        <h3>Current URL Structure:</h3>
+        <p>Root: <code>/</code> → index.html</p>
+        <p>About: <code>/About_us/</code> → About_us/index.html</p>
+        <p>Product: <code>/our_product/</code> → our_product/index.html</p>
+        <p>And so on...</p>
+    </div>
+    
+    <a href="/" class="test-link">← Back to Main Site</a>
+</body>
+</html>

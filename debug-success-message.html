@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug Beta Form Success Message</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .debug-section { margin: 20px 0; padding: 15px; border: 1px solid #ddd; border-radius: 5px; }
+        .success { background-color: #d4edda; border-color: #c3e6cb; }
+        .error { background-color: #f8d7da; border-color: #f5c6cb; }
+        .info { background-color: #d1ecf1; border-color: #bee5eb; }
+        button { padding: 10px 20px; margin: 5px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <h1>🔧 Beta Form Success Message Debug</h1>
+    
+    <div class="debug-section info">
+        <h3>Debug Information</h3>
+        <div id="debugInfo"></div>
+    </div>
+    
+    <div class="debug-section">
+        <h3>Test Controls</h3>
+        <button onclick="testSuccessMessage()">Test Success Message Display</button>
+        <button onclick="testFormElements()">Check Form Elements</button>
+        <button onclick="testFormSubmission()">Test Form Submission Flow</button>
+        <button onclick="clearResults()">Clear Results</button>
+    </div>
+    
+    <div id="results"></div>
+    
+    <script>
+        function addResult(title, content, type = 'info') {
+            const results = document.getElementById('results');
+            const div = document.createElement('div');
+            div.className = `debug-section ${type}`;
+            div.innerHTML = `<h4>${title}</h4><pre>${content}</pre>`;
+            results.appendChild(div);
+        }
+        
+        function clearResults() {
+            document.getElementById('results').innerHTML = '';
+        }
+        
+        function testSuccessMessage() {
+            addResult('🔍 Testing Success Message Elements', 'Checking if elements exist...', 'info');
+            
+            // Test if we can find the success message element
+            const successMessage = document.getElementById('successMessage');
+            const formContainer = document.querySelector('.form-container');
+            
+            let report = '';
+            report += `Success Message Element: ${successMessage ? '✅ Found' : '❌ Not Found'}\n`;
+            report += `Form Container Element: ${formContainer ? '✅ Found' : '❌ Not Found'}\n`;
+            
+            if (successMessage) {
+                report += `Success Message Display: ${getComputedStyle(successMessage).display}\n`;
+                report += `Success Message Visibility: ${getComputedStyle(successMessage).visibility}\n`;
+            }
+            
+            if (formContainer) {
+                report += `Form Container Display: ${getComputedStyle(formContainer).display}\n`;
+            }
+            
+            addResult('Success Message Elements Check', report, successMessage ? 'success' : 'error');
+        }
+        
+        function testFormElements() {
+            addResult('🔍 Testing Form Elements', 'Checking form elements...', 'info');
+            
+            const form = document.getElementById('betaForm');
+            const submitBtn = document.getElementById('submitBtn');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            
+            let report = '';
+            report += `Beta Form: ${form ? '✅ Found' : '❌ Not Found'}\n`;
+            report += `Submit Button: ${submitBtn ? '✅ Found' : '❌ Not Found'}\n`;
+            report += `Previous Button: ${prevBtn ? '✅ Found' : '❌ Not Found'}\n`;
+            report += `Next Button: ${nextBtn ? '✅ Found' : '❌ Not Found'}\n`;
+            
+            if (form) {
+                report += `Form Action: ${form.action}\n`;
+                report += `Form Method: ${form.method}\n`;
+            }
+            
+            addResult('Form Elements Check', report, form ? 'success' : 'error');
+        }
+        
+        function testFormSubmission() {
+            addResult('🔍 Testing Form Submission', 'Checking submission flow...', 'info');
+            
+            // Try to load the beta form in an iframe to test
+            const iframe = document.createElement('iframe');
+            iframe.src = '/beta-tester-form/index.html';
+            iframe.style.width = '100%';
+            iframe.style.height = '400px';
+            iframe.onload = function() {
+                const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+                
+                let report = '';
+                const successMsg = iframeDoc.getElementById('successMessage');
+                const formContainer = iframeDoc.querySelector('.form-container');
+                const form = iframeDoc.getElementById('betaForm');
+                
+                report += `Success Message in Form: ${successMsg ? '✅ Found' : '❌ Not Found'}\n`;
+                report += `Form Container in Form: ${formContainer ? '✅ Found' : '❌ Not Found'}\n`;
+                report += `Beta Form in Form: ${form ? '✅ Found' : '❌ Not Found'}\n`;
+                
+                if (successMsg) {
+                    report += `Success Message HTML:\n${successMsg.outerHTML.substring(0, 200)}...\n`;
+                }
+                
+                addResult('Form Submission Elements in Beta Form', report, 'info');
+            };
+            
+            document.getElementById('results').appendChild(iframe);
+        }
+        
+        // Initial debug info
+        function updateDebugInfo() {
+            const debugInfo = document.getElementById('debugInfo');
+            debugInfo.innerHTML = `
+                <strong>Current URL:</strong> ${window.location.href}<br>
+                <strong>User Agent:</strong> ${navigator.userAgent}<br>
+                <strong>Timestamp:</strong> ${new Date().toLocaleString()}
+            `;
+        }
+        
+        updateDebugInfo();
+    </script>
+</body>
+</html>

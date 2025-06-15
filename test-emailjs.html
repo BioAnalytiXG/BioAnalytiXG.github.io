@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beta Form Test - BioAnalytiX</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 50px auto; padding: 20px; }
+        .test-section { background: #f5f5f5; padding: 20px; margin: 20px 0; border-radius: 8px; }
+        .status { padding: 10px; margin: 10px 0; border-radius: 4px; }
+        .success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .error { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .info { background: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb; }
+        button { background: #007bff; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; }
+        button:hover { background: #0056b3; }
+        textarea { width: 100%; height: 200px; margin: 10px 0; }
+        .console-output { background: #1e1e1e; color: #fff; padding: 15px; border-radius: 4px; font-family: monospace; overflow-x: auto; }
+    </style>
+    
+    <!-- EmailJS -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script type="text/javascript">
+        (function(){
+            emailjs.init({
+                publicKey: "nJ9PgKwdFXWdBx1wF", // BioAnalytiX EmailJS public key
+            });
+        })();
+    </script>
+</head>
+<body>
+    <h1>🧪 BioAnalytiX Beta Form - EmailJS Test</h1>
+    
+    <div class="test-section">
+        <h2>📋 Test Status</h2>
+        <div id="status" class="status info">
+            Ready to test EmailJS integration...
+        </div>
+    </div>
+    
+    <div class="test-section">
+        <h2>✉️ Email Test</h2>
+        <p>This will test sending an email to <strong>info@bioanalytix.info</strong> using the same EmailJS configuration as the beta form.</p>
+        
+        <form id="testForm">
+            <label for="testName">Your Name:</label><br>
+            <input type="text" id="testName" name="testName" value="Test User" style="width: 100%; padding: 8px; margin: 5px 0;"><br>
+            
+            <label for="testEmail">Your Email:</label><br>
+            <input type="email" id="testEmail" name="testEmail" value="test@example.com" style="width: 100%; padding: 8px; margin: 5px 0;"><br>
+            
+            <label for="testMessage">Test Message:</label><br>
+            <textarea id="testMessage" name="testMessage">This is a test email from the BioAnalytiX beta form system.
+
+Testing EmailJS integration:
+- Service ID: service_bioanalytix
+- Template ID: template_beta_form
+- Target Email: info@bioanalytix.info
+
+If you receive this email, the integration is working correctly!</textarea>
+            
+            <button type="submit">Send Test Email</button>
+        </form>
+    </div>
+    
+    <div class="test-section">
+        <h2>🔧 Configuration Check</h2>
+        <div id="configCheck">
+            <p>Checking EmailJS configuration...</p>
+        </div>
+    </div>
+    
+    <div class="test-section">
+        <h2>📊 Console Output</h2>
+        <div id="consoleOutput" class="console-output">
+            Console logs will appear here...
+        </div>
+    </div>
+    
+    <div class="test-section">
+        <h2>🔗 Quick Links</h2>
+        <p>
+            <a href="/beta-tester-form/" target="_blank">→ Beta Form</a> |
+            <a href="/" target="_blank">→ Home Page</a> |
+            <a href="https://dashboard.emailjs.com" target="_blank">→ EmailJS Dashboard</a>
+        </p>
+    </div>
+
+    <script>
+        // Console output capture
+        const originalLog = console.log;
+        const originalError = console.error;
+        const outputDiv = document.getElementById('consoleOutput');
+        
+        function addToConsoleOutput(message, type = 'log') {
+            const timestamp = new Date().toLocaleTimeString();
+            const prefix = type === 'error' ? '❌' : type === 'warn' ? '⚠️' : '📝';
+            outputDiv.innerHTML += `<div style="margin: 2px 0; ${type === 'error' ? 'color: #ff6b6b;' : ''}">[${timestamp}] ${prefix} ${message}</div>`;
+            outputDiv.scrollTop = outputDiv.scrollHeight;
+        }
+        
+        console.log = function(...args) {
+            originalLog.apply(console, args);
+            addToConsoleOutput(args.join(' '), 'log');
+        };
+        
+        console.error = function(...args) {
+            originalError.apply(console, args);
+            addToConsoleOutput(args.join(' '), 'error');
+        };
+        
+        // Check EmailJS configuration
+        function checkEmailJSConfig() {
+            const configDiv = document.getElementById('configCheck');
+            let html = '<ul>';
+            
+            html += `<li>EmailJS Loaded: ${typeof emailjs !== 'undefined' ? '✅ Yes' : '❌ No'}</li>`;
+            
+            if (typeof emailjs !== 'undefined') {
+                html += `<li>Public Key: nJ9PgKwdFXWdBx1wF ✅</li>`;
+                html += `<li>Service ID: service_bioanalytix ⚙️</li>`;
+                html += `<li>Template ID: template_beta_form ⚙️</li>`;
+                html += `<li>Target Email: info@bioanalytix.info ✅</li>`;
+            }
+            
+            html += '</ul>';
+            html += '<p><strong>Note:</strong> Service and Template IDs need to be configured in your EmailJS dashboard.</p>';
+            configDiv.innerHTML = html;
+        }
+        
+        // Test form submission
+        document.getElementById('testForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const statusDiv = document.getElementById('status');
+            statusDiv.className = 'status info';
+            statusDiv.innerHTML = '🚀 Sending test email...';
+            
+            console.log('=== EMAIL TEST STARTED ===');
+            
+            try {
+                const templateParams = {
+                    to_email: 'info@bioanalytix.info',
+                    from_name: document.getElementById('testName').value,
+                    reply_to: document.getElementById('testEmail').value,
+                    subject: 'EmailJS Test - BioAnalytiX Beta Form',
+                    message: document.getElementById('testMessage').value
+                };
+                
+                console.log('Template parameters:', templateParams);
+                console.log('Sending via EmailJS...');
+                
+                const result = await emailjs.send(
+                    'service_bioanalytix',
+                    'template_beta_form',
+                    templateParams
+                );
+                
+                console.log('EmailJS result:', result);
+                
+                if (result.status === 200) {
+                    statusDiv.className = 'status success';
+                    statusDiv.innerHTML = '✅ Test email sent successfully! Check info@bioanalytix.info inbox.';
+                    console.log('✅ Email sent successfully!');
+                } else {
+                    throw new Error('Unexpected status: ' + result.status);
+                }
+                
+            } catch (error) {
+                console.error('Email test failed:', error);
+                statusDiv.className = 'status error';
+                statusDiv.innerHTML = `❌ Test failed: ${error.message}`;
+                
+                if (error.message.includes('service_bioanalytix')) {
+                    statusDiv.innerHTML += '<br><br><strong>Solution:</strong> Create EmailJS service with ID "service_bioanalytix"';
+                }
+                if (error.message.includes('template_beta_form')) {
+                    statusDiv.innerHTML += '<br><br><strong>Solution:</strong> Create EmailJS template with ID "template_beta_form"';
+                }
+            }
+            
+            console.log('=== EMAIL TEST COMPLETE ===');
+        });
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🧪 EmailJS Test Page Loaded');
+            console.log('Current URL:', window.location.href);
+            checkEmailJSConfig();
+        });
+    </script>
+</body>
+</html>

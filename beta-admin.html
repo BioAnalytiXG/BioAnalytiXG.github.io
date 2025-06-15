@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beta Form Admin - BioAnalytiX</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        
+        .admin-container {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            color: #7CCDB3;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .status-card {
+            background: #e8f5f0;
+            border: 1px solid #7CCDB3;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .application-card {
+            background: #f8f9fa;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 15px 0;
+        }
+        
+        .application-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .applicant-name {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .submission-date {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .application-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin: 15px 0;
+        }
+        
+        .detail-group {
+            background: white;
+            padding: 10px;
+            border-radius: 5px;
+            border-left: 3px solid #7CCDB3;
+        }
+        
+        .detail-label {
+            font-weight: bold;
+            color: #555;
+            font-size: 0.9rem;
+        }
+        
+        .detail-value {
+            color: #333;
+            margin-top: 5px;
+        }
+        
+        .email-button {
+            background: #7CCDB3;
+            color: black;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            margin: 10px 5px;
+        }
+        
+        .email-button:hover {
+            background: #6fbfa5;
+        }
+        
+        .no-applications {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            padding: 40px;
+        }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .stat-card {
+            background: linear-gradient(135deg, #7CCDB3, #6fbfa5);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-container">
+        <h1>🏥 BioAnalytiX Beta Form Admin</h1>
+        
+        <div class="status-card">
+            <h3>📊 Form Status</h3>
+            <p><strong>Form Endpoint:</strong> Web3Forms (https://api.web3forms.com/submit)</p>
+            <p><strong>Target Email:</strong> info@bioanalytix.info</p>
+            <p><strong>Access Key:</strong> 8bbac0a7-2854-4123-bd6a-4e6eda5c6b97</p>
+            <p><strong>Backup Storage:</strong> Browser localStorage</p>
+            <p><strong>Status:</strong> <span id="formStatus">Checking...</span></p>
+        </div>
+        
+        <div class="stats" id="statsContainer">
+            <div class="stat-card">
+                <div class="stat-number" id="totalApplications">0</div>
+                <div class="stat-label">Total Applications</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="todayApplications">0</div>
+                <div class="stat-label">Today</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="pendingApplications">0</div>
+                <div class="stat-label">Pending Review</div>
+            </div>
+        </div>
+        
+        <div style="text-align: center; margin: 20px 0;">
+            <button class="email-button" onclick="refreshApplications()">🔄 Refresh Applications</button>
+            <button class="email-button" onclick="exportApplications()">📤 Export All</button>
+            <button class="email-button" onclick="clearApplications()">🗑️ Clear Backup Data</button>
+            <button class="email-button" onclick="window.open('/beta-tester-form/', '_blank')">📝 Test Form</button>
+        </div>
+        
+        <div id="applicationsContainer">
+            <h3>📋 Recent Applications (from localStorage backup)</h3>
+            <div id="applicationsList"></div>
+        </div>
+    </div>
+
+    <script>
+        // Check form status and load applications
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🚀 Beta Form Admin loaded');
+            checkFormStatus();
+            loadApplications();
+        });
+        
+        function checkFormStatus() {
+            const statusElement = document.getElementById('formStatus');
+            
+            // Check if Web3Forms endpoint is working
+            try {
+                fetch('https://api.web3forms.com/submit', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ access_key: 'test', message: 'ping' })
+                }).then(response => {
+                    if (response.status === 200 || response.status === 422 || response.status === 400) {
+                        statusElement.innerHTML = '✅ <strong>Active</strong> - Web3Forms endpoint responding';
+                        statusElement.style.color = 'green';
+                    } else {
+                        statusElement.innerHTML = '⚠️ <strong>Partial</strong> - Check Web3Forms configuration';
+                        statusElement.style.color = 'orange';
+                    }
+                }).catch(error => {
+                    statusElement.innerHTML = '❌ <strong>Offline</strong> - Network issue or service down';
+                    statusElement.style.color = 'red';
+                });
+            } catch (error) {
+                statusElement.innerHTML = '❓ <strong>Unknown</strong> - Cannot verify status';
+                statusElement.style.color = 'gray';
+            }
+        }
+        
+        function loadApplications() {
+            try {
+                const applications = JSON.parse(localStorage.getItem('betaApplications') || '[]');
+                console.log('📊 Loaded applications:', applications.length);
+                
+                updateStats(applications);
+                displayApplications(applications);
+                
+            } catch (error) {
+                console.error('Error loading applications:', error);
+                document.getElementById('applicationsList').innerHTML = '<div class="no-applications">Error loading application data</div>';
+            }
+        }
+        
+        function updateStats(applications) {
+            const today = new Date().toISOString().split('T')[0];
+            const todayApps = applications.filter(app => app.submittedAt.startsWith(today));
+            const pendingApps = applications.filter(app => !app.processed);
+            
+            document.getElementById('totalApplications').textContent = applications.length;
+            document.getElementById('todayApplications').textContent = todayApps.length;
+            document.getElementById('pendingApplications').textContent = pendingApps.length;
+        }
+        
+        function displayApplications(applications) {
+            const container = document.getElementById('applicationsList');
+            
+            if (applications.length === 0) {
+                container.innerHTML = '<div class="no-applications">No applications found in localStorage backup.<br>Applications may have been submitted directly via Formspree.</div>';
+                return;
+            }
+            
+            // Sort by submission date (newest first)
+            applications.sort((a, b) => new Date(b.submittedAt) - new Date(a.submittedAt));
+            
+            let html = '';
+            applications.forEach((app, index) => {
+                const submissionDate = new Date(app.submittedAt).toLocaleString();
+                
+                html += `
+                    <div class="application-card">
+                        <div class="application-header">
+                            <div class="applicant-name">${app.firstName} ${app.lastName}</div>
+                            <div class="submission-date">${submissionDate}</div>
+                        </div>
+                        
+                        <div class="application-details">
+                            <div class="detail-group">
+                                <div class="detail-label">Contact</div>
+                                <div class="detail-value">
+                                    📧 ${app.email}<br>
+                                    📞 ${app.phone || 'Not provided'}
+                                </div>
+                            </div>
+                            
+                            <div class="detail-group">
+                                <div class="detail-label">Professional</div>
+                                <div class="detail-value">
+                                    🏥 ${app.organization}<br>
+                                    👨‍⚕️ ${app.role} (${app.experience})
+                                </div>
+                            </div>
+                            
+                            <div class="detail-group">
+                                <div class="detail-label">Medical Focus</div>
+                                <div class="detail-value">
+                                    🩺 ${app.specialty || 'Not specified'}<br>
+                                    📱 ${app.imaging || 'Not specified'}
+                                </div>
+                            </div>
+                            
+                            <div class="detail-group">
+                                <div class="detail-label">Commitment</div>
+                                <div class="detail-value">
+                                    ⏰ ${app.commitment}<br>
+                                    🌍 ${app.country}
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div style="margin-top: 15px;">
+                            <strong>Use Case:</strong> ${app.useCase?.substring(0, 100)}${app.useCase?.length > 100 ? '...' : ''}<br>
+                            <strong>Motivation:</strong> ${app.motivation?.substring(0, 100)}${app.motivation?.length > 100 ? '...' : ''}
+                        </div>
+                        
+                        <div style="margin-top: 15px;">
+                            <button class="email-button" onclick="emailApplicant('${app.email}', '${app.firstName}', '${app.lastName}')">
+                                ✉️ Email Applicant
+                            </button>
+                            <button class="email-button" onclick="markAsProcessed(${index})">
+                                ✅ Mark Processed
+                            </button>
+                            <button class="email-button" onclick="viewFullApplication(${index})">
+                                👁️ View Full
+                            </button>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = html;
+        }
+        
+        function emailApplicant(email, firstName, lastName) {
+            const subject = `Re: Beta Tester Application - BioAnalytiX`;
+            const body = `Dear ${firstName},
+
+Thank you for your interest in the BioAnalytiX Alpha Testing program.
+
+We have received your application and are currently reviewing all submissions. We will contact you within 48 hours with an update on your application status.
+
+If you have any questions in the meantime, please don't hesitate to reach out.
+
+Best regards,
+BioAnalytiX Team
+info@bioanalytix.info`;
+            
+            const mailtoLink = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+            window.open(mailtoLink, '_blank');
+        }
+        
+        function markAsProcessed(index) {
+            try {
+                const applications = JSON.parse(localStorage.getItem('betaApplications') || '[]');
+                if (applications[index]) {
+                    applications[index].processed = true;
+                    applications[index].processedAt = new Date().toISOString();
+                    localStorage.setItem('betaApplications', JSON.stringify(applications));
+                    loadApplications();
+                    alert('✅ Application marked as processed');
+                }
+            } catch (error) {
+                alert('❌ Error updating application status');
+            }
+        }
+        
+        function viewFullApplication(index) {
+            try {
+                const applications = JSON.parse(localStorage.getItem('betaApplications') || '[]');
+                const app = applications[index];
+                
+                const fullData = `
+BETA TESTER APPLICATION - FULL DETAILS
+
+Personal Information:
+- Name: ${app.firstName} ${app.lastName}
+- Email: ${app.email}
+- Phone: ${app.phone || 'Not provided'}
+- Country: ${app.country}
+
+Professional Information:
+- Organization: ${app.organization}
+- Role: ${app.role}
+- Experience: ${app.experience}
+- Specialty: ${app.specialty || 'Not specified'}
+- Imaging Types: ${app.imaging || 'Not specified'}
+
+Testing Information:
+- Use Case: ${app.useCase}
+- Motivation: ${app.motivation}
+- Commitment: ${app.commitment}
+- Additional Comments: ${app.feedback || 'None'}
+
+Submission Details:
+- Submitted: ${new Date(app.submittedAt).toLocaleString()}
+- Method: ${app.submissionMethod || 'Standard'}
+- Processed: ${app.processed ? 'Yes' : 'No'}
+                `.trim();
+                
+                alert(fullData);
+            } catch (error) {
+                alert('❌ Error displaying full application');
+            }
+        }
+        
+        function exportApplications() {
+            try {
+                const applications = JSON.parse(localStorage.getItem('betaApplications') || '[]');
+                
+                if (applications.length === 0) {
+                    alert('No applications to export');
+                    return;
+                }
+                
+                // Create CSV data
+                const csvHeaders = ['Name', 'Email', 'Phone', 'Country', 'Organization', 'Role', 'Experience', 'Specialty', 'Imaging', 'UseCase', 'Motivation', 'Commitment', 'Comments', 'Submitted', 'Processed'];
+                
+                const csvData = applications.map(app => [
+                    `"${app.firstName} ${app.lastName}"`,
+                    `"${app.email}"`,
+                    `"${app.phone || ''}"`,
+                    `"${app.country}"`,
+                    `"${app.organization}"`,
+                    `"${app.role}"`,
+                    `"${app.experience}"`,
+                    `"${app.specialty || ''}"`,
+                    `"${app.imaging || ''}"`,
+                    `"${app.useCase?.replace(/"/g, '""') || ''}"`,
+                    `"${app.motivation?.replace(/"/g, '""') || ''}"`,
+                    `"${app.commitment}"`,
+                    `"${app.feedback?.replace(/"/g, '""') || ''}"`,
+                    `"${new Date(app.submittedAt).toLocaleString()}"`,
+                    `"${app.processed ? 'Yes' : 'No'}"`
+                ]);
+                
+                const csvContent = [csvHeaders.join(','), ...csvData.map(row => row.join(','))].join('\\n');
+                
+                // Download CSV
+                const blob = new Blob([csvContent], { type: 'text/csv' });
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `bioanalytix-beta-applications-${new Date().toISOString().split('T')[0]}.csv`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                window.URL.revokeObjectURL(url);
+                
+                alert(`✅ Exported ${applications.length} applications to CSV file`);
+            } catch (error) {
+                alert('❌ Error exporting applications: ' + error.message);
+            }
+        }
+        
+        function clearApplications() {
+            if (confirm('⚠️ Are you sure you want to clear all backup application data? This cannot be undone.')) {
+                localStorage.removeItem('betaApplications');
+                loadApplications();
+                alert('✅ Backup application data cleared');
+            }
+        }
+        
+        function refreshApplications() {
+            loadApplications();
+            checkFormStatus();
+            alert('🔄 Applications refreshed');
+        }
+    </script>
+</body>
+</html>

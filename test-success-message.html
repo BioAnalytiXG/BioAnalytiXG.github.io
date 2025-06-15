@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Success Message Test - BioAnalytiX</title>
+    <link rel="stylesheet" href="../assets/css/beta-form-enhanced.css" />
+    <style>
+        body { padding: 20px; font-family: Arial, sans-serif; }
+        .test-controls { margin: 20px 0; padding: 20px; background: #f5f5f5; border-radius: 8px; }
+        button { padding: 10px 20px; margin: 5px; cursor: pointer; background: #7CCDB3; color: black; border: none; border-radius: 5px; font-weight: bold; }
+        .debug-info { margin: 10px 0; padding: 10px; background: #e8f4f8; border-radius: 5px; font-family: monospace; font-size: 12px; }
+    </style>
+</head>
+<body>
+    <h1>🧪 Success Message Test</h1>
+    
+    <div class="test-controls">
+        <h3>Test Controls</h3>
+        <button onclick="testShowSuccess()">Show Success Message</button>
+        <button onclick="testHideSuccess()">Hide Success Message</button>
+        <button onclick="testToggleForm()">Toggle Form Container</button>
+        <button onclick="checkElements()">Check Elements</button>
+    </div>
+    
+    <div id="debugOutput" class="debug-info"></div>
+    
+    <!-- Simulate the form structure -->
+    <div class="form-container" id="formContainer">
+        <h2>Mock Form Container</h2>
+        <p>This represents the form container that should be hidden when success message shows.</p>
+        <form id="betaForm">
+            <input type="text" placeholder="Test field" />
+            <button type="button" onclick="simulateSubmission()">Simulate Submission</button>
+        </form>
+    </div>
+    
+    <!-- Success Message (copied from actual beta form) -->
+    <div class="success-message" id="successMessage">
+        <div class="success-icon">
+            <i class="fas fa-check-circle"></i>
+        </div>
+        <h2>Application Submitted Successfully!</h2>
+        <p>Thank you for your interest in the BioAnalytiX alpha program. We've received your application and will review it carefully.</p>
+        <div class="success-details">
+            <p><strong>📧 Confirmation:</strong> Your application has been sent to our team at <a href="mailto:info@bioanalytix.info">info@bioanalytix.info</a></p>
+            <p><strong>⏰ What happens next?</strong></p>
+            <ul>
+                <li>We'll review your application within 1 week</li>
+                <li>If selected, you'll receive access instructions via email</li>
+                <li>Alpha testing begins in September 2025</li>
+            </ul>
+            <p><strong>❓ Questions?</strong> Contact us at <a href="mailto:info@bioanalytix.info">info@bioanalytix.info</a></p>
+        </div>
+        <a href="/" class="btn btn-primary">Back to Home</a>
+    </div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
+    <script>
+        const successMessage = document.getElementById('successMessage');
+        const formContainer = document.getElementById('formContainer');
+        const debugOutput = document.getElementById('debugOutput');
+        
+        function log(message) {
+            console.log(message);
+            debugOutput.innerHTML += `${new Date().toLocaleTimeString()}: ${message}<br>`;
+            debugOutput.scrollTop = debugOutput.scrollHeight;
+        }
+        
+        function testShowSuccess() {
+            log('🎉 Testing show success message');
+            if (formContainer && successMessage) {
+                formContainer.style.display = 'none';
+                successMessage.style.display = 'block';
+                successMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                log('✅ Success message should now be visible');
+            } else {
+                log('❌ Missing elements - cannot show success message');
+            }
+        }
+        
+        function testHideSuccess() {
+            log('🔄 Testing hide success message');
+            if (formContainer && successMessage) {
+                formContainer.style.display = 'block';
+                successMessage.style.display = 'none';
+                log('✅ Form container should now be visible');
+            }
+        }
+        
+        function testToggleForm() {
+            log('🔄 Toggling form container visibility');
+            if (formContainer) {
+                const isVisible = formContainer.style.display !== 'none';
+                formContainer.style.display = isVisible ? 'none' : 'block';
+                log(`Form container is now: ${isVisible ? 'hidden' : 'visible'}`);
+            }
+        }
+        
+        function checkElements() {
+            log('🔍 Checking elements:');
+            log(`Success message element: ${successMessage ? '✅ Found' : '❌ Not found'}`);
+            log(`Form container element: ${formContainer ? '✅ Found' : '❌ Not found'}`);
+            
+            if (successMessage) {
+                const styles = getComputedStyle(successMessage);
+                log(`Success message display: ${styles.display}`);
+                log(`Success message visibility: ${styles.visibility}`);
+            }
+            
+            if (formContainer) {
+                const styles = getComputedStyle(formContainer);
+                log(`Form container display: ${styles.display}`);
+            }
+        }
+        
+        function simulateSubmission() {
+            log('🚀 Simulating form submission...');
+            setTimeout(() => {
+                testShowSuccess();
+            }, 1000);
+        }
+        
+        // Initial check
+        log('🚀 Success message test page loaded');
+        checkElements();
+    </script>
+</body>
+</html>

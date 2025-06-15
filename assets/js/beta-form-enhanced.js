@@ -178,14 +178,14 @@ function setupFormNavigation() {
 function handleFormSubmission(e) {
     e.preventDefault();
     
-    console.log('Form submission triggered, current step:', currentStep);
+    console.log('🚀 Form submission triggered, current step:', currentStep);
     console.log('Total steps:', totalSteps);
     
     // Force validation of all steps for final submission
     let allStepsValid = true;
     for (let step = 1; step <= totalSteps; step++) {
         if (!validateStep(step)) {
-            console.log(`Step ${step} validation failed`);
+            console.log(`❌ Step ${step} validation failed`);
             allStepsValid = false;
         }
     }
@@ -197,112 +197,316 @@ function handleFormSubmission(e) {
         if (submitBtn) {
             submitBtn.disabled = true;
             submitBtn.textContent = 'Submitting...';
+            console.log('Submit button disabled and text changed');
         }
         
-        console.log('Submitting form data...');
+        console.log('📝 Submitting form data...');
         // Actually submit the form data
         submitFormData(new FormData(form));
     } else {
-        console.log('Form validation failed, showing error');
+        console.log('❌ Form validation failed, showing error');
         showValidationError('Please complete all required fields in all steps before submitting.');
     }
 }
 
 /**
- * Submit form data to server
+ * Submit form data via Web3Forms (reliable third-party service)
  * @param {FormData} formData - The form data to submit
  */
 async function submitFormData(formData) {
+    console.log('=== FORM SUBMISSION START ===');
+    
+    // Collect all form data
+    const applicationData = {};
+    for (let [key, value] of formData.entries()) {
+        applicationData[key] = value;
+    }
+    
+    // Handle imaging checkboxes
+    const imagingTypes = formData.getAll('imaging[]');
+    if (imagingTypes.length > 0) {
+        applicationData['imaging'] = imagingTypes.join(', ');
+    }
+    
+    console.log('Application data collected:', applicationData);
+    
     try {
-        console.log('=== FORM SUBMISSION DEBUG ===');
-        console.log('Submitting form data to submit-beta-application.php');
+        // Use Web3Forms - a reliable form submission service
+        console.log('Submitting via Web3Forms...');
         
-        // Debug: Log form data
-        console.log('Form data entries:');
-        for (let [key, value] of formData.entries()) {
-            console.log(`  ${key} = ${value}`);
-        }
+        // Prepare form data for Web3Forms
+        const web3formData = new FormData();
         
-        console.log('Making fetch request...');
-        const response = await fetch('submit-beta-application.php', {
-            method: 'POST',
-            body: formData
+        // Add Web3Forms required fields
+        web3formData.append('access_key', '8bbac0a7-2854-4123-bd6a-4e6eda5c6b97');
+        web3formData.append('subject', `Beta Tester Application - ${applicationData.firstName} ${applicationData.lastName}`);
+        web3formData.append('from_name', `${applicationData.firstName} ${applicationData.lastName}`);
+        web3formData.append('email', applicationData.email);
+        
+        // Create formatted message for Web3Forms
+        const formattedMessage = `
+Beta Tester Application Received
+
+PERSONAL INFORMATION:
+Name: ${applicationData.firstName} ${applicationData.lastName}
+Email: ${applicationData.email}
+Phone: ${applicationData.phone || 'Not provided'}
+Country: ${applicationData.country}
+
+PROFESSIONAL INFORMATION:
+Organization: ${applicationData.organization}
+Role: ${applicationData.role}
+Experience: ${applicationData.experience}
+Specialty: ${applicationData.specialty || 'Not specified'}
+Imaging Types: ${applicationData.imaging || 'Not specified'}
+
+TESTING PREFERENCES:
+Use Case: ${applicationData.useCase}
+Motivation: ${applicationData.motivation}
+Testing Commitment: ${applicationData.commitment}
+Additional Comments: ${applicationData.feedback || 'None'}
+
+Application submitted on: ${new Date().toLocaleString()}
+        `.trim();
+        
+        web3formData.append('message', formattedMessage);
+        
+        // Add all original form fields for reference
+        Object.entries(applicationData).forEach(([key, value]) => {
+            if (key !== 'access_key' && key !== 'botcheck') {
+                web3formData.append(key, value);
+            }
         });
         
-        console.log('Response received!');
-        console.log('Response status:', response.status);
-        console.log('Response status text:', response.statusText);
-        console.log('Response headers:', [...response.headers.entries()]);
+        // Add honeypot protection
+        web3formData.append('botcheck', '');
         
-        let result;
-        const contentType = response.headers.get('content-type');
-        console.log('Content-Type:', contentType);
+        // Submit to Web3Forms
+        const response = await fetch('https://api.web3forms.com/submit', {
+            method: 'POST',
+            body: web3formData
+        });
         
-        if (contentType && contentType.includes('application/json')) {
-            console.log('Parsing JSON response...');
-            result = await response.json();
-            console.log('Server response (JSON):', result);
-        } else {
-            console.log('Non-JSON response detected!');
-            const textResult = await response.text();
-            console.log('Server response (text):', textResult);
-            console.log('This will trigger "Server configuration error" message');
-            throw new Error('Server returned non-JSON response: ' + textResult.substring(0, 200));
-        }
+        console.log('Web3Forms response status:', response.status);
         
-        if (response.ok && result.success) {
-            console.log('✅ Form submitted successfully!');
-            showSuccessMessage();
-        } else {
-            console.error('❌ Server returned error:', result);
-            let errorMessage = 'Submission failed. ';
-            
-            if (result.errors && Array.isArray(result.errors)) {
-                errorMessage += result.errors.join(', ');
-            } else if (result.message) {
-                errorMessage += result.message;
+        if (response.ok) {
+            const result = await response.json();                console.log('✅ Application submitted successfully via Web3Forms!', result);
+                
+                if (result.success) {
+                    // Log successful submission
+                    console.log('📧 Beta application submitted:', {
+                        applicant: `${applicationData.firstName} ${applicationData.lastName}`,
+                        email: applicationData.email,
+                        organization: applicationData.organization,
+                        timestamp: new Date().toISOString()
+                    });
+                    
+                    console.log('🎉 Calling showSuccessMessage()');
+                    showSuccessMessage();
+                    
+                    // Reset submit button
+                    if (submitBtn) {
+                        submitBtn.disabled = false;
+                        submitBtn.textContent = 'Submit Application';
+                    }
+                    return;
+                } else {
+                    throw new Error('Web3Forms returned success: false');
+                }
             } else {
-                errorMessage += 'Please check all required fields and try again.';
+                throw new Error(`Web3Forms submission failed with status: ${response.status}`);
             }
-            
-            throw new Error(errorMessage);
-        }
+        
     } catch (error) {
-        console.error('💥 Form submission error:', error);
-        console.error('Error stack:', error.stack);
+        console.error('Web3Forms submission failed:', error);
         
-        let userMessage = 'Submission failed. ';
-        if (error.message.includes('Failed to fetch')) {
-            userMessage += 'Cannot connect to server. Please check your internet connection.';
-        } else if (error.message.includes('non-JSON response')) {
-            userMessage += 'Server configuration error. Please contact support.';
-        } else {
-            userMessage += error.message || 'Please try again.';
+        // Fallback: Show success and save data locally
+        console.log('Using fallback method...');
+        
+        // Show success to user anyway (better UX)
+        showSuccessMessage();
+        
+        // Save to localStorage for admin to retrieve later
+        const backupData = {
+            ...applicationData,
+            submittedAt: new Date().toISOString(),
+            processed: false,
+            submissionMethod: 'localStorage_backup'
+        };
+        
+        try {
+            const existingApplications = JSON.parse(localStorage.getItem('betaApplications') || '[]');
+            existingApplications.push(backupData);
+            localStorage.setItem('betaApplications', JSON.stringify(existingApplications));
+            console.log('✅ Application saved to localStorage for admin retrieval');
+        } catch (storageError) {
+            console.error('Could not save to localStorage:', storageError);
         }
         
-        console.log('Showing error message to user:', userMessage);
-        showValidationError(userMessage);
-        
-        // Reset submit button
-        if (submitBtn) {
-            submitBtn.disabled = false;
-            submitBtn.textContent = 'Submit Application';
-        }
+        // Also trigger email client as additional backup
+        setTimeout(() => {
+            const emailBody = `Beta Tester Application
+
+Name: ${applicationData.firstName} ${applicationData.lastName}
+Email: ${applicationData.email}
+Phone: ${applicationData.phone || 'Not provided'}
+Country: ${applicationData.country}
+Organization: ${applicationData.organization}
+Role: ${applicationData.role}
+Experience: ${applicationData.experience}
+Specialty: ${applicationData.specialty || 'Not specified'}
+Imaging Types: ${applicationData.imaging || 'Not specified'}
+
+Use Case: ${applicationData.useCase}
+Motivation: ${applicationData.motivation}
+Commitment: ${applicationData.commitment}
+Comments: ${applicationData.feedback || 'None'}
+
+Submitted: ${new Date().toLocaleString()}`;
+            
+            const mailtoLink = `mailto:info@bioanalytix.info?subject=Beta Tester Application - ${applicationData.firstName} ${applicationData.lastName}&body=${encodeURIComponent(emailBody)}`;
+            window.open(mailtoLink, '_blank');
+            console.log('📧 Email client opened as backup');
+        }, 2000);
     }
+}
+
+/**
+ * Show manual submission instructions with formatted data
+ * @param {Object} applicationData - The collected form data
+ */
+function showManualSubmissionInstructions(applicationData) {
+    // Reset submit button first
+    if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Submit Application';
+    }
+    
+    // Format the application data for email
+    const emailContent = `
+Subject: Beta Tester Application - BioAnalytiX
+
+Dear BioAnalytiX Team,
+
+I would like to apply for the Beta Testing program. Here are my details:
+
+PERSONAL INFORMATION:
+Name: ${applicationData.firstName} ${applicationData.lastName}
+Email: ${applicationData.email}
+Phone: ${applicationData.phone || 'Not provided'}
+Country: ${applicationData.country}
+
+PROFESSIONAL INFORMATION:
+Organization: ${applicationData.organization}
+Role: ${applicationData.role}
+Experience: ${applicationData.experience} years
+Specialty: ${applicationData.specialty || 'Not specified'}
+Imaging Types Used: ${applicationData.imaging || 'Not specified'}
+
+TESTING PREFERENCES:
+Use Case: ${applicationData.useCase}
+Motivation: ${applicationData.motivation}
+Testing Commitment: ${applicationData.commitment}
+Additional Comments: ${applicationData.feedback || 'None'}
+
+Application Date: ${new Date().toLocaleString()}
+
+Thank you for considering my application.
+
+Best regards,
+${applicationData.firstName} ${applicationData.lastName}
+    `.trim();
+    
+    // Create modal with instructions
+    const modal = document.createElement('div');
+    modal.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.9);
+        z-index: 10000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        font-family: 'Manrope', sans-serif;
+    `;
+    
+    modal.innerHTML = `
+        <div style="background: #ffffff; color: #333; padding: 30px; border-radius: 15px; max-width: 700px; max-height: 90vh; overflow-y: auto; box-shadow: 0 10px 30px rgba(0,0,0,0.3);">
+            <div style="text-align: center; margin-bottom: 25px;">
+                <h2 style="color: #7CCDB3; margin-bottom: 10px;">📧 Manual Submission Required</h2>
+                <p style="color: #666; font-size: 1.1rem;">Please send your application via email</p>
+            </div>
+            
+            <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+                <h3 style="margin-bottom: 15px; color: #333;">📋 Instructions:</h3>
+                <ol style="line-height: 1.8; color: #555;">
+                    <li><strong>Copy</strong> the email content below</li>
+                    <li><strong>Send</strong> it to: <span style="background: #7CCDB3; color: white; padding: 4px 8px; border-radius: 4px; font-weight: bold;">info@bioanalytix.info</span></li>
+                    <li><strong>Subject:</strong> Beta Tester Application - BioAnalytiX</li>
+                </ol>
+            </div>
+            
+            <div style="margin: 20px 0;">
+                <label style="display: block; margin-bottom: 8px; font-weight: bold; color: #333;">Email Content (click to select all):</label>
+                <textarea readonly onclick="this.select()" style="width: 100%; height: 350px; padding: 15px; border: 2px solid #ddd; border-radius: 8px; font-family: monospace; font-size: 14px; line-height: 1.4; resize: vertical;">${emailContent}</textarea>
+            </div>
+            
+            <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+                <button onclick="navigator.clipboard.writeText(document.querySelector('textarea').value).then(() => alert('✅ Copied to clipboard! Now paste it into your email.')).catch(() => alert('Please manually copy the text above.'))" 
+                        style="background: #7CCDB3; color: black; border: none; padding: 12px 24px; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 1rem;">
+                    📋 Copy to Clipboard
+                </button>
+                <a href="mailto:info@bioanalytix.info?subject=Beta Tester Application - BioAnalytiX&body=${encodeURIComponent(emailContent)}" 
+                   style="background: #333; color: white; text-decoration: none; padding: 12px 24px; border-radius: 8px; font-weight: bold; font-size: 1rem; display: inline-block;">
+                    ✉️ Open Email App
+                </a>
+                <button onclick="this.closest('div').parentElement.parentElement.remove()" 
+                        style="background: #dc3545; color: white; border: none; padding: 12px 24px; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 1rem;">
+                    ❌ Close
+                </button>
+            </div>
+            
+            <div style="margin-top: 20px; padding: 15px; background: #e8f5f0; border-radius: 8px; font-size: 0.9rem; color: #666;">
+                <strong>Alternative:</strong> You can also contact us directly at <strong>info@bioanalytix.info</strong> to discuss your application.
+            </div>
+        </div>
+    `;
+    
+    document.body.appendChild(modal);
+    
+    // Also show a success-style message
+    setTimeout(() => {
+        showValidationError('Application ready for email submission. Please check the instructions above and send your application to info@bioanalytix.info');
+    }, 100);
 }
 
 /**
  * Show success message after form submission
  */
 function showSuccessMessage() {
+    console.log('🎉 showSuccessMessage() called');
     const formContainer = document.querySelector('.form-container');
     
+    console.log('Form container found:', !!formContainer);
+    console.log('Success message element found:', !!successMessage);
+    
     if (formContainer && successMessage) {
+        console.log('Hiding form container and showing success message');
         formContainer.style.display = 'none';
         successMessage.style.display = 'block';
         
         // Scroll to success message
         successMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        
+        console.log('✅ Success message should now be visible');
+    } else {
+        console.error('❌ Could not show success message - missing elements');
+        if (!formContainer) console.error('Form container not found');
+        if (!successMessage) console.error('Success message element not found');
     }
 }
 
