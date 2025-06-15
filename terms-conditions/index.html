@@ -1,0 +1,1358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Review BioAnalytiX terms and conditions for using our AI-powered services." />
+    <meta name="keywords" content="BioAnalytiX terms, conditions" />
+    <meta name="author" content="BioAnalytiX Team" />
+    <link rel="canonical" href="https://bioanalytix.info/terms-conditions/" />
+    <meta property="og:title" content="BioAnalytiX Terms" />
+    <meta property="og:description" content="Understand the terms for using BioAnalytiX services." />
+    <meta property="og:image" content="images/BioAnalytiX_Banner_V3 (1) (1).PNG" />
+    <meta property="og:type" content="website" />
+    <title>Terms and Conditions - BioAnalytiX</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&display=swap">
+    <style>
+        /* Reset and base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Manrope', sans-serif;
+            background-color: #000000;
+            color: #ffffff;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        /* Header styles */
+        #header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 3rem;
+            background-color: rgba(0, 0, 0, 0.95);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(124, 205, 179, 0.1);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        /* Mobile Navigation Styles */
+        #mobile-header {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 75px;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 10001;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .mobile-nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            height: 100%;
+        }
+
+        .mobile-logo img {
+            height: auto;
+            width: 100%;
+            max-width: 220px;
+            max-height: none;
+            object-fit: contain;
+        }
+
+        .hamburger {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            width: 25px;
+            height: 20px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            z-index: 10002;
+        }
+
+        .hamburger span {
+            display: block;
+            height: 2px;
+            width: 100%;
+            background-color: #7CCDB3;
+            border-radius: 1px;
+            transition: all 0.3s ease;
+            transform-origin: center;
+        }
+
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(6px, 6px);
+        }
+
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(6px, -6px);
+        }
+
+        .mobile-nav {
+            position: fixed;
+            top: 75px;
+            left: 0;
+            width: 100%;
+            height: calc(100vh - 75px);
+            background: rgba(0, 0, 0, 0.98);
+            backdrop-filter: blur(15px);
+            z-index: 10000;
+            transform: translateX(-100%);
+            transition: transform 0.3s ease-in-out;
+            overflow-y: auto;
+        }
+
+        .mobile-nav.active {
+            transform: translateX(0);
+        }
+
+        .mobile-nav ul {
+            list-style: none;
+            padding: 40px 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .mobile-nav-link {
+            color: #ffffff !important;
+            text-decoration: none;
+            font-size: 1.2em;
+            font-weight: 600;
+            padding: 15px 30px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            text-align: center;
+            min-width: 200px;
+            display: block;
+        }
+
+        .mobile-nav-link:hover {
+            background: rgba(124, 205, 179, 0.1);
+            color: #7CCDB3 !important;
+            transform: translateY(-2px);
+        }
+
+        .mobile-nav .beta-btn-filled {
+            background: linear-gradient(135deg, #7CCDB3, #5fb39a);
+            color: #000000 !important;
+            font-weight: 700;
+            border: none;
+            box-shadow: 0 4px 15px rgba(124, 205, 179, 0.3);
+        }
+
+        body.mobile-menu-open {
+            overflow: hidden;
+        }
+
+        #mobile-header.header-hidden {
+            transform: translateY(-100%);
+        }
+
+        @media (max-width: 768px) {
+            #header {
+                display: none;
+            }
+
+            #mobile-header {
+                display: block;
+            }
+
+            .container {
+                padding-top: 80px !important;
+            }
+        }
+        
+        #header img {
+            height: 80px;
+            width: auto;
+        }
+        
+        #header nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+        
+        #header nav a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        #header nav a:hover,
+        #header nav a.active {
+            color: #7CCDB3;
+        }
+
+        #header nav a.active::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: #7CCDB3;
+        }
+
+        /* Beta Button Styling for Header Navigation */
+        #header nav a.beta-btn {
+            background: linear-gradient(135deg, #7CCDB3 0%, #6fbfa5 100%);
+            color: #000000;
+            border-radius: 25px;
+            padding: 0.6rem 1.5rem;
+            margin: 0 0.5rem;
+            font-weight: 600;
+            text-transform: none;
+            letter-spacing: 0.05em;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        #header nav a.beta-btn::after {
+            display: none;
+        }
+
+        #header nav a.beta-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(124, 205, 179, 0.4);
+            background: linear-gradient(135deg, #6fbfa5 0%, #7CCDB3 100%);
+            color: #000000;
+        }
+        
+        /* Hero Section */
+        .hero-section {
+            margin-top: 100px;
+            padding: 4rem 3rem 2rem;
+            background: linear-gradient(135deg, rgba(124, 205, 179, 0.1) 0%, transparent 50%);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-content h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #ffffff 0%, #7CCDB3 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .hero-content p {
+            font-size: 1.25rem;
+            color: rgba(255, 255, 255, 0.8);
+            max-width: 600px;
+            margin: 0 auto 1rem;
+        }
+        
+        .last-updated {
+            display: inline-block;
+            background: rgba(124, 205, 179, 0.2);
+            color: #7CCDB3;
+            padding: 0.5rem 1.5rem;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+        
+        /* Development Notice */
+        .dev-notice {
+            background: rgba(255, 193, 7, 0.1);
+            border: 1px solid rgba(255, 193, 7, 0.3);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin: 2rem auto;
+            max-width: 900px;
+            text-align: center;
+        }
+        
+        .dev-notice h4 {
+            color: #ffc107;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        
+        .dev-notice h4 i {
+            font-size: 1.2rem;
+        }
+        
+        /* Quick Navigation */
+        .quick-nav {
+            padding: 2rem 3rem;
+            background: #0a0a0a;
+            border-bottom: 1px solid rgba(124, 205, 179, 0.1);
+            position: sticky;
+            top: 100px;
+            width: 100%;
+            z-index: 100;
+        }
+        
+        .quick-nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .quick-nav h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: #7CCDB3;
+        }
+        
+        .quick-nav ul {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            list-style: none;
+        }
+        
+        .quick-nav a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .quick-nav a:hover {
+            color: #7CCDB3;
+        }
+        
+        .quick-nav a i {
+            font-size: 0.8rem;
+        }
+        
+        /* Content Section */
+        .content-section {
+            padding: 4rem 3rem;
+            background: #000000;
+        }
+        
+        .content-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        .content-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            color: #7CCDB3;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .content-section h2 i {
+            font-size: 2rem;
+            opacity: 0.7;
+        }
+        
+        .content-section h3 {
+            font-size: 1.8rem;
+            margin: 2rem 0 1rem;
+            color: #ffffff;
+        }
+        
+        .content-section h4 {
+            font-size: 1.3rem;
+            margin: 1.5rem 0 0.5rem;
+            color: rgba(255, 255, 255, 0.9);
+        }
+        
+        .content-section p {
+            margin-bottom: 1.5rem;
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.8;
+        }
+        
+        .content-section ul,
+        .content-section ol {
+            margin: 1rem 0 2rem 2rem;
+            color: rgba(255, 255, 255, 0.8);
+        }
+        
+        .content-section li {
+            margin-bottom: 0.8rem;
+            line-height: 1.8;
+        }
+        
+        /* Warning Box */
+        .warning-box {
+            background: rgba(255, 59, 48, 0.1);
+            border: 1px solid rgba(255, 59, 48, 0.3);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .warning-box h4 {
+            color: #ff3b30;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .warning-box h4 i {
+            font-size: 1.2rem;
+        }
+        
+        /* Info Box */
+        .info-box {
+            background: rgba(124, 205, 179, 0.1);
+            border: 1px solid rgba(124, 205, 179, 0.3);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .info-box h4 {
+            color: #7CCDB3;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .info-box h4 i {
+            font-size: 1.2rem;
+        }
+        
+        /* Definition List */
+        .definition-list {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .definition-list dt {
+            color: #7CCDB3;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .definition-list dd {
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 1.5rem;
+            margin-left: 0;
+        }
+        
+        .definition-list dd:last-child {
+            margin-bottom: 0;
+        }
+        
+        /* Agreement Section */
+        .agreement-section {
+            background: linear-gradient(135deg, rgba(124, 205, 179, 0.1) 0%, rgba(124, 205, 179, 0.05) 100%);
+            border-radius: 20px;
+            padding: 2rem;
+            margin: 3rem 0;
+            text-align: center;
+        }
+        
+        .agreement-section h3 {
+            color: #7CCDB3;
+            margin-bottom: 1rem;
+        }
+        
+        .agreement-section p {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.9);
+        }
+        
+        /* Contact Section */
+        .contact-section {
+            background: linear-gradient(135deg, rgba(124, 205, 179, 0.1) 0%, rgba(124, 205, 179, 0.05) 100%);
+            border-radius: 20px;
+            padding: 2rem;
+            margin: 3rem 0;
+            text-align: center;
+        }
+        
+        .contact-section h3 {
+            color: #7CCDB3;
+            margin-bottom: 1rem;
+        }
+        
+        .contact-info {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 1.5rem;
+        }
+        
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .contact-item i {
+            color: #7CCDB3;
+            font-size: 1.2rem;
+            margin-top: -3px;
+        }
+        
+        .contact-item div {
+            flex: 1;
+        }
+        
+        .contact-item h4 {
+            color: #ffffff;
+            margin-bottom: 0.3rem;
+        }
+        
+        .contact-item p {
+            color: rgba(255, 255, 255, 0.7);
+            margin: 0;
+            font-size: 0.9rem;
+        }
+        
+        .contact-item a {
+            color: #7CCDB3;
+            text-decoration: none;
+        }
+        
+        .contact-item a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Footer */
+        #footer {
+            background: #000000;
+            color: #ffffff;
+            padding: 3rem 3rem 1rem;
+            border-top: 1px solid rgba(124, 205, 179, 0.1);
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 3rem;
+            max-width: 1200px;
+            margin: 0 auto 2rem;
+        }
+        
+        .footer-column h3 {
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            color: #7CCDB3;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+        
+        .footer-column ul {
+            list-style: none;
+        }
+        
+        .footer-column ul li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .footer-column ul li a {
+            color: rgba(255, 255, 255, 0.6);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-column ul li a:hover {
+            color: #7CCDB3;
+        }
+        
+        .footer-logo {
+            height: 60px;
+            margin-bottom: 1rem;
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .social-icons a {
+            width: 40px;
+            height: 40px;
+            background: rgba(124, 205, 179, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #7CCDB3;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 1.2rem;
+        }
+        
+        .social-icons a:hover {
+            background: #7CCDB3;
+            color: #000000;
+            transform: translateY(-2px);
+        }
+        
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+            padding: 1.5rem 0;
+            margin-top: 2rem;
+            color: rgba(255, 255, 255, 0.5);
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 968px) {
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+            
+            .contact-info {
+                grid-template-columns: 1fr;
+            }
+            
+            .quick-nav {
+                position: fixed;
+                top: 100px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            #header {
+                flex-direction: column;
+                padding: 1rem;
+            }
+            
+            #header nav ul {
+                margin-top: 1rem;
+                gap: 1rem;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            #header nav a.beta-btn {
+                padding: 0.5rem 1rem;
+                font-size: 0.8rem;
+                margin: 0.2rem;
+            }
+            
+            .hero-content h1 {
+                font-size: 2rem;
+            }
+            
+            .content-section h2 {
+                font-size: 1.8rem;
+            }
+            
+            .content-section {
+                padding: 2rem 1rem;
+            }
+            
+            /* Hide Quick Navigation on mobile devices */
+            .quick-nav {
+                display: none;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .mobile-nav-container {
+                padding: 0 15px;
+            }
+
+            .mobile-logo img {
+                height: auto;
+                width: 100%;
+                max-width: 200px;
+                max-height: none;
+                object-fit: contain;
+            }
+
+            .hamburger {
+                width: 22px;
+                height: 18px;
+            }
+
+            .mobile-nav ul {
+                padding: 30px 0;
+                gap: 25px;
+            }
+
+            .mobile-nav-link {
+                font-size: 1.1em;
+                min-width: 180px;
+                padding: 12px 25px;
+            }
+
+            .hero-content h1 {
+                font-size: 2em !important;
+            }
+
+            .hero-content p {
+                font-size: 1em !important;
+            }
+
+            /* Quick Navigation remains hidden on very small screens too */
+            .quick-nav {
+                display: none;
+            }
+
+            #header nav a.beta-btn {
+                padding: 0.4rem 0.8rem;
+                font-size: 0.75rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Mobile Navigation Header -->
+    <header id="mobile-header">
+        <div class="mobile-nav-container">
+            <div class="mobile-logo">
+                <img src="../images/BioAnalytiX_Banner_V3 (1) (1).PNG" alt="BioAnalytiX Banner" />
+            </div>
+            <button id="mobile-menu-toggle" class="hamburger" aria-label="Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Mobile Navigation Menu -->
+    <nav id="mobile-nav" class="mobile-nav">
+        <ul>
+            <li><a href="/" class="mobile-nav-link">Home</a></li>
+            <li><a href="/About_us/" class="mobile-nav-link">About</a></li>
+            <li><a href="/our_product/" class="mobile-nav-link">Our Product</a></li>
+            <li><a href="/#three" class="mobile-nav-link">Contact</a></li>
+            <li><a href="/beta-tester-form/" class="beta-btn-filled mobile-nav-link">Join Alpha</a></li>
+        </ul>
+    </nav>
+
+    <!-- Header -->
+   <header id="header">
+        <a href="/">
+            <img src="../images/Complete_Logo_2.svg" alt="BIOANALYTIX Logo" />
+        </a>
+        <nav>            
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/About_us/">About</a></li>
+                <li><a href="/our_product/">Our Product</a></li>
+                <li><a href="/#three">Contact us</a></li>
+                <li><a href="/beta-tester-form/" class="beta-btn">Join Alpha</a></li>
+            </ul>
+        </nav>
+    </header><!-- Wrapper -->
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="hero-content">
+            <h1>Terms and Conditions</h1>
+            <p>Please read these terms carefully before participating in our beta program or using our development platform.</p>
+            <span class="last-updated">Last Updated: June 11, 2025</span>
+        </div>
+        
+        <div class="dev-notice">
+            <h4><i class="fas fa-hard-hat"></i> Development Phase Notice</h4>
+            <p>BioAnalytiX is currently under development and not yet certified as a medical device. These terms apply to beta testing and development activities only. The platform is NOT approved for clinical use.</p>
+        </div>
+    </section>
+
+    <!-- Content Sections -->
+    <section class="content-section">
+        <div class="content-container">
+            <!-- Acceptance -->
+            <section id="acceptance">
+                <h2><i class="fas fa-handshake"></i> Acceptance of Terms</h2>
+                <p>By accessing the BioAnalytiX platform or participating in our beta program ("Service"), you acknowledge that:</p>
+                <ul>
+                    <li>You have read and understood these Terms and Conditions ("Terms")</li>
+                    <li>You understand the platform is under development and not certified for clinical use</li>
+                    <li>You agree to be bound by these Terms</li>
+                    <li>You are participating voluntarily in testing and development activities</li>
+                </ul>
+                
+                <p>If you disagree with any part of these terms, you must not access or use the Service.</p>
+                
+                <div class="info-box">
+                    <h4><i class="fas fa-info-circle"></i> Who Can Use the Service</h4>
+                    <p>Currently, access is limited to:</p>
+                    <ul>
+                        <li>Approved beta testers</li>
+                        <li>Development team members</li>
+                        <li>Academic and research partners</li>
+                        <li>Healthcare professionals evaluating the platform (non-clinical use only)</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Development Status -->
+            <section id="development-status">
+                <h2><i class="fas fa-exclamation-triangle"></i> Development Status & Limitations</h2>
+                
+                <div class="warning-box">
+                    <h4><i class="fas fa-exclamation-triangle"></i> Critical Warning</h4>
+                    <p><strong>BIOANALYTIX IS NOT A CERTIFIED MEDICAL DEVICE</strong></p>
+                    <ul>
+                        <li>The platform is for research and development purposes only</li>
+                        <li>NOT approved by FDA, CE, or any regulatory body</li>
+                        <li>NOT intended for clinical decision-making</li>
+                        <li>NOT suitable for patient diagnosis or treatment</li>
+                        <li>Results are experimental and should not be relied upon</li>
+                    </ul>
+                </div>
+                
+                <h3>Current Platform Status</h3>
+                <ul>
+                    <li><strong>Development Phase:</strong> Pre-certification beta testing</li>
+                    <li><strong>Regulatory Status:</strong> No medical device certifications</li>
+                    <li><strong>Intended Use:</strong> Testing, feedback, and development only</li>
+                    <li><strong>Data Processing:</strong> Test data and anonymized samples only</li>
+                </ul>
+                
+                <h3>Future Plans</h3>
+                <p>We are working toward:</p>
+                <ul>
+                    <li>HIPAA compliance for US healthcare markets</li>
+                    <li>CE marking under Medical Device Regulation (MDR)</li>
+                    <li>FDA clearance consideration</li>
+                    <li>ISO certifications for quality management</li>
+                </ul>
+            </section>
+
+            <!-- Beta Program Terms -->
+            <section id="beta">
+                <h2><i class="fas fa-flask"></i> Beta Program Terms</h2>
+                
+                <h3>1. Nature of Beta Service</h3>
+                <p>By participating in our beta program, you understand and accept that:</p>
+                <ul>
+                    <li>The Service is experimental and may contain bugs or errors</li>
+                    <li>Features may change, break, or be removed without notice</li>
+                    <li>The Service may experience downtime or data loss</li>
+                    <li>Performance may not reflect the final product</li>
+                    <li>All results are for testing purposes only</li>
+                </ul>
+                
+                <h3>2. Beta Tester Responsibilities</h3>
+                <p>As a beta tester, you agree to:</p>
+                <ul>
+                    <li>Use only anonymized or synthetic test data</li>
+                    <li>NOT upload real patient data or identifiable health information</li>
+                    <li>Provide constructive feedback through designated channels</li>
+                    <li>Report bugs, errors, and security concerns promptly</li>
+                    <li>Maintain confidentiality about unreleased features</li>
+                    <li>Participate in surveys and feedback sessions as requested</li>
+                </ul>
+                
+                <h3>3. No Commercial Use</h3>
+                <div class="info-box">
+                    <h4><i class="fas fa-ban"></i> Prohibited Uses</h4>
+                    <p>Beta testers must NOT:</p>
+                    <ul>
+                        <li>Use the Service for actual patient diagnosis</li>
+                        <li>Make clinical decisions based on platform output</li>
+                        <li>Represent the Service as a certified medical device</li>
+                        <li>Charge others for access to the Service</li>
+                        <li>Use results for medical reports or records</li>
+                    </ul>
+                </div>
+                
+                <h3>4. Data Usage in Beta</h3>
+                <p>During beta testing:</p>
+                <ul>
+                    <li>We may collect usage data and feedback for improvement</li>
+                    <li>Test results may be analyzed to enhance algorithms</li>
+                    <li>All data will be handled according to our Privacy Policy</li>
+                    <li>You may request deletion of your test data at any time</li>
+                </ul>
+            </section>
+
+            <!-- Disclaimers -->
+            <section id="disclaimer">
+                <h2><i class="fas fa-shield-alt"></i> Disclaimers & Warnings</h2>
+                
+                <h3>Medical Disclaimer</h3>
+                <div class="warning-box">
+                    <h4><i class="fas fa-user-md"></i> Not Medical Advice</h4>
+                    <p>The Service does not provide medical advice. All content, including AI-generated analysis, is for informational and testing purposes only. Always seek the advice of qualified healthcare providers for medical decisions.</p>
+                </div>
+                
+                <h3>No Warranties</h3>
+                <p>THE SERVICE IS PROVIDED "AS IS" AND "AS AVAILABLE" WITHOUT ANY WARRANTIES, INCLUDING:</p>
+                <ul>
+                    <li>Accuracy, reliability, or completeness of results</li>
+                    <li>Fitness for any particular purpose</li>
+                    <li>Merchantability or non-infringement</li>
+                    <li>Uninterrupted or error-free operation</li>
+                    <li>Security or data protection (beyond best efforts)</li>
+                </ul>
+                
+                <h3>Technology Limitations</h3>
+                <p>You acknowledge that:</p>
+                <ul>
+                    <li>AI technology has inherent limitations and may produce errors</li>
+                    <li>Results may vary significantly from final product performance</li>
+                    <li>The platform requires stable internet connectivity</li>
+                    <li>Compatibility with all systems is not guaranteed</li>
+                </ul>
+            </section>
+
+            <!-- Acceptable Use -->
+            <section id="usage">
+                <h2><i class="fas fa-check-circle"></i> Acceptable Use Policy</h2>
+                
+                <h3>Permitted Uses</h3>
+                <p>You may use the Service only for:</p>
+                <ul>
+                    <li>Testing and evaluating platform functionality</li>
+                    <li>Providing feedback on user experience</li>
+                    <li>Academic research (with proper approval)</li>
+                    <li>Learning about AI in medical imaging</li>
+                    <li>Demonstration purposes (clearly marked as development version)</li>
+                </ul>
+                
+                <h3>Prohibited Activities</h3>
+                <p>You must NOT:</p>
+                <ul>
+                    <li>Upload real patient data or PHI</li>
+                    <li>Use the Service for clinical diagnosis</li>
+                    <li>Attempt to reverse engineer our algorithms</li>
+                    <li>Share login credentials or create unauthorized accounts</li>
+                    <li>Introduce malicious code or attempt system breaches</li>
+                    <li>Misrepresent the Service's capabilities or regulatory status</li>
+                    <li>Violate any applicable laws or regulations</li>
+                    <li>Harass or harm other beta testers</li>
+                </ul>
+                
+                <h3>Account Security</h3>
+                <p>You are responsible for:</p>
+                <ul>
+                    <li>Maintaining the confidentiality of your credentials</li>
+                    <li>All activities under your account</li>
+                    <li>Notifying us immediately of unauthorized access</li>
+                    <li>Using strong, unique passwords</li>
+                </ul>
+            </section>
+
+            <!-- Intellectual Property -->
+            <section id="intellectual-property">
+                <h2><i class="fas fa-copyright"></i> Intellectual Property Rights</h2>
+                
+                <h3>Our Intellectual Property</h3>
+                <p>All rights in the Service are owned by BioAnalytiX, including:</p>
+                <ul>
+                    <li>AI algorithms and models (proprietary technology)</li>
+                    <li>Software code and architecture</li>
+                    <li>User interface and experience design</li>
+                    <li>Documentation and training materials</li>
+                    <li>Trademarks, logos, and branding</li>
+                </ul>
+                
+                <h3>Beta Tester Contributions</h3>
+                <p>By providing feedback, suggestions, or ideas, you:</p>
+                <ul>
+                    <li>Grant us a perpetual, worldwide, royalty-free license to use your contributions</li>
+                    <li>Waive any claims to compensation or attribution</li>
+                    <li>Represent that your contributions are original</li>
+                </ul>
+                
+                <h3>Test Data</h3>
+                <p>For any test data you upload:</p>
+                <ul>
+                    <li>You retain ownership of your original data</li>
+                    <li>You grant us license to process it for testing purposes</li>
+                    <li>You confirm it contains no real patient information</li>
+                    <li>We may use anonymized insights to improve our algorithms</li>
+                </ul>
+            </section>
+
+            <!-- Liability -->
+            <section id="liability">
+                <h2><i class="fas fa-exclamation-circle"></i> Limitation of Liability</h2>
+                
+                <div class="warning-box">
+                    <h4><i class="fas fa-exclamation-triangle"></i> No Liability for Medical Outcomes</h4>
+                    <p>UNDER NO CIRCUMSTANCES SHALL BIOANALYTIX BE LIABLE FOR ANY MEDICAL OUTCOMES, MISDIAGNOSIS, OR HEALTH-RELATED DAMAGES ARISING FROM USE OF THIS DEVELOPMENT PLATFORM.</p>
+                </div>
+                
+                <h3>Limited Liability</h3>
+                <p>To the maximum extent permitted by law, BioAnalytiX shall not be liable for:</p>
+                <ul>
+                    <li>Any indirect, incidental, special, or consequential damages</li>
+                    <li>Loss of profits, data, or business opportunities</li>
+                    <li>Personal injury or property damage</li>
+                    <li>Errors, mistakes, or inaccuracies in the Service</li>
+                    <li>Unauthorized access or data breaches despite security measures</li>
+                    <li>Service interruptions or system failures</li>
+                </ul>
+                
+                <h3>Indemnification</h3>
+                <p>You agree to indemnify and hold harmless BioAnalytiX from claims arising from:</p>
+                <ul>
+                    <li>Your use or misuse of the Service</li>
+                    <li>Violation of these Terms</li>
+                    <li>Use of the Service for clinical purposes</li>
+                    <li>Upload of real patient data</li>
+                    <li>Any breach of applicable laws or regulations</li>
+                </ul>
+                
+                <h3>Total Liability Cap</h3>
+                <p>Our total liability shall not exceed the amount you have paid us (currently $0 for beta testers) in the twelve months preceding any claim.</p>
+            </section>
+
+            <!-- Privacy and Data -->
+            <section id="privacy">
+                <h2><i class="fas fa-lock"></i> Privacy and Data Protection</h2>
+                
+                <h3>Data Handling</h3>
+                <p>We are committed to protecting your data:</p>
+                <ul>
+                    <li>See our Privacy Policy for detailed information</li>
+                    <li>We implement security best practices even during development</li>
+                    <li>Beta tester data is kept separate from any future clinical data</li>
+                    <li>We do not sell or share personal information</li>
+                </ul>
+                
+                <h3>Compliance Roadmap</h3>
+                <p>We are working toward:</p>
+                <ul>
+                    <li>GDPR compliance for EU users</li>
+                    <li>HIPAA readiness for US healthcare</li>
+                    <li>International data protection standards</li>
+                </ul>
+                
+                <div class="info-box">
+                    <h4><i class="fas fa-info-circle"></i> Current Limitations</h4>
+                    <p>As we are not yet certified, we cannot guarantee full regulatory compliance. Do not upload sensitive personal or health information.</p>
+                </div>
+            </section>
+
+            <!-- Termination -->
+            <section id="termination">
+                <h2><i class="fas fa-times-circle"></i> Termination</h2>
+                
+                <h3>Your Right to Terminate</h3>
+                <p>You may stop using the Service at any time by:</p>
+                <ul>
+                    <li>Contacting us to close your beta account</li>
+                    <li>Uninstalling any test applications</li>
+                    <li>Requesting deletion of your data</li>
+                </ul>
+                
+                <h3>Our Right to Terminate</h3>
+                <p>We may terminate your access if you:</p>
+                <ul>
+                    <li>Violate these Terms</li>
+                    <li>Upload real patient data</li>
+                    <li>Attempt unauthorized access</li>
+                    <li>Misuse the platform</li>
+                    <li>Remain inactive for extended periods</li>
+                </ul>
+                
+                <h3>Effect of Termination</h3>
+                <p>Upon termination:</p>
+                <ul>
+                    <li>Your access will be revoked immediately</li>
+                    <li>Test data may be deleted or anonymized</li>
+                    <li>Confidentiality obligations survive termination</li>
+                    <li>You must cease representing any association with BioAnalytiX</li>
+                </ul>
+            </section>
+
+            <!-- General Provisions -->
+            <section id="general">
+                <h2><i class="fas fa-file-alt"></i> General Provisions</h2>
+                
+                <h3>Governing Law</h3>
+                <p>These Terms are governed by the laws of Greece and the European Union, without regard to conflict of law principles.</p>
+                
+                <h3>Changes to Terms</h3>
+                <p>We may update these Terms as we develop the platform. We will notify beta testers of material changes via email.</p>
+                
+                <h3>Severability</h3>
+                <p>If any provision is found unenforceable, the remaining provisions continue in effect.</p>
+                
+                <h3>No Waiver</h3>
+                <p>Our failure to enforce any right or provision is not a waiver of that right.</p>
+                
+                <h3>Entire Agreement</h3>
+                <p>These Terms constitute the entire agreement between you and BioAnalytiX regarding the Service.</p>
+            </section>
+
+            <!-- Agreement Section -->
+            <div class="agreement-section">
+                <h3>Your Agreement</h3>
+                <p>By using the BioAnalytiX development platform or participating in our beta program, you acknowledge that you have read, understood, and agree to these Terms and Conditions.</p>
+                <p><strong>Remember: This platform is not approved for clinical use.</strong></p>
+            </div>
+
+            <!-- Contact Information -->
+            <section id="contact" class="contact-section">
+                <h3>Contact Information</h3>
+                <p>For questions about these Terms or the alpha program:</p>
+                
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <div>
+                            <h4>General Inquiries</h4>
+                            <p><a href="mailto:info@bioanalytix.com">info@bioanalytix.info</a></p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="info-box" style="margin-top: 2rem;">
+                    <h4><i class="fas fa-info-circle"></i> Response Times</h4>
+                    <p>As a development-stage company, we aim to respond within 72 hours but cannot guarantee immediate support.</p>
+                </div>
+            </section>
+        </div>
+    </section>
+
+    <!-- Footer -->
+        <footer id="footer">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <img src="../images/Complete_Logo_2.svg" alt="BioAnalytiX Logo" class="footer-logo">
+                    <p style="color: rgba(255, 255, 255, 0.6); font-size: 0.9rem;">Revolutionizing medical diagnostics with AI</p>
+                </div>
+
+                <div class="footer-column">
+                    <h3>Our Platform</h3>
+                    <ul>
+                        <li><a href="/our_product/">Brain (Orasis AI)</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h3>Company</h3>
+                    <ul>
+                        <li><a href="/About_us/">About</a></li>
+                        <li><a href="/privacy-policy/">Privacy Policy</a></li>
+                        <li><a href="/terms-conditions/">Terms & Conditions</a></li>
+                        <li><a href="/#three">Contact Us</a></li>
+                        <li><a href="/careers/">Careers</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h3>Stay Updated</h3>
+                    <div class="social-icons">
+                        <a href="https://www.linkedin.com/company/bioanalytixinc/"><i class="fab fa-linkedin"></i></a>
+                        <a href="https://www.instagram.com/bioanalytix/"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2024 BioAnalytiX. All rights reserved.</p>
+            </div>
+        </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    const headerOffset = 120;
+                    const elementPosition = target.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Header scroll effect
+        let lastScroll = 0;
+        const header = document.getElementById('header');
+        const mobileHeader = document.getElementById('mobile-header');
+
+        window.addEventListener('scroll', () => {
+            const currentScroll = window.pageYOffset;
+            
+            // Header background change
+            if (currentScroll > 50) {
+                if (header) header.style.backgroundColor = 'rgba(0, 0, 0, 0.98)';
+            } else {
+                if (header) header.style.backgroundColor = 'rgba(0, 0, 0, 0.95)';
+            }
+            
+            // Header hide/show on scroll
+            if (currentScroll > lastScroll && currentScroll > 100) {
+                // Scrolling down
+                if (header) header.style.transform = 'translateY(-100%)';
+                if (mobileHeader) mobileHeader.classList.add('header-hidden');
+            } else {
+                // Scrolling up
+                if (header) header.style.transform = 'translateY(0)';
+                if (mobileHeader) mobileHeader.classList.remove('header-hidden');
+            }
+            
+            lastScroll = currentScroll;
+        });
+
+        // Mobile Navigation Functionality
+        (function() {
+            'use strict';
+            
+            function initializeMobileNavigation() {
+                const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+                const mobileNav = document.getElementById('mobile-nav');
+                const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+                const body = document.body;
+
+                if (!mobileMenuToggle || !mobileNav) {
+                    console.warn('Mobile navigation elements not found');
+                    return;
+                }
+
+                // Toggle mobile menu
+                mobileMenuToggle.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
+                    const isActive = mobileNav.classList.contains('active');
+                    
+                    if (isActive) {
+                        closeMobileMenu();
+                    } else {
+                        openMobileMenu();
+                    }
+                });
+
+                // Close menu when clicking on navigation links
+                mobileNavLinks.forEach(function(link) {
+                    link.addEventListener('click', function() {
+                        setTimeout(function() {
+                            closeMobileMenu();
+                        }, 300);
+                    });
+                });
+
+                // Close menu when clicking outside
+                document.addEventListener('click', function(event) {
+                    const isClickInsideNav = mobileNav.contains(event.target);
+                    const isClickOnToggle = mobileMenuToggle.contains(event.target);
+                    
+                    if (!isClickInsideNav && !isClickOnToggle && mobileNav.classList.contains('active')) {
+                        closeMobileMenu();
+                    }
+                });
+
+                // Close menu on escape key
+                document.addEventListener('keydown', function(event) {
+                    if (event.key === 'Escape' && mobileNav.classList.contains('active')) {
+                        closeMobileMenu();
+                    }
+                });
+
+                // Handle window resize
+                window.addEventListener('resize', function() {
+                    if (window.innerWidth > 768 && mobileNav.classList.contains('active')) {
+                        closeMobileMenu();
+                    }
+                });
+
+                function openMobileMenu() {
+                    mobileNav.classList.add('active');
+                    mobileMenuToggle.classList.add('active');
+                    body.classList.add('mobile-menu-open');
+                    
+                    mobileMenuToggle.setAttribute('aria-expanded', 'true');
+                    mobileNav.setAttribute('aria-hidden', 'false');
+                }
+
+                function closeMobileMenu() {
+                    mobileNav.classList.remove('active');
+                    mobileMenuToggle.classList.remove('active');
+                    body.classList.remove('mobile-menu-open');
+                    
+                    mobileMenuToggle.setAttribute('aria-expanded', 'false');
+                    mobileNav.setAttribute('aria-hidden', 'true');
+                }
+            }
+
+            // Initialize when DOM is ready
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', initializeMobileNavigation);
+            } else {
+                // DOM is already ready
+                initializeMobileNavigation();
+            }
+        })();
+
+        // Active section highlighting in quick nav
+        const sections = document.querySelectorAll('section[id]');
+        const navLinks = document.querySelectorAll('.quick-nav a');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (window.pageYOffset >= sectionTop - 150) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.style.color = '';
+                if (link.getAttribute('href').slice(1) === current) {
+                    link.style.color = '#7CCDB3';
+                }
+            });
+        });
+    </script>
+    
+    <!-- JavaScript -->
+    <script src="../assets/js/terms-conditions.js"></script>
+</body>
+</html>
