@@ -779,6 +779,21 @@ body {
     transform: scale(1.3);
 }
 
+/* Special styling for AWS award - make image bigger */
+.aws-award .award-icon {
+    width: 200px;
+    height: 200px;
+}
+
+.aws-award .award-icon img {
+    transform: scale(1.2);
+}
+
+.aws-award:hover .award-icon img {
+    filter: brightness(1);
+    transform: scale(1.3);
+}
+
 /* Awards Carousel Styles */
 .awards-carousel {
     width: 100%;
