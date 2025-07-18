@@ -49,7 +49,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const awardsCarousel = new Swiper('.awards-carousel', {
         // Main parameters
         loop: true,
-        loopAdditionalSlides: 5, // extra clones for seamless looping
         centeredSlides: true,
         slidesPerView: 1,
         spaceBetween: 30,
