@@ -50,7 +50,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const awardsCarousel = new Swiper('.awards-carousel', {
         // Main parameters
         loop: true,
-        loopAdditionalSlides: 5, // extra clones for seamless looping
         centeredSlides: true,
         slidesPerView: 1,
         spaceBetween: 30,
@@ -95,6 +94,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // Ensure seamless looping when autoplay reaches the end
+    awardsCarousel.on('reachEnd', () => {
+        awardsCarousel.slideToLoop(0, 0);
+    });
     
     // Additional wheel event handling for better MacBook trackpad support
     const carouselElement = document.querySelector('.awards-carousel');
