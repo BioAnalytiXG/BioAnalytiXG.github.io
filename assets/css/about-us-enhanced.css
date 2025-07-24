@@ -1,4 +1,4 @@
-/* Reset and base styles */
+B3/* Reset and base styles */
 * {
     margin: 0;
     padding: 0;
@@ -851,9 +851,6 @@ body {
 /* Smooth continuous carousel movement */
 .awards-carousel .swiper-wrapper {
     transition-timing-function: linear !important;
-    align-items: stretch;
-    display: flex;
-    will-change: transform; /* Optimize for smooth animation */
 }
 
 .awards-carousel .swiper-slide {

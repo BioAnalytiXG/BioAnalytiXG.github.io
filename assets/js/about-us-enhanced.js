@@ -43,127 +43,24 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 });
 
 // Initialize Awards Carousel
-document.addEventListener('DOMContentLoaded', () => {
-    let scrollTimeout;
-    let isUserScrolling = false;
-    
+document.addEventListener("DOMContentLoaded", function() {
     const awardsCarousel = new Swiper('.awards-carousel', {
-        // Main parameters
         loop: true,
-        centeredSlides: true,
-        slidesPerView: 1,
+        // This is the key fix:
+        // Set this to the total number of slides you have.
+        // I see 5 award cards in your HTML.
+        loopedSlides: 5,
+
+        slidesPerView: 'auto',
         spaceBetween: 30,
-        speed: 6000, // Slower for continuous movement
-        allowTouchMove: false, // Disable touch/drag gestures
-        simulateTouch: false, // Disable mouse dragging
-        touchRatio: 0, // Disable touch sensitivity
-        
-        // Disable mousewheel control built into Swiper
-        mousewheel: {
-            enabled: false,
-        },
-        
-        // Continuous autoplay without pause
+        speed: 8000, // Adjust this value for faster or slower scrolling
+        allowTouchMove: false,
         autoplay: {
-            delay: 0, // No delay between transitions
+            delay: 0,
             disableOnInteraction: false,
-            pauseOnMouseEnter: false,
-            reverseDirection: false,
+            pauseOnMouseEnter: true, // This is a cleaner way to pause on hover
         },
-        
-        // Pagination
-        pagination: {
-            el: '.swiper-pagination',
-            clickable: true,
-        },
-
-        // Responsive breakpoints
-        breakpoints: {
-            // when window width is >= 768px
-            768: {
-                slidesPerView: 2,
-                spaceBetween: 30,
-                centeredSlides: false,
-            },
-            // when window width is >= 1024px
-            1024: {
-                slidesPerView: 3,
-                spaceBetween: 30,
-                centeredSlides: false,
-            }
-        }
     });
-
-    // Ensure seamless looping when autoplay reaches the end
-    awardsCarousel.on('reachEnd', () => {
-        awardsCarousel.slideToLoop(0, 0);
-    });
-    
-    // Additional wheel event handling for better MacBook trackpad support
-    const carouselElement = document.querySelector('.awards-carousel');
-    if (carouselElement) {
-        carouselElement.addEventListener('wheel', function(e) {
-            // Check if it's horizontal scrolling (common on MacBook trackpads)
-            if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
-                e.preventDefault();
-                
-                isUserScrolling = true;
-                awardsCarousel.autoplay.stop();
-                carouselElement.classList.add('swiper-manual-mode');
-                clearTimeout(scrollTimeout);
-                
-                // Navigate based on scroll direction
-                if (e.deltaX > 0) {
-                    awardsCarousel.slideNext();
-                } else {
-                    awardsCarousel.slidePrev();
-                }
-                
-                // Resume auto-movement after delay
-                scrollTimeout = setTimeout(() => {
-                    isUserScrolling = false;
-                    carouselElement.classList.remove('swiper-manual-mode');
-                    awardsCarousel.autoplay.start();
-                }, 2000);
-            }
-        }, { passive: false });
-        
-        // Also handle vertical wheel events for better compatibility
-        carouselElement.addEventListener('wheel', function(e) {
-            // If primarily vertical scrolling but user is over carousel, treat as navigation
-            if (Math.abs(e.deltaY) > Math.abs(e.deltaX) && Math.abs(e.deltaY) > 10) {
-                // Only capture if the scroll is significant and over the carousel
-                const rect = carouselElement.getBoundingClientRect();
-                const mouseY = e.clientY;
-                const mouseX = e.clientX;
-                
-                if (mouseX >= rect.left && mouseX <= rect.right && 
-                    mouseY >= rect.top && mouseY <= rect.bottom) {
-                    
-                    e.preventDefault();
-                    
-                    isUserScrolling = true;
-                    awardsCarousel.autoplay.stop();
-                    carouselElement.classList.add('swiper-manual-mode');
-                    clearTimeout(scrollTimeout);
-                    
-                    // Navigate based on scroll direction
-                    if (e.deltaY > 0) {
-                        awardsCarousel.slideNext();
-                    } else {
-                        awardsCarousel.slidePrev();
-                    }
-                    
-                    // Resume auto-movement after delay
-                    scrollTimeout = setTimeout(() => {
-                        isUserScrolling = false;
-                        carouselElement.classList.remove('swiper-manual-mode');
-                        awardsCarousel.autoplay.start();
-                    }, 2000);
-                }
-            }
-        }, { passive: false });
-    }
 });
 
 // Header scroll effect
