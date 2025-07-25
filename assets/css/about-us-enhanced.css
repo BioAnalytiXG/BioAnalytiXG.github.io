@@ -1,4 +1,4 @@
-B3/* Reset and base styles */
+/* Reset and base styles */
 * {
     margin: 0;
     padding: 0;
@@ -779,21 +779,6 @@ body {
     transform: scale(1.3);
 }
 
-/* Special styling for AWS award - make image bigger */
-.aws-award .award-icon {
-    width: 200px;
-    height: 200px;
-}
-
-.aws-award .award-icon img {
-    transform: scale(1.2);
-}
-
-.aws-award:hover .award-icon img {
-    filter: brightness(1);
-    transform: scale(1.3);
-}
-
 /* Awards Carousel Styles */
 .awards-carousel {
     width: 100%;
@@ -851,6 +836,9 @@ body {
 /* Smooth continuous carousel movement */
 .awards-carousel .swiper-wrapper {
     transition-timing-function: linear !important;
+    align-items: stretch;
+    display: flex;
+    will-change: transform; /* Optimize for smooth animation */
 }
 
 .awards-carousel .swiper-slide {
@@ -1474,12 +1462,6 @@ body.mobile-menu-open {
     .about-grid,
     .mvv-grid {
         grid-template-columns: 1fr;
-    }
-    
-    .footer-content {
-        grid-template-columns: 1fr;
-        gap: 2rem;
-        text-align: center;
     }
 }
 @media (max-width: 400px) {
