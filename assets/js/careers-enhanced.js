@@ -47,37 +47,60 @@ document.addEventListener('DOMContentLoaded', function() {
         observer.observe(el);
     });
     
-    // File upload handling
-    const fileInput = document.getElementById('resume');
-    const fileLabel = document.querySelector('.file-label span');
-    
-    if (fileInput) {
-        fileInput.addEventListener('change', function(e) {
-            const fileName = e.target.files[0]?.name;
-            if (fileName) {
-                fileLabel.textContent = fileName;
-            }
-        });
-    }
-    
     // Form submission
     const applicationForm = document.getElementById('applicationForm');
     if (applicationForm) {
         applicationForm.addEventListener('submit', function(e) {
             e.preventDefault();
             
-            // Simulate form submission
-            // In a real application, you would send this data to your server
+            const formData = new FormData(applicationForm);
+            const submitButton = applicationForm.querySelector('button[type="submit"]');
             
-            // Hide form and show success message
-            applicationForm.style.display = 'none';
-            document.getElementById('successMessage').style.display = 'block';
-            
-            // Reset form after 3 seconds
-            setTimeout(() => {
-                applicationForm.reset();
-                fileLabel.textContent = 'Choose file or drag here';
-            }, 3000);
+            // Disable submit button
+            if (submitButton) {
+                submitButton.disabled = true;
+                submitButton.textContent = 'Submitting...';
+            }
+
+            fetch('https://api.web3forms.com/submit', {
+                method: 'POST',
+                body: formData
+            })
+            .then(async (response) => {
+                let json = await response.json();
+                if (response.status == 200 || json.success) {
+                    // Hide form and show success message
+                    applicationForm.style.display = 'none';
+                    document.getElementById('successMessage').style.display = 'block';
+                } else {
+                    console.log('Error response:', json);
+                    alert(json.message || 'Something went wrong. Please try again.');
+                    // Re-enable submit button
+                    if (submitButton) {
+                        submitButton.disabled = false;
+                        submitButton.textContent = 'Submit to Talent Pool';
+                    }
+                }
+            })
+            .catch(error => {
+                console.log('Fetch error:', error);
+                alert('Something went wrong. Please try again.');
+                // Re-enable submit button
+                if (submitButton) {
+                    submitButton.disabled = false;
+                    submitButton.textContent = 'Submit to Talent Pool';
+                }
+            })
+            .finally(() => {
+                // Reset form after 3 seconds
+                setTimeout(() => {
+                    applicationForm.reset();
+                    if (submitButton) {
+                        submitButton.disabled = false;
+                        submitButton.textContent = 'Submit to Talent Pool';
+                    }
+                }, 3000);
+            });
         });
     }
 });
@@ -86,8 +109,12 @@ document.addEventListener('DOMContentLoaded', function() {
 function openApplicationModal(position) {
     const modal = document.getElementById('applicationModal');
     const positionTitle = document.getElementById('positionTitle');
+    const hiddenPosition = document.getElementById('hiddenPosition');
     
     positionTitle.textContent = position;
+    if (hiddenPosition) {
+        hiddenPosition.value = position;
+    }
     modal.style.display = 'block';
     
     // Reset form when opening modal
@@ -95,7 +122,6 @@ function openApplicationModal(position) {
     form.style.display = 'block';
     form.reset();
     document.getElementById('successMessage').style.display = 'none';
-    document.querySelector('.file-label span').textContent = 'Choose file or drag here';
     
     // Prevent body scroll when modal is open
     document.body.style.overflow = 'hidden';

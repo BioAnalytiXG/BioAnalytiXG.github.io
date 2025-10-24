@@ -405,6 +405,7 @@
                 <input type="hidden" name="access_key" value="66241a5e-3e63-4d81-afce-8d396c94692b">
                 <input type="hidden" name="subject" value="New Talent Pool Application">
                 <input type="hidden" name="from_name" value="BioAnalytiX Careers">
+                <input type="hidden" name="position" id="hiddenPosition" value="">
 
                 <div class="form-row">
                     <div class="form-group">
@@ -439,14 +440,9 @@
                 </div>
                 
                 <div class="form-group full-width">
-                    <label for="resume">Resume/CV <span class="required">*</span></label>
-                    <div class="file-upload">
-                        <input type="file" id="resume" name="resume" accept=".pdf,.doc,.docx" required>
-                        <label for="resume" class="file-label">
-                            <i class="fas fa-cloud-upload-alt"></i>
-                            <span>Choose file or drag here</span>
-                        </label>
-                    </div>
+                    <label for="resume">Resume/CV Link <span class="required">*</span></label>
+                    <input type="url" id="resume" name="resume" required placeholder="https://drive.google.com/your-resume-link">
+                    <small style="color: rgba(255,255,255,0.6); display: block; margin-top: 5px;">Please upload your resume to Google Drive, Dropbox, or similar and paste the shareable link here</small>
                 </div>
                 
                 <div class="form-group full-width">
