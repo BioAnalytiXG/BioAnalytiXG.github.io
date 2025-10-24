@@ -401,7 +401,11 @@
             <span class="close-modal" onclick="closeApplicationModal()">&times;</span>
             <h2>Join Talent Pool for <span id="positionTitle" class="highlight"></span></h2>
             
-            <form id="applicationForm" class="application-form">
+            <form id="applicationForm" class="application-form" action="https://api.web3forms.com/submit" method="POST">
+                <input type="hidden" name="access_key" value="a35a4a4a-31fd-4840-a47b-c17991fab059">
+                <input type="hidden" name="subject" value="New Talent Pool Application">
+                <input type="hidden" name="from_name" value="BioAnalytiX Careers">
+
                 <div class="form-row">
                     <div class="form-group">
                         <label for="firstName">First Name <span class="required">*</span></label>
