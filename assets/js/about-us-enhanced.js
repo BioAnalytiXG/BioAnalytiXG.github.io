@@ -42,24 +42,106 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     });
 });
 
-// Initialize Awards Carousel
+// Initialize Awards Carousel with pure CSS animation for seamless infinite scroll
 document.addEventListener("DOMContentLoaded", function() {
-    const awardsCarousel = new Swiper('.awards-carousel', {
-        loop: true,
-        // This is the key fix:
-        // Set this to the total number of slides you have.
-        // I see 5 award cards in your HTML.
-        loopedSlides: 5,
-
-        slidesPerView: 'auto',
-        spaceBetween: 30,
-        speed: 8000, // Adjust this value for faster or slower scrolling
-        allowTouchMove: false,
-        autoplay: {
-            delay: 0,
-            disableOnInteraction: false,
-            pauseOnMouseEnter: true, // This is a cleaner way to pause on hover
-        },
+    // Add a small delay to ensure all images and content are loaded
+    setTimeout(() => {
+        initCarousel();
+    }, 300);
+    
+    function initCarousel() {
+        const carousel = document.querySelector('.awards-carousel');
+        const wrapper = carousel?.querySelector('.swiper-wrapper');
+        
+        if (!carousel || !wrapper) {
+            console.error('Carousel or wrapper not found');
+            return;
+        }
+        
+        // Remove any existing clones
+        const existingClones = wrapper.querySelectorAll('.swiper-slide.cloned');
+        existingClones.forEach(clone => clone.remove());
+        
+        // Get original slides - use more specific selector
+        const slides = Array.from(wrapper.children).filter(child => 
+            child.classList.contains('swiper-slide') && !child.classList.contains('cloned')
+        );
+        
+        console.log(`Found ${slides.length} slides`);
+        
+        if (slides.length === 0) {
+            console.error('No slides found!');
+            return;
+        }
+        
+        // Clone all slides to create seamless infinite effect
+        slides.forEach(slide => {
+            const clone = slide.cloneNode(true);
+            clone.classList.add('cloned');
+            wrapper.appendChild(clone);
+        });
+        
+        console.log(`After cloning: ${wrapper.children.length} total elements (${slides.length} originals + ${slides.length} clones)`);
+        
+        // Calculate dimensions based on viewport
+        let slideWidth, gap;
+        if (window.innerWidth <= 480) {
+            slideWidth = 280;
+            gap = 100;
+        } else if (window.innerWidth <= 768) {
+            slideWidth = 320;
+            gap = 120;
+        } else {
+            slideWidth = 380;
+            gap = 150;
+        }
+        
+        const totalWidth = slideWidth + gap;
+        const totalSlides = slides.length;
+        const animationDistance = totalWidth * totalSlides;
+        
+        // Increase duration to slow down animation (was 5s per slide, now 8s)
+        const duration = totalSlides * 8;
+        
+        // Remove old style if exists
+        const oldStyle = document.getElementById('carousel-animation');
+        if (oldStyle) oldStyle.remove();
+        
+        // Create keyframes dynamically
+        const styleSheet = document.createElement('style');
+        styleSheet.id = 'carousel-animation';
+        styleSheet.textContent = `
+            .swiper-wrapper .swiper-slide {
+                margin-right: ${gap}px;
+            }
+            @keyframes scroll-awards {
+                0% { transform: translateX(0); }
+                100% { transform: translateX(-${animationDistance}px); }
+            }
+        `;
+        document.head.appendChild(styleSheet);
+        
+        // Apply CSS animation with slower duration
+        wrapper.style.animation = `scroll-awards ${duration}s linear infinite`;
+        
+        // Pause on hover
+        carousel.addEventListener('mouseenter', () => {
+            wrapper.style.animationPlayState = 'paused';
+        });
+        
+        carousel.addEventListener('mouseleave', () => {
+            wrapper.style.animationPlayState = 'running';
+        });
+    }
+    
+    // Initialize on load
+    initCarousel();
+    
+    // Reinitialize on resize
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(initCarousel, 250);
     });
 });
 

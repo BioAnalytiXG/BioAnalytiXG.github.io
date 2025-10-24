@@ -573,8 +573,8 @@ body {
 }
 
 .it-team .team-grid {
-    grid-template-columns: repeat(3, 1fr);
-    max-width: 1200px;
+    grid-template-columns: repeat(2, 1fr);
+    max-width: 800px;
     margin: 0 auto;
     justify-items: center;
 }
