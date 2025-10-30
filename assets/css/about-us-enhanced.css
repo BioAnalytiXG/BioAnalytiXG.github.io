@@ -764,6 +764,21 @@ body {
     margin-top: 1rem;
 }
 
+/* Special styling for ACTA Lab award - white background */
+.acta-award .award-icon {
+    background-color: white;
+    padding: 20px;
+    border-radius: 12px;
+}
+
+.acta-award .award-icon img {
+    filter: none;
+}
+
+.acta-award:hover .award-icon {
+    background-color: white;
+}
+
 /* Special styling for InnoHealth 2024 award - make image bigger */
 .innohealth-award .award-icon {
     width: 200px;
