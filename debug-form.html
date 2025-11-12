@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
     <title>BioAnalytiX Form Debug Tool</title>
@@ -87,13 +87,23 @@
             margin-top: 10px;
         }
     </style>
+
+<!-- Google tag (gtag.js) -->
+<script async src=\"https://www.googletagmanager.com/gtag/js?id=G-J5QG3LXERQ\"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-J5QG3LXERQ');
+</script>
 </head>
 <body>
     <div class="container">
-        <h1>🔧 BioAnalytiX Form Debug Tool</h1>
+        <h1>ΏθΦπ BioAnalytiX Form Debug Tool</h1>
         
         <div class="test-section info">
-            <h3>📋 Quick Tests</h3>
+            <h3>ΏθΥΜ Quick Tests</h3>
             <button onclick="testServerConnection()">Test Server Connection</button>
             <button onclick="testPHPErrors()">Check PHP Errors</button>
             <button onclick="testFormSubmission()">Test Form Submission</button>
@@ -103,7 +113,7 @@
         <div id="results"></div>
 
         <div class="test-section">
-            <h3>🧪 Manual Form Test</h3>
+            <h3>Ώθπς Manual Form Test</h3>
             <p>Fill out this minimal form to test the submission process:</p>
             
             <form id="testForm" class="form-test">
@@ -182,12 +192,12 @@
                 const text = await response.text();
                 
                 if (response.status === 405) {
-                    addResult('✅ Server Connection', 'Server is responding correctly (Method not allowed for GET)', 'success');
+                    addResult('έεΖ Server Connection', 'Server is responding correctly (Method not allowed for GET)', 'success');
                 } else {
-                    addResult('⚠️ Server Response', `Status: ${response.status}\nContent: ${text}`, 'error');
+                    addResult('έγιΎ╕Π Server Response', `Status: ${response.status}\nContent: ${text}`, 'error');
                 }
             } catch (error) {
-                addResult('❌ Server Connection Failed', error.message, 'error');
+                addResult('έζΝ Server Connection Failed', error.message, 'error');
             }
         }
 
@@ -202,9 +212,9 @@
                 });
                 
                 const text = await response.text();
-                addResult('🔍 PHP Error Check', `Status: ${response.status}\nResponse: ${text}`, response.ok ? 'success' : 'error');
+                addResult('ΏθΦΞ PHP Error Check', `Status: ${response.status}\nResponse: ${text}`, response.ok ? 'success' : 'error');
             } catch (error) {
-                addResult('❌ PHP Test Failed', error.message, 'error');
+                addResult('έζΝ PHP Test Failed', error.message, 'error');
             }
         }
 
@@ -240,19 +250,19 @@
                 
                 if (contentType && contentType.includes('application/json')) {
                     result = await response.json();
-                    addResult('📝 Form Submission Test', 
+                    addResult('ΏθΥζ Form Submission Test', 
                         `Status: ${response.status}\nContent-Type: ${contentType}\nResponse: ${JSON.stringify(result, null, 2)}`, 
                         response.ok ? 'success' : 'error'
                     );
                 } else {
                     result = await response.text();
-                    addResult('📝 Form Submission Test (Non-JSON)', 
+                    addResult('ΏθΥζ Form Submission Test (Non-JSON)', 
                         `Status: ${response.status}\nContent-Type: ${contentType}\nResponse: ${result}`, 
                         'error'
                     );
                 }
             } catch (error) {
-                addResult('❌ Form Submission Failed', error.message + '\n' + error.stack, 'error');
+                addResult('έζΝ Form Submission Failed', error.message + '\n' + error.stack, 'error');
             }
         }
 
@@ -263,7 +273,7 @@
             const formData = new FormData(this);
             
             try {
-                addResult('🚀 Manual Form Test', 'Submitting form data...', 'info');
+                addResult('ΏθγΑ Manual Form Test', 'Submitting form data...', 'info');
                 
                 const response = await fetch('submit-beta-application.php', {
                     method: 'POST',
@@ -275,19 +285,19 @@
                 
                 if (contentType && contentType.includes('application/json')) {
                     result = await response.json();
-                    addResult('📝 Manual Form Result', 
+                    addResult('ΏθΥζ Manual Form Result', 
                         `Status: ${response.status}\nResponse: ${JSON.stringify(result, null, 2)}`, 
                         response.ok && result.success ? 'success' : 'error'
                     );
                 } else {
                     result = await response.text();
-                    addResult('📝 Manual Form Result (Non-JSON)', 
+                    addResult('ΏθΥζ Manual Form Result (Non-JSON)', 
                         `Status: ${response.status}\nResponse: ${result}`, 
                         'error'
                     );
                 }
             } catch (error) {
-                addResult('❌ Manual Form Failed', error.message, 'error');
+                addResult('έζΝ Manual Form Failed', error.message, 'error');
             }
         });
     </script>

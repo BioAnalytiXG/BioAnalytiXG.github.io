@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -132,13 +132,23 @@
             opacity: 0.9;
         }
     </style>
+
+<!-- Google tag (gtag.js) -->
+<script async src=\"https://www.googletagmanager.com/gtag/js?id=G-J5QG3LXERQ\"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-J5QG3LXERQ');
+</script>
 </head>
 <body>
     <div class="admin-container">
-        <h1>🏥 BioAnalytiX Beta Form Admin</h1>
+        <h1>ΏθΠξ BioAnalytiX Beta Form Admin</h1>
         
         <div class="status-card">
-            <h3>📊 Form Status</h3>
+            <h3>ΏθΥΛ Form Status</h3>
             <p><strong>Form Endpoint:</strong> Web3Forms (https://api.web3forms.com/submit)</p>
             <p><strong>Target Email:</strong> info@bioanalytix.info</p>
             <p><strong>Access Key:</strong> 8bbac0a7-2854-4123-bd6a-4e6eda5c6b97</p>
@@ -162,14 +172,14 @@
         </div>
         
         <div style="text-align: center; margin: 20px 0;">
-            <button class="email-button" onclick="refreshApplications()">🔄 Refresh Applications</button>
-            <button class="email-button" onclick="exportApplications()">📤 Export All</button>
-            <button class="email-button" onclick="clearApplications()">🗑️ Clear Backup Data</button>
+            <button class="email-button" onclick="refreshApplications()">ΏθΦΕ Refresh Applications</button>
+            <button class="email-button" onclick="exportApplications()">ΏθΥν Export All</button>
+            <button class="email-button" onclick="clearApplications()">ΏθΩΣΎ╕Π Clear Backup Data</button>
 
         </div>
         
         <div id="applicationsContainer">
-            <h3>📋 Recent Applications (from localStorage backup)</h3>
+            <h3>ΏθΥΜ Recent Applications (from localStorage backup)</h3>
             <div id="applicationsList"></div>
         </div>
     </div>
@@ -177,7 +187,7 @@
     <script>
         // Check form status and load applications
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('🚀 Beta Form Admin loaded');
+            console.log('ΏθγΑ Beta Form Admin loaded');
             checkFormStatus();
             loadApplications();
         });
@@ -193,18 +203,18 @@
                     body: JSON.stringify({ access_key: 'test', message: 'ping' })
                 }).then(response => {
                     if (response.status === 200 || response.status === 422 || response.status === 400) {
-                        statusElement.innerHTML = '✅ <strong>Active</strong> - Web3Forms endpoint responding';
+                        statusElement.innerHTML = 'έεΖ <strong>Active</strong> - Web3Forms endpoint responding';
                         statusElement.style.color = 'green';
                     } else {
-                        statusElement.innerHTML = '⚠️ <strong>Partial</strong> - Check Web3Forms configuration';
+                        statusElement.innerHTML = 'έγιΎ╕Π <strong>Partial</strong> - Check Web3Forms configuration';
                         statusElement.style.color = 'orange';
                     }
                 }).catch(error => {
-                    statusElement.innerHTML = '❌ <strong>Offline</strong> - Network issue or service down';
+                    statusElement.innerHTML = 'έζΝ <strong>Offline</strong> - Network issue or service down';
                     statusElement.style.color = 'red';
                 });
             } catch (error) {
-                statusElement.innerHTML = '❓ <strong>Unknown</strong> - Cannot verify status';
+                statusElement.innerHTML = 'έζΥ <strong>Unknown</strong> - Cannot verify status';
                 statusElement.style.color = 'gray';
             }
         }
@@ -212,7 +222,7 @@
         function loadApplications() {
             try {
                 const applications = JSON.parse(localStorage.getItem('betaApplications') || '[]');
-                console.log('📊 Loaded applications:', applications.length);
+                console.log('ΏθΥΛ Loaded applications:', applications.length);
                 
                 updateStats(applications);
                 displayApplications(applications);
@@ -259,32 +269,32 @@
                             <div class="detail-group">
                                 <div class="detail-label">Contact</div>
                                 <div class="detail-value">
-                                    📧 ${app.email}<br>
-                                    📞 ${app.phone || 'Not provided'}
+                                    ΏθΥπ ${app.email}<br>
+                                    ΏθΥη ${app.phone || 'Not provided'}
                                 </div>
                             </div>
                             
                             <div class="detail-group">
                                 <div class="detail-label">Professional</div>
                                 <div class="detail-value">
-                                    🏥 ${app.organization}<br>
-                                    👨‍⚕️ ${app.role} (${app.experience})
+                                    ΏθΠξ ${app.organization}<br>
+                                    ΏθΣρέΑΞέγΧΎ╕Π ${app.role} (${app.experience})
                                 </div>
                             </div>
                             
                             <div class="detail-group">
                                 <div class="detail-label">Medical Focus</div>
                                 <div class="detail-value">
-                                    🩺 ${app.specialty || 'Not specified'}<br>
-                                    📱 ${app.imaging || 'Not specified'}
+                                    Ώθσ║ ${app.specialty || 'Not specified'}<br>
+                                    ΏθΥ▒ ${app.imaging || 'Not specified'}
                                 </div>
                             </div>
                             
                             <div class="detail-group">
                                 <div class="detail-label">Commitment</div>
                                 <div class="detail-value">
-                                    ⏰ ${app.commitment}<br>
-                                    🌍 ${app.country}
+                                    έΠ░ ${app.commitment}<br>
+                                    ΏθΝΞ ${app.country}
                                 </div>
                             </div>
                         </div>
@@ -296,13 +306,13 @@
                         
                         <div style="margin-top: 15px;">
                             <button class="email-button" onclick="emailApplicant('${app.email}', '${app.firstName}', '${app.lastName}')">
-                                ✉️ Email Applicant
+                                έεΚΎ╕Π Email Applicant
                             </button>
                             <button class="email-button" onclick="markAsProcessed(${index})">
-                                ✅ Mark Processed
+                                έεΖ Mark Processed
                             </button>
                             <button class="email-button" onclick="viewFullApplication(${index})">
-                                👁️ View Full
+                                ΏθΣΒΎ╕Π View Full
                             </button>
                         </div>
                     </div>
@@ -338,10 +348,10 @@ info@bioanalytix.info`;
                     applications[index].processedAt = new Date().toISOString();
                     localStorage.setItem('betaApplications', JSON.stringify(applications));
                     loadApplications();
-                    alert('✅ Application marked as processed');
+                    alert('έεΖ Application marked as processed');
                 }
             } catch (error) {
-                alert('❌ Error updating application status');
+                alert('έζΝ Error updating application status');
             }
         }
         
@@ -380,7 +390,7 @@ Submission Details:
                 
                 alert(fullData);
             } catch (error) {
-                alert('❌ Error displaying full application');
+                alert('έζΝ Error displaying full application');
             }
         }
         
@@ -427,24 +437,24 @@ Submission Details:
                 document.body.removeChild(a);
                 window.URL.revokeObjectURL(url);
                 
-                alert(`✅ Exported ${applications.length} applications to CSV file`);
+                alert(`έεΖ Exported ${applications.length} applications to CSV file`);
             } catch (error) {
-                alert('❌ Error exporting applications: ' + error.message);
+                alert('έζΝ Error exporting applications: ' + error.message);
             }
         }
         
         function clearApplications() {
-            if (confirm('⚠️ Are you sure you want to clear all backup application data? This cannot be undone.')) {
+            if (confirm('έγιΎ╕Π Are you sure you want to clear all backup application data? This cannot be undone.')) {
                 localStorage.removeItem('betaApplications');
                 loadApplications();
-                alert('✅ Backup application data cleared');
+                alert('έεΖ Backup application data cleared');
             }
         }
         
         function refreshApplications() {
             loadApplications();
             checkFormStatus();
-            alert('🔄 Applications refreshed');
+            alert('ΏθΦΕ Applications refreshed');
         }
     </script>
 </body>

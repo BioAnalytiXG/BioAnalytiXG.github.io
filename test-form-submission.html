@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -22,6 +22,16 @@
         input, select, textarea, button { margin: 5px 0; padding: 8px; display: block; width: 200px; }
         button { width: auto; }
     </style>
+
+<!-- Google tag (gtag.js) -->
+<script async src=\"https://www.googletagmanager.com/gtag/js?id=G-J5QG3LXERQ\"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-J5QG3LXERQ');
+</script>
 </head>
 <body>
     <h1>Form Submission Test</h1>
@@ -68,21 +78,21 @@
             const formData = new FormData(this);
             
             try {
-                addResult('🚀 Starting Form Submission', 'Submitting to submit-beta-application.php...', 'info');
+                addResult('ΏθγΑ Starting Form Submission', 'Submitting to submit-beta-application.php...', 'info');
                 
                 // Log all form data
                 let formDataStr = '';
                 for (let [key, value] of formData.entries()) {
                     formDataStr += `${key}: ${value}\n`;
                 }
-                addResult('📋 Form Data', formDataStr, 'info');
+                addResult('ΏθΥΜ Form Data', formDataStr, 'info');
                 
                 const response = await fetch('submit-beta-application.php', {
                     method: 'POST',
                     body: formData
                 });
                 
-                addResult('📡 Response Info', 
+                addResult('ΏθΥκ Response Info', 
                     `Status: ${response.status}\nStatus Text: ${response.statusText}\nContent-Type: ${response.headers.get('content-type')}`, 
                     'info'
                 );
@@ -92,20 +102,20 @@
                 
                 if (contentType && contentType.includes('application/json')) {
                     result = await response.json();
-                    addResult('✅ JSON Response', JSON.stringify(result, null, 2), 'success');
+                    addResult('έεΖ JSON Response', JSON.stringify(result, null, 2), 'success');
                 } else {
                     result = await response.text();
-                    addResult('❌ Non-JSON Response', result, 'error');
+                    addResult('έζΝ Non-JSON Response', result, 'error');
                 }
                 
                 if (response.ok) {
-                    addResult('🎉 Success', 'Form submitted successfully!', 'success');
+                    addResult('ΏθΟΚ Success', 'Form submitted successfully!', 'success');
                 } else {
-                    addResult('⚠️ HTTP Error', `Status ${response.status}: ${response.statusText}`, 'error');
+                    addResult('έγιΎ╕Π HTTP Error', `Status ${response.status}: ${response.statusText}`, 'error');
                 }
                 
             } catch (error) {
-                addResult('💥 JavaScript Error', error.message + '\n\nStack:\n' + error.stack, 'error');
+                addResult('ΏθΤξ JavaScript Error', error.message + '\n\nStack:\n' + error.stack, 'error');
             }
         });
     </script>

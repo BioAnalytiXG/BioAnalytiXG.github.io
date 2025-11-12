@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -26,19 +26,29 @@
             });
         })();
     </script>
+
+<!-- Google tag (gtag.js) -->
+<script async src=\"https://www.googletagmanager.com/gtag/js?id=G-J5QG3LXERQ\"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-J5QG3LXERQ');
+</script>
 </head>
 <body>
-    <h1>🧪 BioAnalytiX Beta Form - EmailJS Test</h1>
+    <h1>Ώθπς BioAnalytiX Beta Form - EmailJS Test</h1>
     
     <div class="test-section">
-        <h2>📋 Test Status</h2>
+        <h2>ΏθΥΜ Test Status</h2>
         <div id="status" class="status info">
             Ready to test EmailJS integration...
         </div>
     </div>
     
     <div class="test-section">
-        <h2>✉️ Email Test</h2>
+        <h2>έεΚΎ╕Π Email Test</h2>
         <p>This will test sending an email to <strong>info@bioanalytix.info</strong> using the same EmailJS configuration as the beta form.</p>
         
         <form id="testForm">
@@ -63,25 +73,25 @@ If you receive this email, the integration is working correctly!</textarea>
     </div>
     
     <div class="test-section">
-        <h2>🔧 Configuration Check</h2>
+        <h2>ΏθΦπ Configuration Check</h2>
         <div id="configCheck">
             <p>Checking EmailJS configuration...</p>
         </div>
     </div>
     
     <div class="test-section">
-        <h2>📊 Console Output</h2>
+        <h2>ΏθΥΛ Console Output</h2>
         <div id="consoleOutput" class="console-output">
             Console logs will appear here...
         </div>
     </div>
     
     <div class="test-section">
-        <h2>🔗 Quick Links</h2>
+        <h2>ΏθΦΩ Quick Links</h2>
         <p>
-            <a href="/beta-tester-form/" target="_blank">→ Beta Form</a> |
-            <a href="/" target="_blank">→ Home Page</a> |
-            <a href="https://dashboard.emailjs.com" target="_blank">→ EmailJS Dashboard</a>
+            <a href="/beta-tester-form/" target="_blank">έΗΤ Beta Form</a> |
+            <a href="/" target="_blank">έΗΤ Home Page</a> |
+            <a href="https://dashboard.emailjs.com" target="_blank">έΗΤ EmailJS Dashboard</a>
         </p>
     </div>
 
@@ -93,7 +103,7 @@ If you receive this email, the integration is working correctly!</textarea>
         
         function addToConsoleOutput(message, type = 'log') {
             const timestamp = new Date().toLocaleTimeString();
-            const prefix = type === 'error' ? '❌' : type === 'warn' ? '⚠️' : '📝';
+            const prefix = type === 'error' ? 'έζΝ' : type === 'warn' ? 'έγιΎ╕Π' : 'ΏθΥζ';
             outputDiv.innerHTML += `<div style="margin: 2px 0; ${type === 'error' ? 'color: #ff6b6b;' : ''}">[${timestamp}] ${prefix} ${message}</div>`;
             outputDiv.scrollTop = outputDiv.scrollHeight;
         }
@@ -113,13 +123,13 @@ If you receive this email, the integration is working correctly!</textarea>
             const configDiv = document.getElementById('configCheck');
             let html = '<ul>';
             
-            html += `<li>EmailJS Loaded: ${typeof emailjs !== 'undefined' ? '✅ Yes' : '❌ No'}</li>`;
+            html += `<li>EmailJS Loaded: ${typeof emailjs !== 'undefined' ? 'έεΖ Yes' : 'έζΝ No'}</li>`;
             
             if (typeof emailjs !== 'undefined') {
-                html += `<li>Public Key: nJ9PgKwdFXWdBx1wF ✅</li>`;
-                html += `<li>Service ID: service_bioanalytix ⚙️</li>`;
-                html += `<li>Template ID: template_beta_form ⚙️</li>`;
-                html += `<li>Target Email: info@bioanalytix.info ✅</li>`;
+                html += `<li>Public Key: nJ9PgKwdFXWdBx1wF έεΖ</li>`;
+                html += `<li>Service ID: service_bioanalytix έγβΎ╕Π</li>`;
+                html += `<li>Template ID: template_beta_form έγβΎ╕Π</li>`;
+                html += `<li>Target Email: info@bioanalytix.info έεΖ</li>`;
             }
             
             html += '</ul>';
@@ -133,7 +143,7 @@ If you receive this email, the integration is working correctly!</textarea>
             
             const statusDiv = document.getElementById('status');
             statusDiv.className = 'status info';
-            statusDiv.innerHTML = '🚀 Sending test email...';
+            statusDiv.innerHTML = 'ΏθγΑ Sending test email...';
             
             console.log('=== EMAIL TEST STARTED ===');
             
@@ -159,8 +169,8 @@ If you receive this email, the integration is working correctly!</textarea>
                 
                 if (result.status === 200) {
                     statusDiv.className = 'status success';
-                    statusDiv.innerHTML = '✅ Test email sent successfully! Check info@bioanalytix.info inbox.';
-                    console.log('✅ Email sent successfully!');
+                    statusDiv.innerHTML = 'έεΖ Test email sent successfully! Check info@bioanalytix.info inbox.';
+                    console.log('έεΖ Email sent successfully!');
                 } else {
                     throw new Error('Unexpected status: ' + result.status);
                 }
@@ -168,7 +178,7 @@ If you receive this email, the integration is working correctly!</textarea>
             } catch (error) {
                 console.error('Email test failed:', error);
                 statusDiv.className = 'status error';
-                statusDiv.innerHTML = `❌ Test failed: ${error.message}`;
+                statusDiv.innerHTML = `έζΝ Test failed: ${error.message}`;
                 
                 if (error.message.includes('service_bioanalytix')) {
                     statusDiv.innerHTML += '<br><br><strong>Solution:</strong> Create EmailJS service with ID "service_bioanalytix"';
@@ -183,7 +193,7 @@ If you receive this email, the integration is working correctly!</textarea>
         
         // Initialize
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('🧪 EmailJS Test Page Loaded');
+            console.log('Ώθπς EmailJS Test Page Loaded');
             console.log('Current URL:', window.location.href);
             checkEmailJSConfig();
         });

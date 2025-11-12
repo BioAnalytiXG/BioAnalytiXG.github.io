@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -87,24 +87,34 @@
         .status.online { background: #1e5e3e; color: #90EE90; }
         .status.offline { background: #5e1e1e; color: #FFB6C1; }
     </style>
+
+<!-- Google tag (gtag.js) -->
+<script async src=\"https://www.googletagmanager.com/gtag/js?id=G-J5QG3LXERQ\"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-J5QG3LXERQ');
+</script>
 </head>
 <body>
-    <h1>🔍 Live Form Debug - BioAnalytiX Beta Application</h1>
+    <h1>ΏθΦΞ Live Form Debug - BioAnalytiX Beta Application</h1>
     
     <div class="debug-panel">
-        <h2>🌐 Server Status</h2>
+        <h2>ΏθΝΡ Server Status</h2>
         <div id="serverStatus" class="status">Checking server...</div>
-        <button onclick="checkServer()">🔄 Refresh Server Status</button>
+        <button onclick="checkServer()">ΏθΦΕ Refresh Server Status</button>
     </div>
     
     <div class="debug-panel">
-        <h2>📋 Debug Log</h2>
+        <h2>ΏθΥΜ Debug Log</h2>
         <div id="results"></div>
-        <button onclick="clearLog()">🗑️ Clear Log</button>
+        <button onclick="clearLog()">ΏθΩΣΎ╕Π Clear Log</button>
     </div>
     
     <div class="debug-panel">
-        <h2>🧪 Test Form Submission</h2>
+        <h2>Ώθπς Test Form Submission</h2>
         <form id="testForm">
             <input type="text" name="firstName" value="Live" placeholder="First Name" required>
             <input type="text" name="lastName" value="Test" placeholder="Last Name" required>
@@ -152,7 +162,7 @@
                 <label for="terms">I accept the terms and conditions</label>
             </div>
             
-            <button type="submit" id="submitBtn">🚀 Submit Live Test</button>
+            <button type="submit" id="submitBtn">ΏθγΑ Submit Live Test</button>
         </form>
     </div>
 
@@ -194,18 +204,18 @@
                 
                 if (response.status === 405) {
                     // Method not allowed is expected for GET request
-                    statusDiv.textContent = '✅ Server Online - PHP script accessible';
+                    statusDiv.textContent = 'έεΖ Server Online - PHP script accessible';
                     statusDiv.className = 'status online';
-                    addResult('🌐 Server Check', 'Server is online and PHP script is accessible (405 Method Not Allowed for GET is expected)', 'success');
+                    addResult('ΏθΝΡ Server Check', 'Server is online and PHP script is accessible (405 Method Not Allowed for GET is expected)', 'success');
                 } else {
-                    statusDiv.textContent = `⚠️ Server responds but unexpected status: ${response.status}`;
+                    statusDiv.textContent = `έγιΎ╕Π Server responds but unexpected status: ${response.status}`;
                     statusDiv.className = 'status online';
-                    addResult('🌐 Server Check', `Server responds with status ${response.status}`, 'warning');
+                    addResult('ΏθΝΡ Server Check', `Server responds with status ${response.status}`, 'warning');
                 }
             } catch (error) {
-                statusDiv.textContent = '❌ Server Offline or Unreachable';
+                statusDiv.textContent = 'έζΝ Server Offline or Unreachable';
                 statusDiv.className = 'status offline';
-                addResult('🌐 Server Check Failed', error.message, 'error');
+                addResult('ΏθΝΡ Server Check Failed', error.message, 'error');
             }
         }
         
@@ -214,29 +224,29 @@
             
             const submitBtn = document.getElementById('submitBtn');
             submitBtn.disabled = true;
-            submitBtn.textContent = '⏳ Submitting...';
+            submitBtn.textContent = 'έΠ│ Submitting...';
             
             const formData = new FormData(this);
             
             try {
-                addResult('🚀 Form Submission Started', 'Beginning live form submission test...', 'info');
+                addResult('ΏθγΑ Form Submission Started', 'Beginning live form submission test...', 'info');
                 
                 // Log all form data
                 let formDataStr = '';
                 for (let [key, value] of formData.entries()) {
                     formDataStr += `${key}: ${value}\\n`;
                 }
-                addResult('📋 Form Data Collected', formDataStr, 'info');
+                addResult('ΏθΥΜ Form Data Collected', formDataStr, 'info');
                 
                 // Step 1: Check if we can reach the endpoint
-                addResult('🔗 Checking Endpoint', 'Attempting to connect to submit-beta-application.php...', 'info');
+                addResult('ΏθΦΩ Checking Endpoint', 'Attempting to connect to submit-beta-application.php...', 'info');
                 
                 const response = await fetch('submit-beta-application.php', {
                     method: 'POST',
                     body: formData
                 });
                 
-                addResult('📡 Response Received', 
+                addResult('ΏθΥκ Response Received', 
                     `Status: ${response.status}\\n` +
                     `Status Text: ${response.statusText}\\n` +
                     `Content-Type: ${response.headers.get('content-type')}\\n` +
@@ -250,44 +260,44 @@
                 
                 if (contentType && contentType.includes('application/json')) {
                     result = await response.json();
-                    addResult('✅ JSON Response Parsed', JSON.stringify(result, null, 2), 'success');
+                    addResult('έεΖ JSON Response Parsed', JSON.stringify(result, null, 2), 'success');
                     
                     if (response.ok && result.success) {
-                        addResult('🎉 Form Submission SUCCESS!', 
+                        addResult('ΏθΟΚ Form Submission SUCCESS!', 
                             `Message: ${result.message}\\n` +
                             `Email Sent: ${result.email_sent ? 'Yes' : 'No'}`,
                             'success'
                         );
-                        submitBtn.textContent = '✅ Success!';
+                        submitBtn.textContent = 'έεΖ Success!';
                     } else {
-                        addResult('⚠️ Server Error Response', 
+                        addResult('έγιΎ╕Π Server Error Response', 
                             `Message: ${result.message || 'Unknown error'}\\n` +
                             `Errors: ${result.errors ? result.errors.join(', ') : 'None'}`,
                             'error'
                         );
-                        submitBtn.textContent = '❌ Server Error';
+                        submitBtn.textContent = 'έζΝ Server Error';
                     }
                 } else {
                     result = await response.text();
-                    addResult('❌ NON-JSON Response Received', 
+                    addResult('έζΝ NON-JSON Response Received', 
                         `This is why you get "Server configuration error":\\n\\n${result}`, 
                         'error'
                     );
-                    submitBtn.textContent = '❌ Config Error';
+                    submitBtn.textContent = 'έζΝ Config Error';
                 }
                 
             } catch (error) {
-                addResult('💥 JavaScript Error', 
+                addResult('ΏθΤξ JavaScript Error', 
                     `Error: ${error.message}\\n\\n` +
                     `Stack: ${error.stack}\\n\\n` +
                     `This error triggers the "Server configuration error" message.`,
                     'error'
                 );
-                submitBtn.textContent = '❌ Failed';
+                submitBtn.textContent = 'έζΝ Failed';
             } finally {
                 setTimeout(() => {
                     submitBtn.disabled = false;
-                    submitBtn.textContent = '🚀 Submit Live Test';
+                    submitBtn.textContent = 'ΏθγΑ Submit Live Test';
                 }, 3000);
             }
         });

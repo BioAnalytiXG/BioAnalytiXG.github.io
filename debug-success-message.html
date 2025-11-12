@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -12,9 +12,19 @@
         .info { background-color: #d1ecf1; border-color: #bee5eb; }
         button { padding: 10px 20px; margin: 5px; cursor: pointer; }
     </style>
+
+<!-- Google tag (gtag.js) -->
+<script async src=\"https://www.googletagmanager.com/gtag/js?id=G-J5QG3LXERQ\"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-J5QG3LXERQ');
+</script>
 </head>
 <body>
-    <h1>🔧 Beta Form Success Message Debug</h1>
+    <h1>ΏθΦπ Beta Form Success Message Debug</h1>
     
     <div class="debug-section info">
         <h3>Debug Information</h3>
@@ -45,15 +55,15 @@
         }
         
         function testSuccessMessage() {
-            addResult('🔍 Testing Success Message Elements', 'Checking if elements exist...', 'info');
+            addResult('ΏθΦΞ Testing Success Message Elements', 'Checking if elements exist...', 'info');
             
             // Test if we can find the success message element
             const successMessage = document.getElementById('successMessage');
             const formContainer = document.querySelector('.form-container');
             
             let report = '';
-            report += `Success Message Element: ${successMessage ? '✅ Found' : '❌ Not Found'}\n`;
-            report += `Form Container Element: ${formContainer ? '✅ Found' : '❌ Not Found'}\n`;
+            report += `Success Message Element: ${successMessage ? 'έεΖ Found' : 'έζΝ Not Found'}\n`;
+            report += `Form Container Element: ${formContainer ? 'έεΖ Found' : 'έζΝ Not Found'}\n`;
             
             if (successMessage) {
                 report += `Success Message Display: ${getComputedStyle(successMessage).display}\n`;
@@ -68,7 +78,7 @@
         }
         
         function testFormElements() {
-            addResult('🔍 Testing Form Elements', 'Checking form elements...', 'info');
+            addResult('ΏθΦΞ Testing Form Elements', 'Checking form elements...', 'info');
             
             const form = document.getElementById('betaForm');
             const submitBtn = document.getElementById('submitBtn');
@@ -76,10 +86,10 @@
             const nextBtn = document.getElementById('nextBtn');
             
             let report = '';
-            report += `Beta Form: ${form ? '✅ Found' : '❌ Not Found'}\n`;
-            report += `Submit Button: ${submitBtn ? '✅ Found' : '❌ Not Found'}\n`;
-            report += `Previous Button: ${prevBtn ? '✅ Found' : '❌ Not Found'}\n`;
-            report += `Next Button: ${nextBtn ? '✅ Found' : '❌ Not Found'}\n`;
+            report += `Beta Form: ${form ? 'έεΖ Found' : 'έζΝ Not Found'}\n`;
+            report += `Submit Button: ${submitBtn ? 'έεΖ Found' : 'έζΝ Not Found'}\n`;
+            report += `Previous Button: ${prevBtn ? 'έεΖ Found' : 'έζΝ Not Found'}\n`;
+            report += `Next Button: ${nextBtn ? 'έεΖ Found' : 'έζΝ Not Found'}\n`;
             
             if (form) {
                 report += `Form Action: ${form.action}\n`;
@@ -90,7 +100,7 @@
         }
         
         function testFormSubmission() {
-            addResult('🔍 Testing Form Submission', 'Checking submission flow...', 'info');
+            addResult('ΏθΦΞ Testing Form Submission', 'Checking submission flow...', 'info');
             
             // Try to load the beta form in an iframe to test
             const iframe = document.createElement('iframe');
@@ -105,9 +115,9 @@
                 const formContainer = iframeDoc.querySelector('.form-container');
                 const form = iframeDoc.getElementById('betaForm');
                 
-                report += `Success Message in Form: ${successMsg ? '✅ Found' : '❌ Not Found'}\n`;
-                report += `Form Container in Form: ${formContainer ? '✅ Found' : '❌ Not Found'}\n`;
-                report += `Beta Form in Form: ${form ? '✅ Found' : '❌ Not Found'}\n`;
+                report += `Success Message in Form: ${successMsg ? 'έεΖ Found' : 'έζΝ Not Found'}\n`;
+                report += `Form Container in Form: ${formContainer ? 'έεΖ Found' : 'έζΝ Not Found'}\n`;
+                report += `Beta Form in Form: ${form ? 'έεΖ Found' : 'έζΝ Not Found'}\n`;
                 
                 if (successMsg) {
                     report += `Success Message HTML:\n${successMsg.outerHTML.substring(0, 200)}...\n`;

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -11,9 +11,19 @@
         button { padding: 10px 20px; margin: 5px; cursor: pointer; background: #7CCDB3; color: black; border: none; border-radius: 5px; font-weight: bold; }
         .debug-info { margin: 10px 0; padding: 10px; background: #e8f4f8; border-radius: 5px; font-family: monospace; font-size: 12px; }
     </style>
+
+<!-- Google tag (gtag.js) -->
+<script async src=\"https://www.googletagmanager.com/gtag/js?id=G-J5QG3LXERQ\"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-J5QG3LXERQ');
+</script>
 </head>
 <body>
-    <h1>🧪 Success Message Test</h1>
+    <h1>Ώθπς Success Message Test</h1>
     
     <div class="test-controls">
         <h3>Test Controls</h3>
@@ -43,14 +53,14 @@
         <h2>Application Submitted Successfully!</h2>
         <p>Thank you for signing up for the BioAnalytiX Alpha version. We have received your application and will review it shortly.</p>
         <div class="success-details">
-            <p><strong>📧 Confirmation:</strong> Your application has been sent to our team at <a href="mailto:info@bioanalytix.info">info@bioanalytix.info</a></p>
-            <p><strong>⏰ What happens next?</strong></p>
+            <p><strong>ΏθΥπ Confirmation:</strong> Your application has been sent to our team at <a href="mailto:info@bioanalytix.info">info@bioanalytix.info</a></p>
+            <p><strong>έΠ░ What happens next?</strong></p>
             <ul>
                 <li>We'll review your application within 1 week</li>
                 <li>If selected, you'll receive access instructions via email</li>
                 <li>Alpha testing begins in September 2025</li>
             </ul>
-            <p><strong>❓ Questions?</strong> Contact us at <a href="mailto:info@bioanalytix.info">info@bioanalytix.info</a></p>
+            <p><strong>έζΥ Questions?</strong> Contact us at <a href="mailto:info@bioanalytix.info">info@bioanalytix.info</a></p>
         </div>
         <a href="/" class="btn btn-primary">Back to Home</a>
     </div>
@@ -68,28 +78,28 @@
         }
         
         function testShowSuccess() {
-            log('🎉 Testing show success message');
+            log('ΏθΟΚ Testing show success message');
             if (formContainer && successMessage) {
                 formContainer.style.display = 'none';
                 successMessage.style.display = 'block';
                 successMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                log('✅ Success message should now be visible');
+                log('έεΖ Success message should now be visible');
             } else {
-                log('❌ Missing elements - cannot show success message');
+                log('έζΝ Missing elements - cannot show success message');
             }
         }
         
         function testHideSuccess() {
-            log('🔄 Testing hide success message');
+            log('ΏθΦΕ Testing hide success message');
             if (formContainer && successMessage) {
                 formContainer.style.display = 'block';
                 successMessage.style.display = 'none';
-                log('✅ Form container should now be visible');
+                log('έεΖ Form container should now be visible');
             }
         }
         
         function testToggleForm() {
-            log('🔄 Toggling form container visibility');
+            log('ΏθΦΕ Toggling form container visibility');
             if (formContainer) {
                 const isVisible = formContainer.style.display !== 'none';
                 formContainer.style.display = isVisible ? 'none' : 'block';
@@ -98,9 +108,9 @@
         }
         
         function checkElements() {
-            log('🔍 Checking elements:');
-            log(`Success message element: ${successMessage ? '✅ Found' : '❌ Not found'}`);
-            log(`Form container element: ${formContainer ? '✅ Found' : '❌ Not found'}`);
+            log('ΏθΦΞ Checking elements:');
+            log(`Success message element: ${successMessage ? 'έεΖ Found' : 'έζΝ Not found'}`);
+            log(`Form container element: ${formContainer ? 'έεΖ Found' : 'έζΝ Not found'}`);
             
             if (successMessage) {
                 const styles = getComputedStyle(successMessage);
@@ -115,14 +125,14 @@
         }
         
         function simulateSubmission() {
-            log('🚀 Simulating form submission...');
+            log('ΏθγΑ Simulating form submission...');
             setTimeout(() => {
                 testShowSuccess();
             }, 1000);
         }
         
         // Initial check
-        log('🚀 Success message test page loaded');
+        log('ΏθγΑ Success message test page loaded');
         checkElements();
     </script>
 </body>
