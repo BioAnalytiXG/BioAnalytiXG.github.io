@@ -107,8 +107,29 @@
     <!-- News Grid Section -->
     <section class="news-section">
         <div class="news-grid">
+            <!-- Latest News - Partnership Renewal -->
+            <article class="news-card" data-category="company" data-article="partnership-renewal" onclick="openModal('partnership-renewal')" style="cursor: pointer;">
+                <div class="news-card-images-dual">
+                    <img src="../images/1.png" alt="Partnership Renewal 1">
+                    <img src="../images/2.png" alt="Partnership Renewal 2">
+                </div>
+                <div class="news-card-content">
+                    <span class="news-category">Company News</span>
+                    <div class="news-date">
+                        <i class="far fa-calendar"></i>
+                        November 21, 2025
+                    </div>
+                    <h3>Strategic Partnership with General Hospital of Larissa Renewed and Expanded</h3>
+                    <p>BioAnalytiX announces the renewal and expansion of our strategic partnership with the General Hospital of Larissa, marking another milestone in advancing medical diagnostics and healthcare innovation.</p>
+                    <div class="news-source">
+                        <i class="fas fa-handshake"></i>
+                        BioAnalytiX Official
+                    </div>
+                </div>
+            </article>
+
             <!-- Example News Card 1 - Press Coverage -->
-            <article class="news-card" data-category="press">
+            <article class="news-card" data-category="press" data-article="forbes" onclick="openModal('forbes')" style="cursor: pointer;">
                 <div class="news-card-image">
                     <img src="../images/Forbes_Team.jpg" alt="Forbes 30 Under 30">
                 </div>
@@ -120,41 +141,60 @@
                     </div>
                     <h3>BioAnalytiX Named to Forbes Greece "30 Under 30"</h3>
                     <p>Our team has been recognized by Forbes Greece for our innovative contributions to the Healthtech sector, marking a significant milestone in our journey.</p>
-                    <div class="news-source">
-                        <i class="fas fa-external-link-alt"></i>
-                        Forbes Greece
+                    
+                    <!-- Multiple Media Sources -->
+                    <div class="media-sources">
+                        <span class="media-sources-title"><i class="fas fa-newspaper"></i> Featured In:</span>
+                        <div class="source-links">
+                            <a href="https://www.forbesgreece.gr/greek-lists-forbes/3953859/forbes-30-under-30---i-elliniki-lista" target="_blank" class="source-link" rel="noopener noreferrer">
+                                <i class="fas fa-link"></i> Forbes Greece
+                            </a>
+                            <a href="https://www.ertnews.gr/perifereiakoi-stathmoi/volos/voliotis-foititis-sti-lista-tou-forbes-h-kainotoma-startup-bioanalytix-fernei-tin-texniti-noimosyni-stin-iatriki-diagnosi/" target="_blank" class="source-link" rel="noopener noreferrer">
+                                <i class="fas fa-link"></i> ERT News
+                            </a>
+                            <a href="https://www.eleftheria.gr/sti-lista-forbes-oi-3-tis-bioanalytix/" target="_blank" class="source-link" rel="noopener noreferrer">
+                                <i class="fas fa-link"></i> Eleftheria
+                            </a>
+                            <a href="https://www.eleftheria.gr/dimiourgisan-exypno-ergaleio-iatr/" target="_blank" class="source-link source-link-hidden" rel="noopener noreferrer">
+                                <i class="fas fa-link"></i> Eleftheria
+                            </a>
+                            <a href="https://www.newmoney.gr/roh/palmos-oikonomias/business-stories/bioanalytix-i-techniti-noimosini-stin-igia-diakrisi-gia-elliniki-startup-apo-ton-volo/" target="_blank" class="source-link source-link-hidden" rel="noopener noreferrer">
+                                <i class="fas fa-link"></i> New Money
+                            </a>
+                            <a href="https://www.t-roi.gr/topika/sti-lista-forbes-under-30-o-tyrnavitis-christos-tsoytsas/" target="_blank" class="source-link source-link-hidden" rel="noopener noreferrer">
+                                <i class="fas fa-link"></i> T-Roi
+                            </a>
+                            <a href="https://www.taxydromos.gr/magnesia/volos/1256037/lampri-genia-epistimonon-o-voliotis-nikolas-papageorgioy-sto-forbes-kai-sti-lista-me-toys-pio-epitychimenoys-neoys/" target="_blank" class="source-link source-link-hidden" rel="noopener noreferrer">
+                                <i class="fas fa-link"></i> Taxydromos
+                            </a>
+                            <a href="https://www.larissapress.gr/2025/10/31/treis-neoi-epistimones-apo-to-panepistimio-thessalias-sti-lista-forbes-30-under-30-greece-2026/" target="_blank" class="source-link source-link-hidden" rel="noopener noreferrer">
+                                <i class="fas fa-link"></i> Larissa Press
+                            </a>
+                            <a href="https://www.esos.gr/arthra/96027/foitites-kai-apofoitoi-toy-panepistimioy-thessalias-sti-lista-forbes-30-under-30" target="_blank" class="source-link source-link-hidden" rel="noopener noreferrer">
+                                <i class="fas fa-link"></i> ESOS
+                            </a>
+                            <a href="https://www.onlarissa.gr/2025/11/09/oi-nearoi-pou-dimiourgisan-start-up-epicheirisi-sti-larisa-kai-diakrithikan-sti-lista-forbes-kai-to-montelo-tous-pou-tha-dokimastei-pilotika-sto-geniko-nosokomeio-larisas-vinteo/" target="_blank" class="source-link source-link-hidden" rel="noopener noreferrer">
+                                <i class="fas fa-link"></i> On Larissa
+                            </a>
+                            <a href="https://paidis.com/sti-lista-forbes-under-30-o-tyrnavitis-christos-ev-tsoutsas-kai-oi-larisaioi-nikolas-papageorgiou-kai-panagiotis-tsobanoglou/" target="_blank" class="source-link source-link-hidden" rel="noopener noreferrer">
+                                <i class="fas fa-link"></i> Paidis
+                            </a>
+                            <a href="https://www.larissanet.gr/2025/10/25/sti-lista-forbes-under-30-o-tyrnavitis-christos-ef-tsoutsas-kai-oi-larisaioi-nikolas-papageorgiou-kai-panagiotis-tsompanoglou/" target="_blank" class="source-link source-link-hidden" rel="noopener noreferrer">
+                                <i class="fas fa-link"></i> Larissa Net
+                            </a>
+                            <a href="https://e-thessalia.gr/treis-nearoi-larisaioi-epistimones-sti-lista-forbes-under-30-me-toys-pio-petychimenoys-poia-einai-i-epicheirisi-toys-sti-larisa-kai-to-orama-toys/" target="_blank" class="source-link source-link-hidden" rel="noopener noreferrer">
+                                <i class="fas fa-link"></i> e-Thessalia
+                            </a>
+                            <button class="show-more-sources" onclick="toggleSources(this)">
+                                <i class="fas fa-plus"></i> 10 More
+                            </button>
+                        </div>
                     </div>
-                    <a href="#" class="read-more">
-                        Read Article <i class="fas fa-arrow-right"></i>
-                    </a>
                 </div>
             </article>
 
-            <!-- Example News Card 2 - Awards -->
-            <article class="news-card" data-category="awards">
-                <div class="news-card-image">
-                    <img src="../images/Ennovation2024.jpg" alt="Ennovation 2024 Award">
-                </div>
-                <div class="news-card-content">
-                    <span class="news-category">Awards</span>
-                    <div class="news-date">
-                        <i class="far fa-calendar"></i>
-                        July 2024
-                    </div>
-                    <h3>First Place at Ennovation 2024</h3>
-                    <p>BioAnalytiX wins the Young Entrepreneurship Award at Ennovation 2024 for innovative AI solutions in healthcare diagnostics.</p>
-                    <div class="news-source">
-                        <i class="fas fa-trophy"></i>
-                        Ennovation 2024
-                    </div>
-                    <a href="#" class="read-more">
-                        Learn More <i class="fas fa-arrow-right"></i>
-                    </a>
-                </div>
-            </article>
-
-            <!-- Example News Card 3 - Company News -->
-            <article class="news-card" data-category="company">
+            <!-- Card 2 - Company News -->
+            <article class="news-card" data-category="company" data-article="acta" onclick="openModal('acta')" style="cursor: pointer;">
                 <div class="news-card-image">
                     <img src="../images/ACTA_LOGO.png" alt="ACTA Partnership" class="news-card-logo">
                 </div>
@@ -162,7 +202,7 @@
                     <span class="news-category">Company News</span>
                     <div class="news-date">
                         <i class="far fa-calendar"></i>
-                        January 2025
+                        May 2025
                     </div>
                     <h3>Strategic Partnership with ACTA Lab</h3>
                     <p>Announcing our collaboration with ACTA Lab to advance medical-imaging AI through shared infrastructure, datasets, and peer-reviewed research.</p>
@@ -175,8 +215,9 @@
                     </a>
                 </div>
             </article>
-            <!-- Example News Card 4 - Awards -->
-            <article class="news-card" data-category="awards">
+
+            <!-- Card 3 - Awards -->
+            <article class="news-card" data-category="awards" data-article="innohealth" onclick="openModal('innohealth')" style="cursor: pointer;">
                 <div class="news-card-image">
                     <img src="../images/Innohealth2024.jpg" alt="InnoHealth 2024">
                 </div>
@@ -188,18 +229,79 @@
                     </div>
                     <h3>Second Place at InnoHealth 2024</h3>
                     <p>Recognized for advancing healthcare through AI-driven diagnostic solutions at the prestigious InnoHealth 2024 innovation competition.</p>
-                    <div class="news-source">
-                        <i class="fas fa-trophy"></i>
-                        InnoHealth 2024
+                    
+                    <!-- Multiple Media Sources -->
+                    <div class="media-sources">
+                        <span class="media-sources-title"><i class="fas fa-newspaper"></i> Featured In:</span>
+                        <div class="source-links">
+                            <a href="https://www.uth.gr/news/neo-brabeio-gia-tin-bioanalytix-sto-hackathon-toy-innohealth-forum-2024" target="_blank" class="source-link" rel="noopener noreferrer">
+                                <i class="fas fa-link"></i> University of Thessaly
+                            </a>
+                            <a href="https://www.onlarissa.gr/2024/09/26/neo-vraveio-gia-tin-bioanalytix-sto-hackathon-tou-innohealth-forum-2024/" target="_blank" class="source-link" rel="noopener noreferrer">
+                                <i class="fas fa-link"></i> On Larissa
+                            </a>
+                            <a href="https://www.mag24.gr/neo-vraveio-gia-tin-bioanalytix-sto-hackathon-tou-innohealth-forum-2024/" target="_blank" class="source-link" rel="noopener noreferrer">
+                                <i class="fas fa-link"></i> MAG24
+                            </a>
+                        </div>
                     </div>
-                    <a href="#" class="read-more">
-                        View Details <i class="fas fa-arrow-right"></i>
-                    </a>
                 </div>
             </article>
 
-            <!-- Example News Card 5 - Company News -->
-            <article class="news-card" data-category="company">
+            <!-- Card 4 - Awards -->
+            <article class="news-card" data-category="awards" data-article="yerame" onclick="openModal('yerame')" style="cursor: pointer;">
+                <div class="news-card-image">
+                    <i class="fas fa-trophy"></i>
+                </div>
+                <div class="news-card-content">
+                    <span class="news-category">Awards</span>
+                    <div class="news-date">
+                        <i class="far fa-calendar"></i>
+                        September 2024
+                    </div>
+                    <h3>First Place at YERAME 2024</h3>
+                    <p>BioAnalytiX secures first place at YERAME 2024, recognized for excellence in developing AI-powered solutions for medical diagnostics and innovation in healthcare technology.</p>
+                    
+                    <!-- Multiple Media Sources -->
+                    <div class="media-sources">
+                        <span class="media-sources-title"><i class="fas fa-newspaper"></i> Featured In:</span>
+                        <div class="source-links">
+                            <a href="https://innovationhive.eu/new-ideas-for-the-development-of-rural-areas-yerame-innovation-competition/" target="_blank" class="source-link" rel="noopener noreferrer">
+                                <i class="fas fa-link"></i> Innovation Hive
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Card 5 - Awards -->
+            <article class="news-card" data-category="awards" data-article="ennovation" onclick="openModal('ennovation')" style="cursor: pointer;">
+                <div class="news-card-image">
+                    <img src="../images/Ennovation2024.jpg" alt="Ennovation 2024 Award">
+                </div>
+                <div class="news-card-content">
+                    <span class="news-category">Awards</span>
+                    <div class="news-date">
+                        <i class="far fa-calendar"></i>
+                        July 2024
+                    </div>
+                    <h3>First Place at Ennovation 2024</h3>
+                    <p>BioAnalytiX wins the Young Entrepreneurship Award at Ennovation 2024 for innovative AI solutions in healthcare diagnostics.</p>
+                    
+                    <!-- Multiple Media Sources -->
+                    <div class="media-sources">
+                        <span class="media-sources-title"><i class="fas fa-newspaper"></i> Featured In:</span>
+                        <div class="source-links">
+                            <a href="https://ds.uth.gr/2024/07/1st-position-ennovation-2024-young-entrepreneurship/" target="_blank" class="source-link" rel="noopener noreferrer">
+                                <i class="fas fa-link"></i> University of Thessaly
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Card 6 - Company News -->
+            <article class="news-card" data-category="company" data-article="founded" onclick="openModal('founded')" style="cursor: pointer;">
                 <div class="news-card-image">
                     <i class="fas fa-brain"></i>
                 </div>
@@ -221,31 +323,24 @@
                 </div>
             </article>
 
-            <!-- Example News Card 6 - Research -->
-            <article class="news-card" data-category="research">
-                <div class="news-card-image">
-                    <i class="fas fa-microscope"></i>
-                </div>
-                <div class="news-card-content">
-                    <span class="news-category">Research</span>
-                    <div class="news-date">
-                        <i class="far fa-calendar"></i>
-                        Coming Soon
-                    </div>
-                    <h3>AI in Medical Imaging: Our Research Findings</h3>
-                    <p>Explore our latest research on improving diagnostic accuracy through advanced neural networks and machine learning algorithms.</p>
-                    <div class="news-source">
-                        <i class="fas fa-flask"></i>
-                        BioAnalytiX Research
-                    </div>
-                    <a href="#" class="read-more">
-                        Read Paper <i class="fas fa-arrow-right"></i>
-                    </a>
-                </div>
-            </article>
 
         </div>
     </section>
+
+    <!-- Modal for Article Details -->
+    <div id="articleModal" class="article-modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal()">&times;</button>
+            <div class="modal-header">
+                <span class="modal-category"></span>
+                <div class="modal-date"></div>
+            </div>
+            <h2 class="modal-title"></h2>
+            <div class="modal-body"></div>
+            <div class="modal-sources"></div>
+        </div>
+    </div>
+
     <!-- Footer -->
     <footer id="footer">
         <div class="footer-content">
