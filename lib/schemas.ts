@@ -100,6 +100,12 @@ export const betaApplicationSchema = z.object({
     message: "You must provide consent to continue",
   }),
   company: honeypotField,
+  /**
+   * Submission origin, set per page (not user-editable): which intake the
+   * shared application form is serving. Defaults to "beta". Used server-side to
+   * tag the stored row (Beta access / Careers / Collaboration).
+   */
+  source: z.enum(["beta", "careers", "collaboration"]).optional(),
 });
 
 export type BetaApplicationValues = z.infer<typeof betaApplicationSchema>;

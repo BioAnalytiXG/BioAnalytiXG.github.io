@@ -42,12 +42,36 @@ See `.env.example` for the authoritative list and inline notes. Summary:
 
 | Variable | Required | Used by | Notes |
 | --- | --- | --- | --- |
-| `CONTACT_FORM_ENDPOINT` | Yes | `submit-contact.ts`, `lib/forms.ts` | Provider endpoint for contact submissions. If unset, the action returns a generic delivery failure and retains input. |
-| `CONTACT_FORM_API_KEY` | Optional | `submit-contact.ts` | Bearer token for the contact endpoint. |
-| `BETA_FORM_ENDPOINT` | Optional | `submit-beta.ts` | Beta/careers endpoint. Falls back to `CONTACT_FORM_ENDPOINT` when unset. |
-| `BETA_FORM_KEY` | Optional | `submit-beta.ts` | Bearer token for the beta endpoint. Falls back to `CONTACT_FORM_KEY`. |
+| `RESEND_API_KEY` | Yes | `submit-contact.ts`, `lib/email.ts` | Resend API key. Contact submissions are emailed to the inbox below. If unset, the action returns a generic delivery failure and retains input. |
+| `CONTACT_TO_EMAIL` | Optional | `lib/email.ts` | Recipient inbox. Default `info@bioanalytix.info`. |
+| `CONTACT_FROM_EMAIL` | Optional | `lib/email.ts` | Verified sender (Resend-verified domain). Default `noreply@bioanalytix.info`. |
+| `GOOGLE_SHEETS_SPREADSHEET_ID` | Yes | `submit-beta.ts`, `lib/submissions-store.ts` | Target private Google Sheet id. Beta/careers/collaboration requests are appended as rows. If unset, the action returns a generic failure and retains input. |
+| `GOOGLE_SERVICE_ACCOUNT_EMAIL` | Yes | `lib/submissions-store.ts` | Service-account email; the sheet must be shared with it as Editor. |
+| `GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY` | Yes | `lib/submissions-store.ts` | Service-account private key (escaped `\n` is normalized). |
+| `GOOGLE_SHEETS_RANGE` | Optional | `lib/submissions-store.ts` | Append range / tab. Default `Submissions!A:G`. |
 | `RATE_LIMIT_WINDOW_SECONDS` | Optional | `lib/rate-limit.ts` | Rolling window in seconds. Clamped 1–3600. Default 60. |
 | `RATE_LIMIT_MAX_SUBMISSIONS` | Optional | `lib/rate-limit.ts` | Max submissions per window. Clamped 1–1000. Default 5. |
+
+### Form delivery setup
+
+- **Contact form → email (Resend).** Create a Resend account, verify the
+  `bioanalytix.info` domain, and add `RESEND_API_KEY`. Submissions are emailed to
+  `CONTACT_TO_EMAIL` (default `info@bioanalytix.info`) with the visitor's address
+  as reply-to.
+- **Beta / careers / collaboration → private Google Sheet.** All three intakes
+  share one application form (`/beta`, `/careers`, `/data-partner`) and are
+  appended as rows to a private Google Sheet, tagged by type (Beta access /
+  Careers / Collaboration). Setup:
+  1. In Google Cloud, create a project, enable the **Google Sheets API**, and
+     create a **service account**; generate a JSON key.
+  2. Put the key's `client_email` in `GOOGLE_SERVICE_ACCOUNT_EMAIL` and its
+     `private_key` in `GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY`.
+  3. Create a Google Sheet with a header row in `A1:G1`:
+     `timestamp, type, fullName, email, organization, role, message`. Put its id
+     in `GOOGLE_SHEETS_SPREADSHEET_ID` and name the tab `Submissions` (or set
+     `GOOGLE_SHEETS_RANGE`).
+  4. **Share the sheet with the service-account email as Editor.** The sheet
+     stays private to you and the service account.
 
 ### Configuring them in Vercel
 

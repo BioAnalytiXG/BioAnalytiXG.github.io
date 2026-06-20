@@ -31,10 +31,11 @@
 import { headers } from "next/headers";
 
 import {
-  providerStrategy,
+  SUBMISSION_ERROR_MESSAGE,
   type SubmitResult,
   VALIDATION_ERROR_MESSAGE,
 } from "@/lib/forms";
+import { appendBetaSubmission, toBetaRecord } from "@/lib/submissions-store";
 import { formRateLimiter } from "@/lib/rate-limit";
 import {
   betaApplicationSchema,
@@ -78,38 +79,14 @@ async function resolveClientKey(): Promise<string> {
 }
 
 /**
- * Build the server-side provider transport for beta submissions.
- *
- * The endpoint is read from the `BETA_FORM_ENDPOINT` server-only env var, falling
- * back to the shared `CONTACT_FORM_ENDPOINT` when a dedicated beta endpoint is
- * not configured. An optional bearer key (`BETA_FORM_KEY`, falling back to
- * `CONTACT_FORM_KEY`) is attached as an `Authorization` header. All of these are
- * read on the server only and never shipped to the client (Req 6.5, 15.4).
- */
-function buildProviderStrategy() {
-  const endpoint =
-    process.env.BETA_FORM_ENDPOINT ?? process.env.CONTACT_FORM_ENDPOINT;
-
-  const apiKey = process.env.BETA_FORM_KEY ?? process.env.CONTACT_FORM_KEY;
-  const headerEntries = apiKey
-    ? { Authorization: `Bearer ${apiKey}` }
-    : undefined;
-
-  return providerStrategy<BetaApplicationValues>({
-    endpoint,
-    headers: headerEntries,
-  });
-}
-
-/**
  * Process a beta/careers application submission server-side.
  *
  * @param values - The raw application values posted from the client. These are
  *   treated as untrusted and re-validated here regardless of any client-side
  *   validation.
- * @returns A {@link SubmitResult}: `success` on delivery (or on a silently
+ * @returns A {@link SubmitResult}: `success` on persistence (or on a silently
  *   discarded honeypot hit), or an `error` with a non-secret message on
- *   validation failure, throttling, or delivery failure.
+ *   validation failure, throttling, or storage failure.
  */
 export async function submitBeta(
   values: BetaApplicationValues
@@ -139,17 +116,22 @@ export async function submitBeta(
     return { status: "error", message: RATE_LIMIT_MESSAGE };
   }
 
-  // 4. Deliver via the server-side provider transport. Provider endpoint/keys
-  //    come from server-only env vars (Req 6.5, 15.4). Strip the honeypot field
-  //    from the delivered payload — it carries no business value.
-  const { company: _company, ...payload } = data;
+  // 4. Persist the application as a CSV row in durable storage (Vercel Blob).
+  //    Storage credentials come from server-only env vars (Req 6.5, 15.4).
+  //    Strip the honeypot and consent flag from the stored record — the
+  //    honeypot carries no value and consent is a gate, not data to retain.
+  const { company: _company, consent: _consent, ...rest } = data;
   void _company;
+  void _consent;
 
-  const strategy = buildProviderStrategy();
-  const result = await strategy.submit(payload as BetaApplicationValues);
+  const persisted = await appendBetaSubmission(toBetaRecord(rest));
 
-  // 5. On provider/delivery failure, return a non-success result so the form can
-  //    preserve the entered values and offer a retry (Req 15.5). The message
-  //    originates from the transport and carries no secrets.
-  return result;
+  // 5. On storage failure (or unconfigured storage), return a non-success
+  //    result so the form can preserve the entered values and offer a retry
+  //    (Req 15.5). The message carries no secrets.
+  if (!persisted) {
+    return { status: "error", message: SUBMISSION_ERROR_MESSAGE };
+  }
+
+  return { status: "success" };
 }

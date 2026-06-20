@@ -26,6 +26,8 @@ import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 // hoisted above imports) can read a value the tests mutate per-case.
 const mocked = vi.hoisted(() => ({
   headerMap: new Map<string, string>(),
+  sendContactEmail: vi.fn(async (): Promise<boolean> => true),
+  appendBetaSubmission: vi.fn(async (): Promise<boolean> => true),
 }));
 
 vi.mock("next/headers", () => ({
@@ -33,6 +35,17 @@ vi.mock("next/headers", () => ({
     get: (name: string): string | null =>
       mocked.headerMap.get(name.toLowerCase()) ?? null,
   }),
+}));
+
+// The contact action delivers via Resend (`@/lib/email`) and the beta action
+// persists a CSV row via Vercel Blob (`@/lib/submissions-store`). Both are
+// mocked so delivery/persistence is observable without external services.
+vi.mock("@/lib/email", () => ({
+  sendContactEmail: mocked.sendContactEmail,
+}));
+vi.mock("@/lib/submissions-store", () => ({
+  appendBetaSubmission: mocked.appendBetaSubmission,
+  toBetaRecord: (v: Record<string, unknown>) => v,
 }));
 
 import { submitContact } from "@/app/actions/submit-contact";
@@ -48,11 +61,6 @@ const SUCCESS = { status: "success" } as const;
  * we cross the threshold even at the largest valid configuration.
  */
 const MAX_ATTEMPTS = 1100;
-
-/** A stubbed `fetch` that always resolves with a 2xx (delivery succeeds). */
-const fetchMock = vi.fn(
-  async (): Promise<Response> => new Response(null, { status: 200 }),
-);
 
 /** Build a valid contact submission with an empty (clean) honeypot. */
 function validContact(overrides: Record<string, unknown> = {}) {
@@ -80,19 +88,14 @@ beforeEach(() => {
   // Reset shared singleton state and per-test inputs.
   formRateLimiter.clear();
   mocked.headerMap = new Map<string, string>();
-  fetchMock.mockClear();
-
-  vi.stubGlobal("fetch", fetchMock);
-
-  // Server-only delivery endpoints (read inside the actions/strategy).
-  process.env.CONTACT_FORM_ENDPOINT = "https://provider.test/contact";
-  process.env.BETA_FORM_ENDPOINT = "https://provider.test/beta";
+  mocked.sendContactEmail.mockClear();
+  mocked.sendContactEmail.mockResolvedValue(true);
+  mocked.appendBetaSubmission.mockClear();
+  mocked.appendBetaSubmission.mockResolvedValue(true);
 });
 
 afterEach(() => {
   vi.unstubAllGlobals();
-  delete process.env.CONTACT_FORM_ENDPOINT;
-  delete process.env.BETA_FORM_ENDPOINT;
 });
 
 describe("submitContact — honeypot (Requirement 6.2)", () => {
@@ -102,10 +105,10 @@ describe("submitContact — honeypot (Requirement 6.2)", () => {
     // A genuine submission delivers and yields the canonical success result.
     const genuine = await submitContact(validContact());
     expect(genuine).toEqual(SUCCESS);
-    expect(fetchMock).toHaveBeenCalledTimes(1);
+    expect(mocked.sendContactEmail).toHaveBeenCalledTimes(1);
 
     // A bot fills the hidden `company` field. Reset delivery observation.
-    fetchMock.mockClear();
+    mocked.sendContactEmail.mockClear();
     const trapped = await submitContact(
       validContact({ company: "Acme Spam Co" }),
     );
@@ -114,7 +117,7 @@ describe("submitContact — honeypot (Requirement 6.2)", () => {
     expect(trapped).toEqual(SUCCESS);
     expect(trapped).toEqual(genuine);
     // ...and crucially, delivery never happened.
-    expect(fetchMock).not.toHaveBeenCalled();
+    expect(mocked.sendContactEmail).not.toHaveBeenCalled();
   });
 
   it("treats a whitespace-only honeypot as empty (trimmed) and delivers normally", async () => {
@@ -126,7 +129,7 @@ describe("submitContact — honeypot (Requirement 6.2)", () => {
     const result = await submitContact(validContact({ company: "   " }));
 
     expect(result).toEqual(SUCCESS);
-    expect(fetchMock).toHaveBeenCalledTimes(1);
+    expect(mocked.sendContactEmail).toHaveBeenCalledTimes(1);
   });
 });
 
@@ -136,14 +139,14 @@ describe("submitBeta — honeypot (Requirement 6.2)", () => {
 
     const genuine = await submitBeta(validBeta());
     expect(genuine).toEqual(SUCCESS);
-    expect(fetchMock).toHaveBeenCalledTimes(1);
+    expect(mocked.appendBetaSubmission).toHaveBeenCalledTimes(1);
 
-    fetchMock.mockClear();
+    mocked.appendBetaSubmission.mockClear();
     const trapped = await submitBeta(validBeta({ company: "Bot Corp" }));
 
     expect(trapped).toEqual(SUCCESS);
     expect(trapped).toEqual(genuine);
-    expect(fetchMock).not.toHaveBeenCalled();
+    expect(mocked.appendBetaSubmission).not.toHaveBeenCalled();
   });
 });
 

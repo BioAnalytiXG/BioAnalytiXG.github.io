@@ -54,6 +54,12 @@ export interface BetaApplicationFormProps {
    */
   strategy?: SubmissionStrategy<BetaApplicationValues>;
   className?: string;
+  /**
+   * Which intake this form instance serves. Tags the stored submission so beta,
+   * careers, and collaboration requests are distinguishable in the sheet.
+   * Not user-editable. Defaults to "beta".
+   */
+  source?: BetaApplicationValues["source"];
   /** Submit button label (idle). Defaults to "Submit application". */
   submitLabel?: string;
   /** Submit button label while a request is in flight. Defaults to "Submitting…". */
@@ -114,6 +120,7 @@ async function submitWithTimeout(
 export function BetaApplicationForm({
   strategy,
   className,
+  source = "beta",
   submitLabel = "Submit application",
   pendingLabel = "Submitting…",
   successTitle = "Application received",
@@ -139,6 +146,7 @@ export function BetaApplicationForm({
       // type narrows this literal field, so we assert the initial `false`.
       consent: false as unknown as true,
       company: "",
+      source,
     },
     mode: "onSubmit",
   });

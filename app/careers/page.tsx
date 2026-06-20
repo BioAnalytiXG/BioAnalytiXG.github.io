@@ -269,7 +269,7 @@ export default function CareersPage() {
 
           <ScrollReveal className="mx-auto mt-12 max-w-xl" delay={120}>
             <div className="rounded-xl border border-border bg-card p-6 shadow-sm md:p-8">
-              <BetaApplicationForm />
+              <BetaApplicationForm source="careers" />
             </div>
           </ScrollReveal>
         </div>
