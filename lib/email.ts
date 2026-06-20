@@ -87,13 +87,34 @@ export async function sendContactEmail(
 
           <!-- Header -->
           <tr>
-            <td style="background-color:#0f172a;border-radius:12px 12px 0 0;padding:32px 40px;text-align:center;">
-              <p style="margin:0;font-size:22px;font-weight:700;letter-spacing:-0.02em;color:#ffffff;">
-                BioAnalytiX
-              </p>
-              <p style="margin:6px 0 0;font-size:12px;font-weight:400;letter-spacing:0.08em;text-transform:uppercase;color:#7ccdb3;">
-                Rethink Intelligence
-              </p>
+            <td style="background-color:#0f172a;border-radius:12px 12px 0 0;padding:28px 40px;text-align:center;">
+              <table role="presentation" cellspacing="0" cellpadding="0" align="center">
+                <tr>
+                  <!-- Icon mark -->
+                  <td style="padding-right:10px;vertical-align:middle;">
+                    <img
+                      src="https://www.bioanalytix.info/images/bioanalytix-mark.svg"
+                      alt=""
+                      width="44"
+                      height="40"
+                      style="display:block;filter:invert(1);width:44px;height:auto;"
+                    />
+                  </td>
+                  <!-- Wordmark + tagline -->
+                  <td style="vertical-align:middle;text-align:left;">
+                    <img
+                      src="https://www.bioanalytix.info/images/bioanalytix.PNG"
+                      alt="BioAnalytiX"
+                      width="160"
+                      height="36"
+                      style="display:block;filter:invert(1);width:160px;height:auto;"
+                    />
+                    <p style="margin:4px 0 0 2px;font-size:11px;font-style:italic;font-weight:400;letter-spacing:0.04em;color:#7ccdb3;">
+                      Rethink Intelligence
+                    </p>
+                  </td>
+                </tr>
+              </table>
             </td>
           </tr>
 
@@ -163,8 +184,30 @@ export async function sendContactEmail(
           <!-- Footer -->
           <tr>
             <td style="background-color:#f8fafc;border:1px solid #e2e8f0;border-top:none;border-radius:0 0 12px 12px;padding:20px 40px;text-align:center;">
+              <table role="presentation" cellspacing="0" cellpadding="0" align="center" style="margin:0 auto 8px;">
+                <tr>
+                  <td style="padding-right:8px;vertical-align:middle;">
+                    <img
+                      src="https://www.bioanalytix.info/images/bioanalytix-mark.svg"
+                      alt=""
+                      width="22"
+                      height="20"
+                      style="display:block;width:22px;height:auto;opacity:0.5;"
+                    />
+                  </td>
+                  <td style="vertical-align:middle;">
+                    <img
+                      src="https://www.bioanalytix.info/images/bioanalytix.PNG"
+                      alt="BioAnalytiX"
+                      width="100"
+                      height="22"
+                      style="display:block;filter:brightness(0);width:100px;height:auto;opacity:0.5;"
+                    />
+                  </td>
+                </tr>
+              </table>
               <p style="margin:0 0 4px;font-size:12px;color:#5a687c;">
-                <strong style="color:#0f172a;">BioAnalytiX</strong> &nbsp;·&nbsp; Thessaloniki, Greece &nbsp;·&nbsp;
+                Thessaloniki, Greece &nbsp;·&nbsp;
                 <a href="https://www.bioanalytix.info" style="color:#1f7a5a;text-decoration:none;">bioanalytix.info</a>
               </p>
               <p style="margin:6px 0 0;font-size:11px;color:#94a3b8;">
