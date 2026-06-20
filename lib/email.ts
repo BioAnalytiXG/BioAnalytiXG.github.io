@@ -248,11 +248,11 @@ export async function sendContactEmail(
             <td style="background:linear-gradient(135deg,#0f172a 0%,#1e3a4a 100%);border-radius:16px 16px 0 0;padding:48px 48px 40px;text-align:center;">
               <!-- Mint accent bar -->
               <div style="width:48px;height:4px;background-color:#7ccdb3;border-radius:2px;margin:0 auto 28px;"></div>
-              <h1 style="margin:0 0 12px;font-size:26px;font-weight:700;letter-spacing:-0.02em;color:#ffffff;line-height:1.2;">
+              <h1 style="margin:0 0 12px;font-size:26px;font-weight:700;letter-spacing:-0.02em;color:#ffffff !important;line-height:1.2;">
                 Message received.
               </h1>
-              <p style="margin:0;font-size:16px;line-height:1.6;color:#94a3b8;max-width:380px;margin:0 auto;">
-                Thanks for reaching out, <strong style="color:#ffffff;">${escapeHtml(name)}</strong>. We'll be in touch shortly.
+              <p style="margin:0 0 0 0;font-size:16px;line-height:1.6;color:#94a3b8;max-width:380px;">
+                Thanks for reaching out, <strong style="color:#ffffff !important;">${escapeHtml(name)}</strong>. We'll be in touch shortly.
               </p>
             </td>
           </tr>
@@ -262,6 +262,7 @@ export async function sendContactEmail(
             <td style="background-color:#ffffff;padding:40px 48px;border-left:1px solid #e2e8f0;border-right:1px solid #e2e8f0;">
 
               <!-- What to expect -->
+              <p style="margin:0 0 4px;font-size:11px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:#7ccdb3;">Message received</p>
               <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="margin-bottom:32px;">
                 <tr>
                   <td style="vertical-align:top;padding-right:16px;width:40px;">
