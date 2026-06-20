@@ -41,7 +41,9 @@ export async function sendContactEmail(
   }
 
   const to = process.env.CONTACT_TO_EMAIL?.trim() || DEFAULT_TO;
-  const from = process.env.CONTACT_FROM_EMAIL?.trim() || DEFAULT_FROM;
+  // Strip any surrounding quotes that may have been added in the Vercel UI.
+  const rawFrom = process.env.CONTACT_FROM_EMAIL?.trim().replace(/^["']|["']$/g, "");
+  const from = rawFrom || DEFAULT_FROM;
 
   console.log("[sendContactEmail] Sending from:", from, "to:", to);
 
