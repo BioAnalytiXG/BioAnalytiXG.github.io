@@ -36,11 +36,14 @@ export async function sendContactEmail(
 ): Promise<boolean> {
   const apiKey = process.env.RESEND_API_KEY;
   if (!apiKey) {
+    console.error("[sendContactEmail] RESEND_API_KEY is not set");
     return false;
   }
 
   const to = process.env.CONTACT_TO_EMAIL?.trim() || DEFAULT_TO;
   const from = process.env.CONTACT_FROM_EMAIL?.trim() || DEFAULT_FROM;
+
+  console.log("[sendContactEmail] Sending from:", from, "to:", to);
 
   const name = sanitizeHeaderValue(data.name);
   const submittedAt = new Date().toISOString();
@@ -74,7 +77,7 @@ export async function sendContactEmail(
 
   try {
     const resend = new Resend(apiKey);
-    const { error } = await resend.emails.send({
+    const { data: sendData, error } = await resend.emails.send({
       from,
       to,
       replyTo: data.email,
@@ -82,8 +85,14 @@ export async function sendContactEmail(
       text,
       html,
     });
-    return !error;
-  } catch {
+    if (error) {
+      console.error("[sendContactEmail] Resend error:", JSON.stringify(error));
+      return false;
+    }
+    console.log("[sendContactEmail] Sent successfully, id:", sendData?.id);
+    return true;
+  } catch (err) {
+    console.error("[sendContactEmail] Unexpected error:", err);
     return false;
   }
 }
