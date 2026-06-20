@@ -36,7 +36,7 @@ import {
   VALIDATION_ERROR_MESSAGE,
 } from "@/lib/forms";
 import { appendBetaSubmission, toBetaRecord } from "@/lib/submissions-store";
-import { sendBetaConfirmationEmail } from "@/lib/email";
+import { sendBetaConfirmationEmail, sendBetaNotificationEmail } from "@/lib/email";
 import { formRateLimiter } from "@/lib/rate-limit";
 import {
   betaApplicationSchema,
@@ -135,9 +135,9 @@ export async function submitBeta(
     return { status: "error", message: SUBMISSION_ERROR_MESSAGE };
   }
 
-  // 6. Send a branded confirmation email to the applicant. Non-blocking —
-  //    a failed confirmation does not affect the stored submission.
+  // 6. Send emails non-blocking: confirmation to applicant + notification to inbox.
   void sendBetaConfirmationEmail(betaRecord);
+  void sendBetaNotificationEmail(betaRecord);
 
   return { status: "success" };
 }

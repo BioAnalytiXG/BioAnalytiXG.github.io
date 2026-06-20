@@ -589,3 +589,104 @@ export async function sendBetaConfirmationEmail(
     return false;
   }
 }
+
+// ---------------------------------------------------------------------------
+// Internal notification for beta / careers / collaboration submissions
+// ---------------------------------------------------------------------------
+
+const SOURCE_LABEL_INTERNAL: Record<SubmissionSource, string> = {
+  beta:          "Beta Access Request",
+  careers:       "Careers Application",
+  collaboration: "Collaboration Request",
+};
+
+/**
+ * Send an internal notification to the BioAnalytiX inbox whenever a new
+ * beta / careers / collaboration submission is stored. Non-blocking.
+ */
+export async function sendBetaNotificationEmail(
+  record: Pick<BetaSubmissionRecord, "source" | "fullName" | "email" | "organization" | "role" | "message">,
+): Promise<boolean> {
+  const apiKey = process.env.RESEND_API_KEY;
+  if (!apiKey) return false;
+
+  const to   = process.env.CONTACT_TO_EMAIL?.trim() || DEFAULT_TO;
+  const from = process.env.CONTACT_FROM_EMAIL?.trim().replace(/^["']|["']$/g, "") || DEFAULT_FROM;
+
+  const name  = sanitizeHeaderValue(record.fullName);
+  const label = SOURCE_LABEL_INTERNAL[record.source];
+
+  const escHtml = (s: string) =>
+    s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+
+  const detailRows = [
+    `<tr><td style="padding:4px 12px 4px 0;font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#5a687c;">Name</td><td style="font-size:14px;font-weight:600;color:#0f172a;">${escHtml(name)}</td></tr>`,
+    `<tr><td style="padding:4px 12px 4px 0;font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#5a687c;">Email</td><td style="font-size:14px;color:#0f172a;"><a href="mailto:${escHtml(record.email)}" style="color:#1f7a5a;text-decoration:none;">${escHtml(record.email)}</a></td></tr>`,
+    record.organization ? `<tr><td style="padding:4px 12px 4px 0;font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#5a687c;">Organization</td><td style="font-size:14px;color:#0f172a;">${escHtml(record.organization)}</td></tr>` : "",
+    record.role ? `<tr><td style="padding:4px 12px 4px 0;font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#5a687c;">Role</td><td style="font-size:14px;color:#0f172a;">${escHtml(record.role)}</td></tr>` : "",
+    `<tr><td style="padding:4px 12px 4px 0;font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#5a687c;">Date</td><td style="font-size:14px;color:#0f172a;">${new Date().toLocaleString("en-GB", { dateStyle: "long", timeStyle: "short", timeZone: "UTC" })} UTC</td></tr>`,
+  ].filter(Boolean).join("");
+
+  const messageBlock = record.message
+    ? `<p style="margin:16px 0 8px;font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#5a687c;">Message</p><div style="background-color:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:14px 18px;"><p style="margin:0;font-size:14px;line-height:1.7;color:#0f172a;white-space:pre-wrap;">${escHtml(record.message)}</p></div>`
+    : "";
+
+  const html = `<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/><title>New ${escHtml(label)}</title></head>
+<body style="margin:0;padding:0;background-color:#f4f6f8;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;">
+  <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background-color:#f4f6f8;padding:40px 16px;">
+    <tr><td align="center">
+      <table role="presentation" width="100%" style="max-width:560px;">
+        <tr><td style="background-color:#0f172a;border-radius:12px 12px 0 0;padding:28px 40px;text-align:center;">
+          <p style="margin:0;font-size:20px;font-weight:700;letter-spacing:-0.02em;color:#ffffff;">BioAnalytiX</p>
+          <p style="margin:4px 0 0;font-size:11px;font-weight:400;letter-spacing:0.08em;text-transform:uppercase;color:#7ccdb3;">Rethink Intelligence</p>
+        </td></tr>
+        <tr><td style="background-color:#ffffff;padding:32px 40px;">
+          <p style="margin:0 0 4px;font-size:11px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:#7ccdb3;">New submission</p>
+          <h1 style="margin:0 0 24px;font-size:20px;font-weight:700;letter-spacing:-0.02em;color:#0f172a;line-height:1.25;">New ${escHtml(label)}</h1>
+          <hr style="border:none;border-top:1px solid #e2e8f0;margin:0 0 20px;"/>
+          <table role="presentation" cellspacing="0" cellpadding="0" style="border-collapse:collapse;">${detailRows}</table>
+          ${messageBlock}
+          <hr style="border:none;border-top:1px solid #e2e8f0;margin:20px 0;"/>
+          <table role="presentation" cellspacing="0" cellpadding="0">
+            <tr><td style="border-radius:8px;background-color:#7ccdb3;">
+              <a href="mailto:${escHtml(record.email)}" style="display:inline-block;padding:11px 24px;font-size:13px;font-weight:700;color:#0f3d2e;text-decoration:none;">Reply to ${escHtml(name)} →</a>
+            </td></tr>
+          </table>
+        </td></tr>
+        <tr><td style="background-color:#f8fafc;border:1px solid #e2e8f0;border-top:none;border-radius:0 0 12px 12px;padding:16px 40px;text-align:center;">
+          <p style="margin:0;font-size:11px;color:#94a3b8;">© ${new Date().getFullYear()} BioAnalytiX · This notification was generated automatically.</p>
+        </td></tr>
+      </table>
+    </td></tr>
+  </table>
+</body>
+</html>`;
+
+  const text = [
+    `New ${label} — BioAnalytiX`,
+    `${"─".repeat(40)}`,
+    `Name: ${name}`,
+    `Email: ${record.email}`,
+    record.organization ? `Organization: ${record.organization}` : "",
+    record.role ? `Role: ${record.role}` : "",
+    `Date: ${new Date().toISOString()}`,
+    record.message ? `\nMessage:\n${record.message}` : "",
+  ].filter(Boolean).join("\n");
+
+  try {
+    const resend = new Resend(apiKey);
+    const { error } = await resend.emails.send({
+      from,
+      to,
+      replyTo: record.email,
+      subject: `[BioAnalytiX] New ${label} from ${name}`,
+      text,
+      html,
+    });
+    return !error;
+  } catch {
+    return false;
+  }
+}

@@ -8,41 +8,38 @@ import type { BetaApplicationValues } from "@/lib/schemas";
  * Durable submission storage for beta, careers, and collaboration requests in a
  * PRIVATE Google Sheet.
  *
- * Vercel's serverless filesystem is read-only, so applications are appended as
- * rows to a Google Sheet via the Sheets API using a Google Cloud service
- * account. The sheet stays private: only the sheet owner and the service
- * account (which it is explicitly shared with) can read it.
+ * Each intake type is routed to its own tab:
+ *  - Beta access   → "Beta"          (columns: timestamp, fullName, email, organization, role, message)
+ *  - Careers       → "Careers"       (columns: timestamp, fullName, email, organization, role, message)
+ *  - Collaboration → "Collaboration" (columns: timestamp, fullName, email, organization, role, message)
  *
- * Configuration (server-only env vars, never shipped to the client):
- *  - `GOOGLE_SHEETS_SPREADSHEET_ID` (required) — the target spreadsheet id (the
- *    long token in its URL).
- *  - `GOOGLE_SERVICE_ACCOUNT_EMAIL` (required) — service-account email; the
- *    sheet must be shared with this address as an Editor.
- *  - `GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY` (required) — the service-account
- *    private key. Newlines may be stored escaped as `\n` and are normalized.
- *  - `GOOGLE_SHEETS_RANGE` (optional) — append range / tab. Default `Submissions!A:G`.
- *
- * When any required variable is missing, persistence is treated as unconfigured
- * and {@link appendBetaSubmission} returns `false`, so the action surfaces a
- * generic retryable failure (Req 15.5) without leaking configuration.
+ * Required env vars (server-only):
+ *  - GOOGLE_SHEETS_SPREADSHEET_ID
+ *  - GOOGLE_SERVICE_ACCOUNT_EMAIL  (share the sheet with this address as Editor)
+ *  - GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY  (\n escaping is normalized)
  */
 
 const SHEETS_SCOPE = "https://www.googleapis.com/auth/spreadsheets";
-const DEFAULT_RANGE = "Submissions!A:G";
 
-/** Column order written to the sheet (mirror this in the sheet header row). */
-const COLUMNS = [
+/** Which form intake this record came from. */
+export type SubmissionSource = "beta" | "careers" | "collaboration";
+
+/** Per-source Google Sheet tab configuration. */
+const SOURCE_TAB: Record<SubmissionSource, { tab: string }> = {
+  beta:          { tab: "Beta" },
+  careers:       { tab: "Careers" },
+  collaboration: { tab: "Collaboration" },
+};
+
+/** Columns written to every tab (in order). Header row must match. */
+const ROW_COLUMNS = [
   "timestamp",
-  "type",
   "fullName",
   "email",
   "organization",
   "role",
   "message",
 ] as const;
-
-/** Request origin, so one sheet can hold all three intake types. */
-export type SubmissionSource = "beta" | "careers" | "collaboration";
 
 export interface BetaSubmissionRecord {
   source: SubmissionSource;
@@ -53,78 +50,59 @@ export interface BetaSubmissionRecord {
   message?: string;
 }
 
-/** Human-readable label per source for the sheet's `type` column. */
-const SOURCE_LABEL: Record<SubmissionSource, string> = {
-  beta: "Beta access",
-  careers: "Careers",
-  collaboration: "Collaboration",
-};
-
 interface SheetsConfig {
   spreadsheetId: string;
   clientEmail: string;
   privateKey: string;
-  range: string;
 }
 
-/** Read and validate the Sheets configuration from server-only env vars. */
 function readConfig(): SheetsConfig | null {
   const spreadsheetId = process.env.GOOGLE_SHEETS_SPREADSHEET_ID?.trim();
-  const clientEmail = process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL?.trim();
-  // Private keys are commonly stored with literal "\n"; normalize to real newlines.
-  const privateKey = process.env.GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY?.replace(
-    /\\n/g,
-    "\n",
-  ).trim();
-  const range = process.env.GOOGLE_SHEETS_RANGE?.trim() || DEFAULT_RANGE;
+  const clientEmail   = process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL?.trim();
+  const privateKey    = process.env.GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY
+    ?.replace(/\\n/g, "\n").trim();
 
-  if (!spreadsheetId || !clientEmail || !privateKey) {
-    return null;
-  }
-  return { spreadsheetId, clientEmail, privateKey, range };
+  if (!spreadsheetId || !clientEmail || !privateKey) return null;
+  return { spreadsheetId, clientEmail, privateKey };
 }
 
 /**
- * Append one beta/careers/collaboration request as a row in the private Google
- * Sheet.
- *
- * @returns `true` when the row is persisted; `false` when storage is
- *   unconfigured or the write fails (the caller surfaces a generic retryable
- *   error and retains the user's input).
+ * Append one row to the tab that matches `record.source`.
+ * Returns `true` when the write succeeds; `false` otherwise.
  */
 export async function appendBetaSubmission(
   record: BetaSubmissionRecord,
 ): Promise<boolean> {
   const config = readConfig();
-  if (!config) {
-    return false;
-  }
+  if (!config) return false;
 
-  const row: Record<(typeof COLUMNS)[number], string> = {
-    timestamp: new Date().toISOString(),
-    type: SOURCE_LABEL[record.source],
-    fullName: record.fullName,
-    email: record.email,
+  const { tab } = SOURCE_TAB[record.source];
+  // Dynamic range: "Beta!A:F", "Careers!A:F", etc.
+  const range = `${tab}!A:${String.fromCharCode(64 + ROW_COLUMNS.length)}`;
+
+  const rowData: Record<(typeof ROW_COLUMNS)[number], string> = {
+    timestamp:    new Date().toISOString(),
+    fullName:     record.fullName,
+    email:        record.email,
     organization: record.organization ?? "",
-    role: record.role ?? "",
-    message: record.message ?? "",
+    role:         record.role ?? "",
+    message:      record.message ?? "",
   };
-  const values = [COLUMNS.map((c) => row[c])];
+  const values = [ROW_COLUMNS.map((c) => rowData[c])];
 
   try {
     const auth = new JWT({
       email: config.clientEmail,
-      key: config.privateKey,
+      key:   config.privateKey,
       scopes: [SHEETS_SCOPE],
     });
     const { token } = await auth.getAccessToken();
-    if (!token) {
-      return false;
-    }
+    if (!token) return false;
 
     const url =
-      `https://sheets.googleapis.com/v4/spreadsheets/${encodeURIComponent(config.spreadsheetId)}` +
-      `/values/${encodeURIComponent(config.range)}:append` +
+      `https://sheets.googleapis.com/v4/spreadsheets/` +
+      `${encodeURIComponent(config.spreadsheetId)}` +
+      `/values/${encodeURIComponent(range)}:append` +
       `?valueInputOption=USER_ENTERED&insertDataOption=INSERT_ROWS`;
 
     const res = await fetch(url, {
@@ -148,11 +126,11 @@ export function toBetaRecord(
   values: Omit<BetaApplicationValues, "company" | "consent">,
 ): BetaSubmissionRecord {
   return {
-    source: values.source ?? "beta",
-    fullName: values.fullName,
-    email: values.email,
+    source:       values.source ?? "beta",
+    fullName:     values.fullName,
+    email:        values.email,
     organization: values.organization,
-    role: values.role,
-    message: values.message,
+    role:         values.role,
+    message:      values.message,
   };
 }
