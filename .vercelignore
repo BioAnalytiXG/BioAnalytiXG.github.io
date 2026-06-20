@@ -1,0 +1,4 @@
+# Exclude the legacy GitHub Pages site from the Vercel build and deployment.
+# No file or path under Legacy/ should be reachable in the deployed Website.
+# (Requirement 15.3)
+Legacy/
