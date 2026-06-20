@@ -182,15 +182,176 @@ export async function sendContactEmail(
 
   try {
     const resend = new Resend(apiKey);
-    const { error } = await resend.emails.send({
-      from,
-      to,
-      replyTo: data.email,
-      subject: `New contact message from ${name}`,
-      text,
-      html,
-    });
-    return !error;
+
+    // Send both emails in parallel: internal notification + sender confirmation.
+    const [internal, confirmation] = await Promise.all([
+      // 1. Internal notification to the BioAnalytiX inbox.
+      resend.emails.send({
+        from,
+        to,
+        replyTo: data.email,
+        subject: `New contact message from ${name}`,
+        text,
+        html,
+      }),
+      // 2. Confirmation email to the sender — premium branded design.
+      resend.emails.send({
+        from,
+        to: data.email,
+        subject: `We received your message — BioAnalytiX`,
+        text: [
+          `Hi ${name},`,
+          ``,
+          `Thank you for reaching out to BioAnalytiX. We have received your message and will get back to you as soon as possible — usually within 1–2 business days.`,
+          ``,
+          `Your message:`,
+          `"${data.message}"`,
+          ``,
+          `In the meantime, feel free to explore our work at https://www.bioanalytix.info`,
+          ``,
+          `Best regards,`,
+          `The BioAnalytiX Team`,
+          ``,
+          `BioAnalytiX · Thessaloniki, Greece · bioanalytix.info`,
+          `© ${new Date().getFullYear()} BioAnalytiX. All rights reserved.`,
+        ].join("\n"),
+        html: `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>We received your message</title>
+</head>
+<body style="margin:0;padding:0;background-color:#f0f4f8;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;">
+  <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background-color:#f0f4f8;padding:48px 16px;">
+    <tr>
+      <td align="center">
+        <table role="presentation" width="100%" style="max-width:580px;">
+
+          <!-- Logo bar -->
+          <tr>
+            <td style="padding-bottom:24px;text-align:center;">
+              <a href="https://www.bioanalytix.info" style="text-decoration:none;">
+                <img
+                  src="https://www.bioanalytix.info/images/complete-logo.svg"
+                  alt="BioAnalytiX"
+                  width="180"
+                  height="64"
+                  style="display:inline-block;width:180px;height:auto;border:0;"
+                />
+              </a>
+            </td>
+          </tr>
+
+          <!-- Hero card -->
+          <tr>
+            <td style="background:linear-gradient(135deg,#0f172a 0%,#1e3a4a 100%);border-radius:16px 16px 0 0;padding:48px 48px 40px;text-align:center;">
+              <!-- Mint accent bar -->
+              <div style="width:48px;height:4px;background-color:#7ccdb3;border-radius:2px;margin:0 auto 28px;"></div>
+              <h1 style="margin:0 0 12px;font-size:26px;font-weight:700;letter-spacing:-0.02em;color:#ffffff;line-height:1.2;">
+                Message received.
+              </h1>
+              <p style="margin:0;font-size:16px;line-height:1.6;color:#94a3b8;max-width:380px;margin:0 auto;">
+                Thanks for reaching out, <strong style="color:#ffffff;">${escapeHtml(name)}</strong>. We'll be in touch shortly.
+              </p>
+            </td>
+          </tr>
+
+          <!-- White body card -->
+          <tr>
+            <td style="background-color:#ffffff;padding:40px 48px;border-left:1px solid #e2e8f0;border-right:1px solid #e2e8f0;">
+
+              <!-- What to expect -->
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="margin-bottom:32px;">
+                <tr>
+                  <td style="vertical-align:top;padding-right:16px;width:40px;">
+                    <div style="width:40px;height:40px;border-radius:10px;background-color:#daf7ec;display:table-cell;text-align:center;vertical-align:middle;">
+                      <span style="font-size:20px;line-height:40px;">&#10003;</span>
+                    </div>
+                  </td>
+                  <td style="vertical-align:middle;">
+                    <p style="margin:0 0 2px;font-size:14px;font-weight:600;color:#0f172a;">Your message has been received</p>
+                    <p style="margin:0;font-size:13px;color:#5a687c;line-height:1.5;">Our team reviews every message personally and will respond within <strong style="color:#0f172a;">1–2 business days</strong>.</p>
+                  </td>
+                </tr>
+              </table>
+
+              <!-- Divider -->
+              <hr style="border:none;border-top:1px solid #f1f5f9;margin:0 0 28px;" />
+
+              <!-- Message recap -->
+              <p style="margin:0 0 10px;font-size:11px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:#5a687c;">Your message</p>
+              <div style="background-color:#f8fafc;border-left:3px solid #7ccdb3;border-radius:0 8px 8px 0;padding:16px 20px;margin-bottom:32px;">
+                <p style="margin:0;font-size:14px;line-height:1.7;color:#334155;white-space:pre-wrap;font-style:italic;">"${escapeHtml(data.message)}"</p>
+              </div>
+
+              <!-- Divider -->
+              <hr style="border:none;border-top:1px solid #f1f5f9;margin:0 0 28px;" />
+
+              <!-- Products teaser -->
+              <p style="margin:0 0 16px;font-size:11px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:#5a687c;">While you wait, explore our work</p>
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="margin-bottom:32px;">
+                <tr>
+                  <td width="50%" style="padding-right:8px;vertical-align:top;">
+                    <a href="https://www.bioanalytix.info/product" style="display:block;text-decoration:none;background-color:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:16px;transition:border-color 0.2s;">
+                      <p style="margin:0 0 4px;font-size:13px;font-weight:700;color:#0f172a;">Orasis AI</p>
+                      <p style="margin:0;font-size:12px;color:#5a687c;line-height:1.4;">AI-powered brain CT analysis for radiologists</p>
+                    </a>
+                  </td>
+                  <td width="50%" style="padding-left:8px;vertical-align:top;">
+                    <a href="https://www.bioanalytix.info/gnosis-ai" style="display:block;text-decoration:none;background-color:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:16px;">
+                      <p style="margin:0 0 4px;font-size:13px;font-weight:700;color:#0f172a;">Gnosis AI</p>
+                      <p style="margin:0;font-size:12px;color:#5a687c;line-height:1.4;">AI study companion for university students</p>
+                    </a>
+                  </td>
+                </tr>
+              </table>
+
+              <!-- CTA button -->
+              <table role="presentation" cellspacing="0" cellpadding="0">
+                <tr>
+                  <td style="border-radius:8px;background-color:#7ccdb3;">
+                    <a href="https://www.bioanalytix.info"
+                       style="display:inline-block;padding:13px 32px;font-size:14px;font-weight:700;color:#0f3d2e;text-decoration:none;letter-spacing:-0.01em;">
+                      Visit bioanalytix.info →
+                    </a>
+                  </td>
+                </tr>
+              </table>
+
+            </td>
+          </tr>
+
+          <!-- Footer -->
+          <tr>
+            <td style="background-color:#f8fafc;border:1px solid #e2e8f0;border-top:none;border-radius:0 0 16px 16px;padding:24px 48px;text-align:center;">
+              <p style="margin:0 0 6px;font-size:13px;color:#5a687c;">
+                <strong style="color:#0f172a;">BioAnalytiX</strong>
+                &nbsp;·&nbsp; Thessaloniki, Greece
+                &nbsp;·&nbsp;
+                <a href="https://www.bioanalytix.info" style="color:#1f7a5a;text-decoration:none;font-weight:500;">bioanalytix.info</a>
+              </p>
+              <p style="margin:4px 0 0;font-size:11px;color:#94a3b8;line-height:1.5;">
+                © ${new Date().getFullYear()} BioAnalytiX. You received this confirmation because you submitted the contact form on our website.
+              </p>
+            </td>
+          </tr>
+
+          <!-- Bottom spacing -->
+          <tr><td style="height:32px;"></td></tr>
+
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>`,
+      }),
+    ]);
+
+    // The submission succeeds as long as the internal notification is delivered.
+    // A failed confirmation is non-blocking — the visitor's message is still received.
+    return !internal.error;
   } catch {
     return false;
   }
