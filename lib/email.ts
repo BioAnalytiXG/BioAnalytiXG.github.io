@@ -245,14 +245,14 @@ export async function sendContactEmail(
 
           <!-- Hero card -->
           <tr>
-            <td style="background:linear-gradient(135deg,#0f172a 0%,#1e3a4a 100%);border-radius:16px 16px 0 0;padding:48px 48px 40px;text-align:center;">
+            <td style="background-color:#daf7ec;border-radius:16px 16px 0 0;padding:48px 48px 40px;text-align:center;">
               <!-- Mint accent bar -->
-              <div style="width:48px;height:4px;background-color:#7ccdb3;border-radius:2px;margin:0 auto 28px;"></div>
-              <h1 style="margin:0 0 12px;font-size:26px;font-weight:700;letter-spacing:-0.02em;color:#ffffff !important;line-height:1.2;">
+              <div style="width:48px;height:4px;background-color:#1f7a5a;border-radius:2px;margin:0 auto 28px;"></div>
+              <h1 style="margin:0 0 12px;font-size:26px;font-weight:700;letter-spacing:-0.02em;color:#0f172a;line-height:1.2;">
                 Message received.
               </h1>
-              <p style="margin:0 0 0 0;font-size:16px;line-height:1.6;color:#94a3b8;max-width:380px;">
-                Thanks for reaching out, <strong style="color:#ffffff !important;">${escapeHtml(name)}</strong>. We'll be in touch shortly.
+              <p style="margin:0 0 0 0;font-size:16px;line-height:1.6;color:#1f7a5a;max-width:380px;margin:0 auto;">
+                Thanks for reaching out, <strong style="color:#0f172a;">${escapeHtml(name)}</strong>. We'll be in touch shortly.
               </p>
             </td>
           </tr>
