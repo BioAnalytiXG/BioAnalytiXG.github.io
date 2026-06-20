@@ -135,9 +135,13 @@ export async function submitBeta(
     return { status: "error", message: SUBMISSION_ERROR_MESSAGE };
   }
 
-  // 6. Send emails non-blocking: confirmation to applicant + notification to inbox.
-  void sendBetaConfirmationEmail(betaRecord);
-  void sendBetaNotificationEmail(betaRecord);
+  // 6. Send emails: confirmation to applicant + notification to inbox.
+  //    Run in parallel but awaited so Vercel doesn't cut the function
+  //    before the Resend requests complete.
+  await Promise.allSettled([
+    sendBetaConfirmationEmail(betaRecord),
+    sendBetaNotificationEmail(betaRecord),
+  ]);
 
   return { status: "success" };
 }

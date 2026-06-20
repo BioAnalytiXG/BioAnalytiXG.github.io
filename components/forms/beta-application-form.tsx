@@ -347,6 +347,8 @@ export function BetaApplicationForm({
             autoComplete="off"
             {...form.register("company")}
           />
+          {/* Hidden source tag — identifies which intake this submission came from */}
+          <input type="hidden" {...form.register("source")} />
         </div>
 
         {result?.status === "error" ? (
