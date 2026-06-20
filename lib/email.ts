@@ -262,12 +262,11 @@ export async function sendContactEmail(
             <td style="background-color:#ffffff;padding:40px 48px;border-left:1px solid #e2e8f0;border-right:1px solid #e2e8f0;">
 
               <!-- What to expect -->
-              <p style="margin:0 0 4px;font-size:11px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:#7ccdb3;">Message received</p>
               <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="margin-bottom:32px;">
                 <tr>
                   <td style="vertical-align:top;padding-right:16px;width:40px;">
-                    <div style="width:40px;height:40px;border-radius:10px;background-color:#daf7ec;display:table-cell;text-align:center;vertical-align:middle;">
-                      <span style="font-size:20px;line-height:40px;">&#10003;</span>
+                    <div style="width:40px;height:40px;border-radius:10px;background-color:#daf7ec;text-align:center;vertical-align:middle;line-height:40px;">
+                      <span style="font-size:20px;color:#1f7a5a;">&#10003;</span>
                     </div>
                   </td>
                   <td style="vertical-align:middle;">
