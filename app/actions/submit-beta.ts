@@ -36,6 +36,7 @@ import {
   VALIDATION_ERROR_MESSAGE,
 } from "@/lib/forms";
 import { appendBetaSubmission, toBetaRecord } from "@/lib/submissions-store";
+import { sendBetaConfirmationEmail } from "@/lib/email";
 import { formRateLimiter } from "@/lib/rate-limit";
 import {
   betaApplicationSchema,
@@ -124,7 +125,8 @@ export async function submitBeta(
   void _company;
   void _consent;
 
-  const persisted = await appendBetaSubmission(toBetaRecord(rest));
+  const betaRecord = toBetaRecord(rest);
+  const persisted = await appendBetaSubmission(betaRecord);
 
   // 5. On storage failure (or unconfigured storage), return a non-success
   //    result so the form can preserve the entered values and offer a retry
@@ -132,6 +134,10 @@ export async function submitBeta(
   if (!persisted) {
     return { status: "error", message: SUBMISSION_ERROR_MESSAGE };
   }
+
+  // 6. Send a branded confirmation email to the applicant. Non-blocking —
+  //    a failed confirmation does not affect the stored submission.
+  void sendBetaConfirmationEmail(betaRecord);
 
   return { status: "success" };
 }

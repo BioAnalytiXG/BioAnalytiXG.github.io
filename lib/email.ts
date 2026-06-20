@@ -3,6 +3,7 @@ import "server-only";
 import { Resend } from "resend";
 
 import type { ContactValues } from "@/lib/schemas";
+import type { BetaSubmissionRecord, SubmissionSource } from "@/lib/submissions-store";
 
 /**
  * Contact-form email delivery via Resend.
@@ -352,6 +353,238 @@ export async function sendContactEmail(
     // The submission succeeds as long as the internal notification is delivered.
     // A failed confirmation is non-blocking — the visitor's message is still received.
     return !internal.error;
+  } catch {
+    return false;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Beta / Careers / Collaboration confirmation emails
+// ---------------------------------------------------------------------------
+
+/** Per-source copy variations. */
+const SOURCE_COPY: Record<
+  SubmissionSource,
+  {
+    subject: string;
+    heroTitle: string;
+    heroSub: string;
+    checkTitle: string;
+    checkBody: string;
+    nextStepTitle: string;
+    nextStepBody: string;
+    ctaLabel: string;
+    ctaHref: string;
+  }
+> = {
+  beta: {
+    subject: "We received your beta access request — BioAnalytiX",
+    heroTitle: "Beta request received.",
+    heroSub: "Thanks for your interest in Gnosis AI. We'll review your request and be in touch soon.",
+    checkTitle: "You're on the list",
+    checkBody:
+      "Our team will review your application and reach out when we're ready to onboard new beta users. We'll keep you posted on our progress.",
+    nextStepTitle: "What happens next?",
+    nextStepBody:
+      "We're reviewing all beta requests personally. Once accepted, you'll receive access instructions and onboarding details by email.",
+    ctaLabel: "Learn more about Gnosis AI →",
+    ctaHref: "https://www.bioanalytix.info/gnosis-ai",
+  },
+  careers: {
+    subject: "We received your application — BioAnalytiX",
+    heroTitle: "Application received.",
+    heroSub:
+      "Thanks for your interest in joining BioAnalytiX. We'll review your details and reach out when a relevant role opens.",
+    checkTitle: "You've joined our talent pool",
+    checkBody:
+      "We don't have open positions right now, but we review every application carefully. When a role that matches your profile opens, you'll be the first to hear.",
+    nextStepTitle: "What happens next?",
+    nextStepBody:
+      "Our team will keep your details on file. When we're ready to hire, we'll reach out directly for an initial conversation.",
+    ctaLabel: "Learn about our mission →",
+    ctaHref: "https://www.bioanalytix.info/about",
+  },
+  collaboration: {
+    subject: "We received your collaboration request — BioAnalytiX",
+    heroTitle: "Request received.",
+    heroSub:
+      "Thanks for reaching out about a collaboration with BioAnalytiX. We'll review your message and follow up shortly.",
+    checkTitle: "We've received your request",
+    checkBody:
+      "Our team reviews every collaboration inquiry personally. We're particularly interested in clinical and academic partnerships that advance trustworthy AI in healthcare.",
+    nextStepTitle: "What happens next?",
+    nextStepBody:
+      "We'll evaluate the collaboration opportunity and reach out to schedule a call to discuss next steps. Expect to hear from us within a few business days.",
+    ctaLabel: "Learn about our technology →",
+    ctaHref: "https://www.bioanalytix.info/product",
+  },
+};
+
+/**
+ * Send a branded confirmation email to a beta / careers / collaboration
+ * applicant. Non-blocking — a failure here does not prevent the submission
+ * from being stored. Returns `true` when Resend accepts the message.
+ */
+export async function sendBetaConfirmationEmail(
+  record: Pick<BetaSubmissionRecord, "source" | "fullName" | "email" | "organization" | "role" | "message">,
+): Promise<boolean> {
+  const apiKey = process.env.RESEND_API_KEY;
+  if (!apiKey) return false;
+
+  const from = process.env.CONTACT_FROM_EMAIL?.trim().replace(/^["']|["']$/g, "") ||
+    DEFAULT_FROM;
+
+  const copy = SOURCE_COPY[record.source ?? "beta"];
+  const name = sanitizeHeaderValue(record.fullName);
+
+  const escHtml = (s: string) =>
+    s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+
+  const year = new Date().getFullYear();
+
+  // Details rows (org / role / message) — only rendered when present.
+  const detailRows = [
+    record.organization && `<tr><td style="padding:0 0 16px;"><p style="margin:0 0 4px;font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#5a687c;">Organization</p><p style="margin:0;font-size:14px;color:#0f172a;">${escHtml(record.organization)}</p></td></tr>`,
+    record.role && `<tr><td style="padding:0 0 16px;"><p style="margin:0 0 4px;font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#5a687c;">Role</p><p style="margin:0;font-size:14px;color:#0f172a;">${escHtml(record.role)}</p></td></tr>`,
+    record.message && `<tr><td style="padding:0 0 0;"><p style="margin:0 0 8px;font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#5a687c;">Your message</p><div style="background-color:#f8fafc;border-left:3px solid #7ccdb3;border-radius:0 8px 8px 0;padding:14px 18px;"><p style="margin:0;font-size:14px;line-height:1.7;color:#334155;white-space:pre-wrap;font-style:italic;">"${escHtml(record.message)}"</p></div></td></tr>`,
+  ].filter(Boolean).join("");
+
+  const html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>${escHtml(copy.subject)}</title>
+</head>
+<body style="margin:0;padding:0;background-color:#f0f4f8;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;">
+  <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background-color:#f0f4f8;padding:48px 16px;">
+    <tr>
+      <td align="center">
+        <table role="presentation" width="100%" style="max-width:580px;">
+
+          <!-- Logo bar -->
+          <tr>
+            <td style="padding-bottom:24px;text-align:center;">
+              <a href="https://www.bioanalytix.info" style="text-decoration:none;">
+                <img src="https://www.bioanalytix.info/images/complete-logo.svg" alt="BioAnalytiX" width="180" height="64" style="display:inline-block;width:180px;height:auto;border:0;" />
+              </a>
+            </td>
+          </tr>
+
+          <!-- Hero -->
+          <tr>
+            <td style="background-color:#daf7ec;border-radius:16px 16px 0 0;padding:48px 48px 40px;text-align:center;">
+              <div style="width:48px;height:4px;background-color:#1f7a5a;border-radius:2px;margin:0 auto 28px;"></div>
+              <h1 style="margin:0 0 12px;font-size:26px;font-weight:700;letter-spacing:-0.02em;color:#0f172a;line-height:1.2;">${escHtml(copy.heroTitle)}</h1>
+              <p style="margin:0 auto;font-size:16px;line-height:1.6;color:#1f7a5a;max-width:400px;">
+                Hi <strong style="color:#0f172a;">${escHtml(name)}</strong> — ${escHtml(copy.heroSub)}
+              </p>
+            </td>
+          </tr>
+
+          <!-- White body -->
+          <tr>
+            <td style="background-color:#ffffff;padding:40px 48px;border-left:1px solid #e2e8f0;border-right:1px solid #e2e8f0;">
+
+              <!-- Check row -->
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="margin-bottom:32px;">
+                <tr>
+                  <td style="vertical-align:top;padding-right:16px;width:40px;">
+                    <div style="width:40px;height:40px;border-radius:10px;background-color:#daf7ec;text-align:center;line-height:40px;">
+                      <span style="font-size:20px;color:#1f7a5a;">&#10003;</span>
+                    </div>
+                  </td>
+                  <td style="vertical-align:middle;">
+                    <p style="margin:0 0 2px;font-size:14px;font-weight:600;color:#0f172a;">${escHtml(copy.checkTitle)}</p>
+                    <p style="margin:0;font-size:13px;color:#5a687c;line-height:1.5;">${escHtml(copy.checkBody)}</p>
+                  </td>
+                </tr>
+              </table>
+
+              <hr style="border:none;border-top:1px solid #f1f5f9;margin:0 0 28px;" />
+
+              <!-- Submission details -->
+              ${detailRows ? `<p style="margin:0 0 16px;font-size:11px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:#5a687c;">Your submission</p><table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="margin-bottom:32px;">${detailRows}</table><hr style="border:none;border-top:1px solid #f1f5f9;margin:0 0 28px;" />` : ""}
+
+              <!-- Next steps -->
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="margin-bottom:32px;">
+                <tr>
+                  <td style="vertical-align:top;padding-right:16px;width:40px;">
+                    <div style="width:40px;height:40px;border-radius:10px;background-color:#f0f4f8;text-align:center;line-height:40px;">
+                      <span style="font-size:18px;color:#5a687c;">&#8594;</span>
+                    </div>
+                  </td>
+                  <td style="vertical-align:middle;">
+                    <p style="margin:0 0 2px;font-size:14px;font-weight:600;color:#0f172a;">${escHtml(copy.nextStepTitle)}</p>
+                    <p style="margin:0;font-size:13px;color:#5a687c;line-height:1.5;">${escHtml(copy.nextStepBody)}</p>
+                  </td>
+                </tr>
+              </table>
+
+              <!-- CTA -->
+              <table role="presentation" cellspacing="0" cellpadding="0">
+                <tr>
+                  <td style="border-radius:8px;background-color:#7ccdb3;">
+                    <a href="${copy.ctaHref}" style="display:inline-block;padding:13px 32px;font-size:14px;font-weight:700;color:#0f3d2e;text-decoration:none;letter-spacing:-0.01em;">${copy.ctaLabel}</a>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- Footer -->
+          <tr>
+            <td style="background-color:#f8fafc;border:1px solid #e2e8f0;border-top:none;border-radius:0 0 16px 16px;padding:24px 48px;text-align:center;">
+              <p style="margin:0 0 6px;font-size:13px;color:#5a687c;">
+                <strong style="color:#0f172a;">BioAnalytiX</strong> &nbsp;·&nbsp; Thessaloniki, Greece &nbsp;·&nbsp;
+                <a href="https://www.bioanalytix.info" style="color:#1f7a5a;text-decoration:none;font-weight:500;">bioanalytix.info</a>
+              </p>
+              <p style="margin:4px 0 0;font-size:11px;color:#94a3b8;line-height:1.5;">
+                © ${year} BioAnalytiX. You received this because you submitted a form on our website.
+              </p>
+            </td>
+          </tr>
+
+          <tr><td style="height:32px;"></td></tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>`;
+
+  const text = [
+    `Hi ${name},`,
+    ``,
+    copy.heroSub,
+    ``,
+    copy.checkTitle,
+    copy.checkBody,
+    ``,
+    copy.nextStepTitle,
+    copy.nextStepBody,
+    ``,
+    record.organization ? `Organization: ${record.organization}` : "",
+    record.role ? `Role: ${record.role}` : "",
+    record.message ? `Your message: "${record.message}"` : "",
+    ``,
+    `Best regards,`,
+    `The BioAnalytiX Team`,
+    ``,
+    `BioAnalytiX · Thessaloniki, Greece · bioanalytix.info`,
+    `© ${year} BioAnalytiX. All rights reserved.`,
+  ].filter((l) => l !== undefined).join("\n");
+
+  try {
+    const resend = new Resend(apiKey);
+    const { error } = await resend.emails.send({
+      from,
+      to: record.email,
+      subject: copy.subject,
+      text,
+      html,
+    });
+    return !error;
   } catch {
     return false;
   }
