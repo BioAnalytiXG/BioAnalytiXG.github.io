@@ -33,8 +33,8 @@ export function Solutions() {
           </p>
           <h2 className="mt-3 text-foreground">AI solutions for impact</h2>
           <p className="mt-4 text-lg leading-relaxed text-muted">
-            From radiology to education, our products are built to solve
-            real-world challenges.
+            Two AI platforms, one vision — built to solve real-world challenges
+            in healthcare and education.
           </p>
         </ScrollReveal>
 

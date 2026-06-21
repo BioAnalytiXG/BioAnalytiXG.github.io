@@ -90,7 +90,7 @@ const principles: Principle[] = [
   {
     icon: HeartHandshake,
     title: "Human impact",
-    description: "Technology that empowers clinicians and supports better patient care.",
+    description: "Technology that empowers professionals and creates meaningful change for the people they serve.",
   },
 ];
 
@@ -121,7 +121,7 @@ const milestones: Milestone[] = [
     icon: Sparkles,
     year: "2024",
     title: "Founded with a vision",
-    description: "BioAnalytiX is born to bring trustworthy AI to medical diagnostics.",
+    description: "BioAnalytiX is born to bring trustworthy AI to healthcare and education.",
   },
   {
     icon: Award,
@@ -414,10 +414,10 @@ function MissionBand() {
                   continuously, and earns trust.
                 </h2>
                 <p className="mt-5 max-w-xl text-lg leading-relaxed text-muted">
-                  We integrate advanced artificial intelligence with medical
-                  imaging to make diagnostics more efficient, accurate, and
-                  accessible worldwide — assisting healthcare professionals with
-                  user-friendly tools for faster, more confident decisions.
+                  We build AI that makes healthcare and education more
+                  efficient, accurate, and accessible — giving professionals
+                  the tools to make faster, more confident decisions and
+                  improving outcomes for the people who matter most.
                 </p>
               </div>
             </div>
@@ -466,8 +466,9 @@ function ProductsBand() {
           </p>
           <h2 className="mt-3 text-foreground">Two AI platforms. One vision.</h2>
           <p className="mt-4 text-lg leading-relaxed text-muted">
-            From radiology to education, our products are built to solve
-            real-world challenges with measurable impact.
+            Our products tackle real-world challenges across healthcare and
+            education — built to deliver measurable impact wherever they're
+            deployed.
           </p>
         </ScrollReveal>
 

@@ -24,9 +24,9 @@ export function ContactSection() {
           </p>
           <h2 className="mt-4 text-foreground">Let&rsquo;s talk</h2>
           <p className="mt-4 text-lg leading-relaxed text-muted">
-            Have a question about Orasis AI or want to explore how BioAnalytiX
-            fits your clinical workflow? Send us a message and our team will get
-            back to you.
+            Have a question about our products or want to explore how
+            BioAnalytiX can help? Send us a message and our team will get back
+            to you.
           </p>
         </ScrollReveal>
 

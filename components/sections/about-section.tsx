@@ -23,9 +23,9 @@ import { cn } from "@/lib/utils";
 
 /** Mission highlights paired with the narrative copy. */
 const missionPoints = [
-  "Clinically validated AI that augments radiologists — never replaces them.",
-  "Faster, more accurate detection of anomalies in brain CT and medical imaging.",
-  "Built for real-world clinical workflows and facilities of every size.",
+  "AI that augments human expertise — never replaces it.",
+  "Faster, more accurate decisions across healthcare and education.",
+  "Built for real-world workflows and teams of every size.",
 ] as const;
 
 export function AboutSection() {
@@ -39,14 +39,14 @@ export function AboutSection() {
               Our mission
             </p>
             <h2 className="mt-4 text-foreground">
-              A new era for radiology, powered by Orasis AI
+              Building AI that makes healthcare and education smarter
             </h2>
             <p className="mt-6 text-lg leading-relaxed text-muted">
-              BioAnalytiX builds AI-powered diagnostic technology that helps
-              radiologists read medical imaging faster and with greater
-              confidence. Orasis AI brings expert-level analytical support to the
-              point of care, so clinicians can focus on the decisions that matter
-              most for patients.
+              BioAnalytiX builds AI that gives professionals the clarity to act
+              with confidence — whether that means faster, more accurate
+              decisions in a clinical setting or deeper, more effective learning
+              in the classroom. Our products are built around the people who use
+              them.
             </p>
 
             <ul className="mt-8 space-y-4">
