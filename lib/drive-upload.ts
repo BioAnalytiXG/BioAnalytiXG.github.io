@@ -77,7 +77,10 @@ export async function uploadCvToDrive(
       scopes: DRIVE_SCOPES,
     });
     const { token } = await auth.getAccessToken();
-    if (!token) return null;
+    if (!token) {
+      console.error("[uploadCvToDrive] Failed to get access token");
+      return null;
+    }
 
     // -- 1. Upload the file via multipart upload --
     const boundary = "bioanalytix_cv_boundary";
@@ -110,9 +113,17 @@ export async function uploadCvToDrive(
       },
     );
 
-    if (!uploadRes.ok) return null;
+    if (!uploadRes.ok) {
+      const errBody = await uploadRes.text().catch(() => "");
+      console.error("[uploadCvToDrive] Upload failed:", uploadRes.status, errBody);
+      return null;
+    }
     const { id: fileId } = (await uploadRes.json()) as { id?: string };
-    if (!fileId) return null;
+    if (!fileId) {
+      console.error("[uploadCvToDrive] No file ID returned");
+      return null;
+    }
+    console.log("[uploadCvToDrive] Uploaded, fileId:", fileId);
 
     // -- 2. Make file viewable by anyone with the link --
     await fetch(

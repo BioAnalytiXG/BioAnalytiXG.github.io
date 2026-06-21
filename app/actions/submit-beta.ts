@@ -129,8 +129,12 @@ export async function submitBeta(
   // 4a. If this is a careers submission with a CV, upload to Google Drive.
   let cvDriveUrl: string | undefined;
   if (rest.source === "careers" && cvFileBase64 && cvFileName && cvMimeType) {
+    console.log("[submitBeta] Uploading CV:", cvFileName, cvMimeType, `${Math.round(cvFileBase64.length * 0.75 / 1024)}KB`);
     const url = await uploadCvToDrive(cvFileBase64, cvFileName, cvMimeType);
+    console.log("[submitBeta] Drive URL:", url ?? "FAILED");
     if (url) cvDriveUrl = url;
+  } else if (rest.source === "careers") {
+    console.log("[submitBeta] Careers but no CV data — cvFileBase64:", !!cvFileBase64, "cvFileName:", !!cvFileName, "cvMimeType:", !!cvMimeType);
   }
 
   const betaRecord = toBetaRecord(rest, { cvDriveUrl });
