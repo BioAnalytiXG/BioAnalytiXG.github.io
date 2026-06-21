@@ -29,7 +29,7 @@ export function Marquee({
   pauseOnHover = false,
   children,
   vertical = false,
-  repeat = 4,
+  repeat = 6,
   ...props
 }: MarqueeProps) {
   return (
@@ -47,12 +47,17 @@ export function Marquee({
       {Array.from({ length: repeat }).map((_, i) => (
         <div
           key={i}
-          className={cn("flex shrink-0 justify-around [gap:var(--gap)]", {
-            "animate-marquee flex-row": !vertical,
-            "animate-marquee-vertical flex-col": vertical,
-            "group-hover:[animation-play-state:paused]": pauseOnHover,
-            "[animation-direction:reverse]": reverse,
-          })}
+          className={cn(
+            // w-max ensures -100% in the keyframe always equals the full
+            // row width, preventing the visible jump/reset on narrow screens.
+            "flex shrink-0 justify-around w-max [gap:var(--gap)]",
+            {
+              "animate-marquee flex-row": !vertical,
+              "animate-marquee-vertical flex-col": vertical,
+              "group-hover:[animation-play-state:paused]": pauseOnHover,
+              "[animation-direction:reverse]": reverse,
+            },
+          )}
           aria-hidden={i > 0 ? true : undefined}
         >
           {children}
