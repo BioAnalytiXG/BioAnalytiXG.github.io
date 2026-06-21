@@ -37,6 +37,7 @@ import {
 } from "@/lib/forms";
 import { appendBetaSubmission, toBetaRecord } from "@/lib/submissions-store";
 import { sendBetaConfirmationEmail, sendBetaNotificationEmail } from "@/lib/email";
+import { uploadCvToDrive } from "@/lib/drive-upload";
 import { formRateLimiter } from "@/lib/rate-limit";
 import {
   betaApplicationSchema,
@@ -121,11 +122,18 @@ export async function submitBeta(
   //    Storage credentials come from server-only env vars (Req 6.5, 15.4).
   //    Strip the honeypot and consent flag from the stored record — the
   //    honeypot carries no value and consent is a gate, not data to retain.
-  const { company: _company, consent: _consent, ...rest } = data;
+  const { company: _company, consent: _consent, cvFileBase64, cvFileName, cvMimeType, ...rest } = data;
   void _company;
   void _consent;
 
-  const betaRecord = toBetaRecord(rest);
+  // 4a. If this is a careers submission with a CV, upload to Google Drive.
+  let cvDriveUrl: string | undefined;
+  if (rest.source === "careers" && cvFileBase64 && cvFileName && cvMimeType) {
+    const url = await uploadCvToDrive(cvFileBase64, cvFileName, cvMimeType);
+    if (url) cvDriveUrl = url;
+  }
+
+  const betaRecord = toBetaRecord(rest, { cvDriveUrl });
   const persisted = await appendBetaSubmission(betaRecord);
 
   // 5. On storage failure (or unconfigured storage), return a non-success

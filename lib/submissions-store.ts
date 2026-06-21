@@ -10,7 +10,7 @@ import type { BetaApplicationValues } from "@/lib/schemas";
  *
  * Each intake type is routed to its own tab:
  *  - Beta access   → "Beta"          (columns: timestamp, fullName, email, organization, role, message)
- *  - Careers       → "Careers"       (columns: timestamp, fullName, email, organization, role, message)
+ *  - Careers       → "Careers"       (columns: timestamp, fullName, email, organization, role, message, cvDriveUrl)
  *  - Collaboration → "Collaboration" (columns: timestamp, fullName, email, organization, role, message)
  *
  * Required env vars (server-only):
@@ -24,15 +24,11 @@ const SHEETS_SCOPE = "https://www.googleapis.com/auth/spreadsheets";
 /** Which form intake this record came from. */
 export type SubmissionSource = "beta" | "careers" | "collaboration";
 
-/** Per-source Google Sheet tab configuration. */
-const SOURCE_TAB: Record<SubmissionSource, { tab: string }> = {
-  beta:          { tab: "Beta" },
-  careers:       { tab: "Careers" },
-  collaboration: { tab: "Collaboration" },
-};
-
-/** Columns written to every tab (in order). Header row must match. */
-const ROW_COLUMNS = [
+/**
+ * Column definitions per source tab.
+ * Careers gets an extra `cvDriveUrl` column (column G) for the uploaded CV link.
+ */
+const BASE_COLUMNS = [
   "timestamp",
   "fullName",
   "email",
@@ -41,6 +37,21 @@ const ROW_COLUMNS = [
   "message",
 ] as const;
 
+const CAREERS_COLUMNS = [...BASE_COLUMNS, "cvDriveUrl"] as const;
+
+type BaseColumn = (typeof BASE_COLUMNS)[number];
+type CareersColumn = (typeof CAREERS_COLUMNS)[number];
+
+/** Per-source Google Sheet tab configuration. */
+const SOURCE_TAB: Record<
+  SubmissionSource,
+  { tab: string; columns: readonly string[] }
+> = {
+  beta:          { tab: "Beta",          columns: BASE_COLUMNS },
+  careers:       { tab: "Careers",       columns: CAREERS_COLUMNS },
+  collaboration: { tab: "Collaboration", columns: BASE_COLUMNS },
+};
+
 export interface BetaSubmissionRecord {
   source: SubmissionSource;
   fullName: string;
@@ -48,6 +59,8 @@ export interface BetaSubmissionRecord {
   organization?: string;
   role?: string;
   message?: string;
+  /** Google Drive shareable link for the uploaded CV (careers only). */
+  cvDriveUrl?: string;
 }
 
 interface SheetsConfig {
@@ -76,11 +89,12 @@ export async function appendBetaSubmission(
   const config = readConfig();
   if (!config) return false;
 
-  const { tab } = SOURCE_TAB[record.source];
-  // Dynamic range: "Beta!A:F", "Careers!A:F", etc.
-  const range = `${tab}!A:${String.fromCharCode(64 + ROW_COLUMNS.length)}`;
+  const { tab, columns } = SOURCE_TAB[record.source];
+  // Dynamic range: "Beta!A:F", "Careers!A:G", etc.
+  const range = `${tab}!A:${String.fromCharCode(64 + columns.length)}`;
 
-  const rowData: Record<(typeof ROW_COLUMNS)[number], string> = {
+  // Build a row that covers all columns; careers gets the Drive URL in col G.
+  const baseData: Record<BaseColumn, string> = {
     timestamp:    new Date().toISOString(),
     fullName:     record.fullName,
     email:        record.email,
@@ -88,7 +102,17 @@ export async function appendBetaSubmission(
     role:         record.role ?? "",
     message:      record.message ?? "",
   };
-  const values = [ROW_COLUMNS.map((c) => rowData[c])];
+
+  let values: string[][];
+  if (record.source === "careers") {
+    const careersData: Record<CareersColumn, string> = {
+      ...baseData,
+      cvDriveUrl: record.cvDriveUrl ?? "",
+    };
+    values = [CAREERS_COLUMNS.map((c) => careersData[c])];
+  } else {
+    values = [BASE_COLUMNS.map((c) => baseData[c])];
+  }
 
   try {
     const auth = new JWT({
@@ -123,7 +147,8 @@ export async function appendBetaSubmission(
 
 /** Build a record from validated beta values (honeypot/consent stripped). */
 export function toBetaRecord(
-  values: Omit<BetaApplicationValues, "company" | "consent">,
+  values: Omit<BetaApplicationValues, "company" | "consent" | "cvFileBase64" | "cvFileName" | "cvMimeType">,
+  extras?: { cvDriveUrl?: string },
 ): BetaSubmissionRecord {
   return {
     source:       values.source ?? "beta",
@@ -132,5 +157,6 @@ export function toBetaRecord(
     organization: values.organization,
     role:         values.role,
     message:      values.message,
+    cvDriveUrl:   extras?.cvDriveUrl,
   };
 }

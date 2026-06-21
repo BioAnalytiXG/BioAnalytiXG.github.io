@@ -65,6 +65,18 @@ export const contactSchema = z.object({
 export type ContactValues = z.infer<typeof contactSchema>;
 
 /**
+ * CV file upload constraints. Applied client-side before base64 encoding.
+ * The server re-validates the decoded payload size and MIME type.
+ */
+export const CV_MAX_BYTES = 5 * 1024 * 1024; // 5 MB
+export const CV_ACCEPTED_TYPES = [
+  "application/pdf",
+  "application/msword",
+  "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+] as const;
+export const CV_ACCEPTED_EXTENSIONS = ".pdf,.doc,.docx";
+
+/**
  * Beta / careers application form values (Requirement 4).
  * - fullName: trimmed, non-empty, ≤100 chars
  * - email: RFC 5322 addr-spec, ≤254 chars
@@ -73,6 +85,11 @@ export type ContactValues = z.infer<typeof contactSchema>;
  * - message: optional, ≤5000 chars (empty allowed)
  * - consent: must strictly equal boolean true (GDPR/privacy consent)
  * - company: honeypot (must be empty; non-empty => server-side spam rejection)
+ * - cvFileBase64: optional base64-encoded CV file (careers submissions only).
+ *   Encoded client-side before dispatch; decoded and uploaded to Google Drive
+ *   server-side. The base64 payload must not exceed ~6.9 MB (5 MB * 4/3 + pad).
+ * - cvFileName: original filename for the CV, used when uploading to Drive.
+ * - cvMimeType: MIME type of the CV file, used when uploading to Drive.
  */
 export const betaApplicationSchema = z.object({
   fullName: z
@@ -106,6 +123,23 @@ export const betaApplicationSchema = z.object({
    * tag the stored row (Beta access / Careers / Collaboration).
    */
   source: z.enum(["beta", "careers", "collaboration"]).optional(),
+  /**
+   * Optional base64-encoded CV file (careers submissions only). Encoded
+   * client-side; the server decodes, validates, and uploads to Google Drive.
+   * Max ~6.9 MB encoded (covers the 5 MB raw limit with base64 overhead).
+   */
+  cvFileBase64: z
+    .string()
+    .max(7 * 1024 * 1024, "CV file is too large")
+    .optional(),
+  /** Original filename, e.g. "John_Doe_CV.pdf". Sanitized server-side. */
+  cvFileName: z
+    .string()
+    .trim()
+    .max(255, "File name is too long")
+    .optional(),
+  /** MIME type reported by the browser, e.g. "application/pdf". */
+  cvMimeType: z.string().trim().max(100).optional(),
 });
 
 export type BetaApplicationValues = z.infer<typeof betaApplicationSchema>;

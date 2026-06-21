@@ -603,9 +603,13 @@ const SOURCE_LABEL_INTERNAL: Record<SubmissionSource, string> = {
 /**
  * Send an internal notification to the BioAnalytiX inbox whenever a new
  * beta / careers / collaboration submission is stored. Non-blocking.
+ *
+ * For careers submissions, `cvDriveUrl` (when present) is rendered as a
+ * prominent call-to-action button in the email so the reviewer can open the
+ * CV directly from the notification.
  */
 export async function sendBetaNotificationEmail(
-  record: Pick<BetaSubmissionRecord, "source" | "fullName" | "email" | "organization" | "role" | "message">,
+  record: Pick<BetaSubmissionRecord, "source" | "fullName" | "email" | "organization" | "role" | "message" | "cvDriveUrl">,
 ): Promise<boolean> {
   const apiKey = process.env.RESEND_API_KEY;
   if (!apiKey) return false;
@@ -631,6 +635,20 @@ export async function sendBetaNotificationEmail(
     ? `<p style="margin:16px 0 8px;font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#5a687c;">Message</p><div style="background-color:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:14px 18px;"><p style="margin:0;font-size:14px;line-height:1.7;color:#0f172a;white-space:pre-wrap;">${escHtml(record.message)}</p></div>`
     : "";
 
+  // CV button — shown only for careers submissions that include a Drive link.
+  const cvBlock = record.cvDriveUrl
+    ? `<div style="margin:20px 0 0;">
+        <p style="margin:0 0 10px;font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#5a687c;">CV / Resume</p>
+        <table role="presentation" cellspacing="0" cellpadding="0">
+          <tr><td style="border-radius:8px;background-color:#dbeafe;">
+            <a href="${escHtml(record.cvDriveUrl)}" style="display:inline-block;padding:10px 22px;font-size:13px;font-weight:700;color:#1e40af;text-decoration:none;">
+              View CV on Google Drive →
+            </a>
+          </td></tr>
+        </table>
+      </div>`
+    : "";
+
   const html = `<!DOCTYPE html>
 <html lang="en">
 <head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/><title>New ${escHtml(label)}</title></head>
@@ -648,6 +666,7 @@ export async function sendBetaNotificationEmail(
           <hr style="border:none;border-top:1px solid #e2e8f0;margin:0 0 20px;"/>
           <table role="presentation" cellspacing="0" cellpadding="0" style="border-collapse:collapse;">${detailRows}</table>
           ${messageBlock}
+          ${cvBlock}
           <hr style="border:none;border-top:1px solid #e2e8f0;margin:20px 0;"/>
           <table role="presentation" cellspacing="0" cellpadding="0">
             <tr><td style="border-radius:8px;background-color:#7ccdb3;">
@@ -673,6 +692,7 @@ export async function sendBetaNotificationEmail(
     record.role ? `Role: ${record.role}` : "",
     `Date: ${new Date().toISOString()}`,
     record.message ? `\nMessage:\n${record.message}` : "",
+    record.cvDriveUrl ? `\nCV / Resume: ${record.cvDriveUrl}` : "",
   ].filter(Boolean).join("\n");
 
   try {

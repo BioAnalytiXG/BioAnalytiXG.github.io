@@ -14,6 +14,9 @@ import {
 } from "@/lib/forms";
 import {
   betaApplicationSchema,
+  CV_ACCEPTED_EXTENSIONS,
+  CV_ACCEPTED_TYPES,
+  CV_MAX_BYTES,
   type BetaApplicationValues,
 } from "@/lib/schemas";
 import { submitBeta } from "@/app/actions/submit-beta";
@@ -127,6 +130,7 @@ export function BetaApplicationForm({
   successMessage = SUCCESS_MESSAGE,
 }: BetaApplicationFormProps) {
   const [result, setResult] = React.useState<SubmitResult | null>(null);
+  const [cvError, setCvError] = React.useState<string | null>(null);
 
   const submissionStrategy = React.useMemo(
     () => strategy ?? serverActionStrategy(submitBeta),
@@ -141,12 +145,12 @@ export function BetaApplicationForm({
       organization: "",
       role: "",
       message: "",
-      // The consent box starts unchecked; the schema requires it to be `true`
-      // before a submission validates (Requirement 4.1). RHF's DefaultValues
-      // type narrows this literal field, so we assert the initial `false`.
       consent: false as unknown as true,
       company: "",
       source,
+      cvFileBase64: undefined,
+      cvFileName: undefined,
+      cvMimeType: undefined,
     },
     mode: "onSubmit",
   });
@@ -169,6 +173,7 @@ export function BetaApplicationForm({
 
       if (outcome.status === "success") {
         setResult({ status: "success" });
+        setCvError(null);
         form.reset();
       } else {
         // Preserve the entered values and offer a retry (Requirement 4.10).
@@ -304,6 +309,57 @@ export function BetaApplicationForm({
             </FormItem>
           )}
         />
+
+        {/* CV upload — careers only */}
+        {source === "careers" && (
+          <FormItem>
+            <FormLabel>
+              CV / Resume <span className="text-muted-foreground">(optional)</span>
+            </FormLabel>
+            <FormControl>
+              <input
+                type="file"
+                accept={CV_ACCEPTED_EXTENSIONS}
+                disabled={isPending}
+                className="block w-full rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground file:mr-3 file:rounded file:border-0 file:bg-primary/10 file:px-3 file:py-1 file:text-sm file:font-medium file:text-primary hover:file:bg-primary/20 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:opacity-50"
+                onChange={(e) => {
+                  setCvError(null);
+                  const file = e.target.files?.[0];
+                  if (!file) {
+                    form.setValue("cvFileBase64", undefined);
+                    form.setValue("cvFileName", undefined);
+                    form.setValue("cvMimeType", undefined);
+                    return;
+                  }
+                  if (!CV_ACCEPTED_TYPES.includes(file.type as typeof CV_ACCEPTED_TYPES[number])) {
+                    setCvError("Please upload a PDF or Word document (.pdf, .doc, .docx).");
+                    e.target.value = "";
+                    return;
+                  }
+                  if (file.size > CV_MAX_BYTES) {
+                    setCvError("File is too large. Maximum size is 5 MB.");
+                    e.target.value = "";
+                    return;
+                  }
+                  const reader = new FileReader();
+                  reader.onload = () => {
+                    const result = reader.result as string;
+                    // Strip the data:…;base64, prefix.
+                    const base64 = result.split(",")[1] ?? result;
+                    form.setValue("cvFileBase64", base64);
+                    form.setValue("cvFileName", file.name);
+                    form.setValue("cvMimeType", file.type);
+                  };
+                  reader.readAsDataURL(file);
+                }}
+              />
+            </FormControl>
+            {cvError && (
+              <p className="text-sm font-medium text-destructive">{cvError}</p>
+            )}
+            <FormDescription>PDF, DOC, or DOCX · max 5 MB</FormDescription>
+          </FormItem>
+        )}
 
         <FormField
           control={form.control}
