@@ -100,7 +100,7 @@ export async function uploadCvToDrive(
     ]);
 
     const uploadRes = await fetch(
-      "https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&fields=id",
+      "https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&fields=id&supportsAllDrives=true",
       {
         method: "POST",
         headers: {
@@ -127,7 +127,7 @@ export async function uploadCvToDrive(
 
     // -- 2. Make file viewable by anyone with the link --
     await fetch(
-      `https://www.googleapis.com/drive/v3/files/${encodeURIComponent(fileId)}/permissions`,
+      `https://www.googleapis.com/drive/v3/files/${encodeURIComponent(fileId)}/permissions?supportsAllDrives=true`,
       {
         method: "POST",
         headers: {
