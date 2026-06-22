@@ -324,13 +324,13 @@ function Thumbnail({
 }) {
   return (
     <span className="relative shrink-0">
-      <span className="grid size-16 place-items-center overflow-hidden rounded-xl border border-border bg-white sm:size-20">
+      <span className="grid size-20 place-items-center overflow-hidden rounded-xl border border-border bg-white sm:size-24">
         {image ? (
           <img
             src={image}
             alt=""
             loading="lazy"
-            className="max-h-[78%] max-w-[78%] object-contain"
+            className="h-full w-full object-cover object-center"
           />
         ) : (
           fallback

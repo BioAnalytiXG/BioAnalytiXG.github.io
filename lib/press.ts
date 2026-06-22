@@ -48,6 +48,7 @@ export interface ListingItem {
 
 /** Per-story image / logo, drawn from the existing award & partner assets. */
 const ARTICLE_IMAGE: Record<string, string> = {
+  "pappajohn-award-2026": "/images/awards/pappajohn-2026.jpg",
   "partnership-renewal": "/images/partners/general-hospital-larissa.jpg",
   forbes: "/images/awards/forbes.jpg",
   acta: "/images/partners/acta-lab.png",

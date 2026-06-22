@@ -154,9 +154,9 @@ function LatestReleases() {
                           href={`/press/releases/${article.slug}`}
                           className="group flex items-center gap-4 border-b border-border py-4 transition-colors hover:bg-background/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-surface"
                         >
-                          <span className="inline-flex size-11 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-border bg-white text-primary">
+                          <span className="inline-flex size-14 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-border bg-white text-primary">
                             {img ? (
-                              <img src={img} alt="" className="max-h-[78%] max-w-[78%] object-contain" />
+                              <img src={img} alt="" className="h-full w-full object-cover object-center" />
                             ) : (
                               <Icon aria-hidden className="size-5" strokeWidth={1.75} />
                             )}

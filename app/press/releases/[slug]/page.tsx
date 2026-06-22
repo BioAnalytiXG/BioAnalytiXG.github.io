@@ -48,14 +48,46 @@ export async function generateMetadata({
   };
 }
 
-/** Minimal markdown renderer: `## `/`### ` headings, `- ` lists, paragraphs. */
+/**
+ * Inline markdown: bold (**text**), and strips any remaining asterisks.
+ * Returns an array of strings/spans safe to render inside a block element.
+ */
+function renderInline(text: string): ReactNode {
+  const parts = text.split(/(\*\*[^*]+\*\*)/g);
+  if (parts.length === 1) return text;
+  return (
+    <>
+      {parts.map((part, i) =>
+        part.startsWith("**") && part.endsWith("**") ? (
+          <strong key={i} className="font-semibold text-foreground">
+            {part.slice(2, -2)}
+          </strong>
+        ) : (
+          part
+        ),
+      )}
+    </>
+  );
+}
+
+/**
+ * Markdown renderer supporting:
+ * - `## ` / `### ` headings
+ * - `- ` unordered lists
+ * - `> ` blockquotes
+ * - `---` horizontal rule
+ * - `**bold**` inline emphasis
+ * - Plain paragraphs
+ * - Lines containing only `FOR IMMEDIATE RELEASE` styled as an eyebrow label
+ */
 function renderBody(body: string): ReactNode[] {
   const lines = body.split("\n");
   const blocks: ReactNode[] = [];
   let listItems: string[] = [];
+  let quoteLines: string[] = [];
   let key = 0;
 
-  const flush = () => {
+  const flushList = () => {
     if (listItems.length === 0) return;
     const items = listItems;
     listItems = [];
@@ -65,36 +97,103 @@ function renderBody(body: string): ReactNode[] {
         className="my-4 list-disc space-y-2 pl-6 text-base leading-relaxed text-muted marker:text-primary"
       >
         {items.map((it, i) => (
-          <li key={i}>{it}</li>
+          <li key={i}>{renderInline(it)}</li>
         ))}
       </ul>,
     );
   };
 
+  const flushQuote = () => {
+    if (quoteLines.length === 0) return;
+    const content = quoteLines;
+    quoteLines = [];
+    blocks.push(
+      <blockquote
+        key={`bq-${key++}`}
+        className="my-6 border-l-4 border-primary pl-5"
+      >
+        {content.map((line, i) => (
+          <p key={i} className="text-base italic leading-relaxed text-muted">
+            {renderInline(line)}
+          </p>
+        ))}
+      </blockquote>,
+    );
+  };
+
+  const flushAll = () => {
+    flushList();
+    flushQuote();
+  };
+
   for (const raw of lines) {
     const line = raw.trim();
+
     if (line === "") {
-      flush();
+      flushAll();
       continue;
     }
+
+    if (line === "---") {
+      flushAll();
+      blocks.push(<hr key={`hr-${key++}`} className="my-8 border-border" />);
+      continue;
+    }
+
     if (line.startsWith("### ")) {
-      flush();
-      blocks.push(<h3 key={`h3-${key++}`} className="mt-8 text-foreground">{line.slice(4)}</h3>);
+      flushAll();
+      blocks.push(
+        <h3 key={`h3-${key++}`} className="mt-8 text-foreground">
+          {renderInline(line.slice(4))}
+        </h3>,
+      );
       continue;
     }
+
     if (line.startsWith("## ")) {
-      flush();
-      blocks.push(<h2 key={`h2-${key++}`} className="mt-10 text-foreground">{line.slice(3)}</h2>);
+      flushAll();
+      blocks.push(
+        <h2 key={`h2-${key++}`} className="mt-10 text-foreground">
+          {renderInline(line.slice(3))}
+        </h2>,
+      );
       continue;
     }
+
+    if (line.startsWith("> ")) {
+      flushList();
+      quoteLines.push(line.slice(2));
+      continue;
+    }
+
     if (line.startsWith("- ")) {
+      flushQuote();
       listItems.push(line.slice(2));
       continue;
     }
-    flush();
-    blocks.push(<p key={`p-${key++}`} className="mt-4 text-base leading-relaxed text-muted">{line}</p>);
+
+    flushAll();
+
+    // "FOR IMMEDIATE RELEASE" eyebrow treatment
+    if (line === "FOR IMMEDIATE RELEASE") {
+      blocks.push(
+        <p
+          key={`eyebrow-${key++}`}
+          className="mt-4 text-xs font-semibold uppercase tracking-[0.14em] text-brand-ink"
+        >
+          {line}
+        </p>,
+      );
+      continue;
+    }
+
+    blocks.push(
+      <p key={`p-${key++}`} className="mt-4 text-base leading-relaxed text-muted">
+        {renderInline(line)}
+      </p>,
+    );
   }
-  flush();
+  flushAll();
   return blocks;
 }
 
@@ -134,11 +233,11 @@ export default async function PressReleasePage({
             <p className="mt-6 text-xl leading-relaxed text-muted">{article.excerpt}</p>
 
             {image ? (
-              <div className="mt-8 grid place-items-center overflow-hidden rounded-xl border border-border bg-white p-8">
+              <div className="mt-8 overflow-hidden rounded-xl border border-border aspect-[4/3]">
                 <img
                   src={image}
                   alt={article.title}
-                  className="max-h-48 w-auto max-w-[70%] object-contain"
+                  className="w-full h-full object-cover object-center"
                 />
               </div>
             ) : null}
