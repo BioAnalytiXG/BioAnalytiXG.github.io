@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Manrope } from "next/font/google";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 import PillNavbar from "@/components/navbar";
 import { SiteFooter } from "@/components/layout/site-footer";
@@ -108,6 +109,7 @@ export default function RootLayout({
           GDPR/ePrivacy compliant). See components/cookie-consent.tsx.
         */}
         <CookieConsent />
+        <SpeedInsights />
       </body>
     </html>
   );
