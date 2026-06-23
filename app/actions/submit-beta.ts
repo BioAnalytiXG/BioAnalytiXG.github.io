@@ -37,7 +37,7 @@ import {
 } from "@/lib/forms";
 import { appendBetaSubmission, toBetaRecord } from "@/lib/submissions-store";
 import { sendBetaConfirmationEmail, sendBetaNotificationEmail } from "@/lib/email";
-import { uploadCvToDrive } from "@/lib/drive-upload";
+import { uploadCvToBlob } from "@/lib/cv-upload";
 import { formRateLimiter } from "@/lib/rate-limit";
 import {
   betaApplicationSchema,
@@ -126,12 +126,12 @@ export async function submitBeta(
   void _company;
   void _consent;
 
-  // 4a. If this is a careers submission with a CV, upload to Google Drive.
+  // 4a. If this is a careers submission with a CV, upload to Vercel Blob.
   let cvDriveUrl: string | undefined;
   if (rest.source === "careers" && cvFileBase64 && cvFileName && cvMimeType) {
     console.log("[submitBeta] Uploading CV:", cvFileName, cvMimeType, `${Math.round(cvFileBase64.length * 0.75 / 1024)}KB`);
-    const url = await uploadCvToDrive(cvFileBase64, cvFileName, cvMimeType);
-    console.log("[submitBeta] Drive URL:", url ?? "FAILED");
+    const url = await uploadCvToBlob(cvFileBase64, cvFileName, cvMimeType);
+    console.log("[submitBeta] CV URL:", url ?? "FAILED");
     if (url) cvDriveUrl = url;
   } else if (rest.source === "careers") {
     console.log("[submitBeta] Careers but no CV data — cvFileBase64:", !!cvFileBase64, "cvFileName:", !!cvFileName, "cvMimeType:", !!cvMimeType);
