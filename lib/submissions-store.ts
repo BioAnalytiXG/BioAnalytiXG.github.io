@@ -2,6 +2,7 @@ import "server-only";
 
 import { JWT } from "google-auth-library";
 
+import { normalizePrivateKey } from "@/lib/google-credentials";
 import type { BetaApplicationValues } from "@/lib/schemas";
 
 /**
@@ -72,8 +73,9 @@ interface SheetsConfig {
 function readConfig(): SheetsConfig | null {
   const spreadsheetId = process.env.GOOGLE_SHEETS_SPREADSHEET_ID?.trim();
   const clientEmail   = process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL?.trim();
-  const privateKey    = process.env.GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY
-    ?.replace(/\\n/g, "\n").trim();
+  const privateKey    = normalizePrivateKey(
+    process.env.GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY,
+  );
 
   if (!spreadsheetId) { console.error("[submissions-store] Missing GOOGLE_SHEETS_SPREADSHEET_ID"); return null; }
   if (!clientEmail)   { console.error("[submissions-store] Missing GOOGLE_SERVICE_ACCOUNT_EMAIL"); return null; }

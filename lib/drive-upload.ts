@@ -2,6 +2,8 @@ import "server-only";
 
 import { JWT } from "google-auth-library";
 
+import { normalizePrivateKey } from "@/lib/google-credentials";
+
 /**
  * Upload a CV file to a private Google Drive folder and return a shareable
  * viewer link. The same service-account credentials used for Google Sheets are
@@ -46,8 +48,9 @@ export async function uploadCvToDrive(
   mimeType: string,
 ): Promise<string | null> {
   const clientEmail = process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL?.trim();
-  const privateKey  = process.env.GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY
-    ?.replace(/\\n/g, "\n").trim();
+  const privateKey  = normalizePrivateKey(
+    process.env.GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY,
+  );
   const folderId    = process.env.GOOGLE_DRIVE_CV_FOLDER_ID?.trim();
 
   if (!clientEmail) {
