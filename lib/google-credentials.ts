@@ -15,6 +15,10 @@ import "server-only";
  *  4. A trailing newline is ensured after the END marker, which some OpenSSL
  *     builds require.
  *
+ * It also supports a base64-encoded PEM: if the value isn't a recognizable PEM,
+ * it is base64-decoded first. Storing the key base64-encoded is the most robust
+ * option on platforms whose env editors mangle newlines (e.g. Vercel).
+ *
  * Returns `undefined` when the input is empty/unset.
  */
 export function normalizePrivateKey(raw?: string): string | undefined {
@@ -28,6 +32,21 @@ export function normalizePrivateKey(raw?: string): string | undefined {
     (key.startsWith("'") && key.endsWith("'"))
   ) {
     key = key.slice(1, -1);
+  }
+
+  // 1b. Base64 fallback: if the value doesn't look like a PEM, assume it's a
+  //     base64-encoded PEM (the most robust transport — no newline mangling)
+  //     and decode it. This is the recommended way to store the key on Vercel:
+  //     `base64 < service-account.json` style, or base64 of just the key.
+  if (!key.includes("BEGIN PRIVATE KEY")) {
+    try {
+      const decoded = Buffer.from(key, "base64").toString("utf8");
+      if (decoded.includes("BEGIN PRIVATE KEY")) {
+        key = decoded.trim();
+      }
+    } catch {
+      // fall through — leave key as-is and let JWT signing surface the error
+    }
   }
 
   // 2. Convert escaped newlines to real ones; 3. normalize CRLF.
