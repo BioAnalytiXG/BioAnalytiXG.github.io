@@ -75,7 +75,9 @@ function readConfig(): SheetsConfig | null {
   const privateKey    = process.env.GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY
     ?.replace(/\\n/g, "\n").trim();
 
-  if (!spreadsheetId || !clientEmail || !privateKey) return null;
+  if (!spreadsheetId) { console.error("[submissions-store] Missing GOOGLE_SHEETS_SPREADSHEET_ID"); return null; }
+  if (!clientEmail)   { console.error("[submissions-store] Missing GOOGLE_SERVICE_ACCOUNT_EMAIL"); return null; }
+  if (!privateKey)    { console.error("[submissions-store] Missing GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY"); return null; }
   return { spreadsheetId, clientEmail, privateKey };
 }
 
@@ -139,8 +141,13 @@ export async function appendBetaSubmission(
       cache: "no-store",
     });
 
+    if (!res.ok) {
+      const errBody = await res.text().catch(() => "");
+      console.error("[submissions-store] Sheets API error:", res.status, errBody);
+    }
     return res.ok;
-  } catch {
+  } catch (err) {
+    console.error("[submissions-store] Unexpected error:", err);
     return false;
   }
 }

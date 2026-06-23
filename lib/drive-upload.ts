@@ -50,7 +50,18 @@ export async function uploadCvToDrive(
     ?.replace(/\\n/g, "\n").trim();
   const folderId    = process.env.GOOGLE_DRIVE_CV_FOLDER_ID?.trim();
 
-  if (!clientEmail || !privateKey || !folderId) return null;
+  if (!clientEmail) {
+    console.error("[uploadCvToDrive] Missing GOOGLE_SERVICE_ACCOUNT_EMAIL");
+    return null;
+  }
+  if (!privateKey) {
+    console.error("[uploadCvToDrive] Missing GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY");
+    return null;
+  }
+  if (!folderId) {
+    console.error("[uploadCvToDrive] Missing GOOGLE_DRIVE_CV_FOLDER_ID");
+    return null;
+  }
 
   // Server-side MIME validation.
   const safeMime = ALLOWED_MIME_TYPES.has(mimeType)
@@ -140,7 +151,8 @@ export async function uploadCvToDrive(
     );
 
     return `https://drive.google.com/file/d/${fileId}/view`;
-  } catch {
+  } catch (err) {
+    console.error("[uploadCvToDrive] Unexpected error:", err);
     return null;
   }
 }
