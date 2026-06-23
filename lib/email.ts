@@ -8,24 +8,52 @@ import type { BetaSubmissionRecord, SubmissionSource } from "@/lib/submissions-s
 /**
  * Contact-form email delivery via Resend.
  *
- * The contact form is delivered as an email to the BioAnalytiX inbox
- * (`info@bioanalytix.info` by default). All configuration is read from
- * server-only environment variables and is never shipped to the client:
+ * Each website form has its own mailbox (see {@link FORM_MAILBOX}). The contact
+ * form's internal notification is delivered to `info@bioanalytix.info` and its
+ * auto-confirmation is sent from that same address. All configuration is read
+ * from server-only environment variables and is never shipped to the client:
  *
  *  - `RESEND_API_KEY`   (required) — Resend API key. When absent, delivery is
  *                        treated as unconfigured and {@link sendContactEmail}
  *                        returns `false` so the action surfaces a generic
  *                        retryable failure (Req 15.5) without leaking config.
- *  - `CONTACT_TO_EMAIL` (optional) — recipient. Defaults to info@bioanalytix.info.
- *  - `CONTACT_FROM_EMAIL` (optional) — verified sender. Defaults to a no-reply
- *                        address on the verified `bioanalytix.info` domain.
+ *
+ * Per-form recipient/sender addresses are defined in code via
+ * {@link FORM_MAILBOX} on the Resend-verified `bioanalytix.info` domain.
  *
  * The visitor's address is set as `replyTo` so a reply goes straight back to
  * them. Returns `true` only when Resend accepts the message.
  */
 
-const DEFAULT_TO = "info@bioanalytix.info";
-const DEFAULT_FROM = "BioAnalytiX Website <noreply@bioanalytix.info>";
+/** Display name used for every outbound BioAnalytiX address. */
+const FROM_NAME = "BioAnalytiX";
+
+/**
+ * Per-form mailbox. Each website form delivers its internal notification to the
+ * address below and sends its auto-confirmation *from* that same address. All
+ * addresses live on the Resend-verified `bioanalytix.info` domain.
+ *
+ *   - contact        → info@bioanalytix.info
+ *   - careers        → careers@bioanalytix.info
+ *   - beta (Gnosis)  → beta@bioanalytix.info
+ *   - collaboration  → partnerships@bioanalytix.info
+ */
+const FORM_MAILBOX: Record<"contact" | SubmissionSource, string> = {
+  contact:       "info@bioanalytix.info",
+  careers:       "careers@bioanalytix.info",
+  beta:          "beta@bioanalytix.info",
+  collaboration: "partnerships@bioanalytix.info",
+};
+
+/** Recipient inbox for a form's internal notification. */
+function mailboxFor(form: "contact" | SubmissionSource): string {
+  return FORM_MAILBOX[form];
+}
+
+/** Verified sender (`BioAnalytiX <addr>`) a form's confirmation is sent from. */
+function senderFor(form: "contact" | SubmissionSource): string {
+  return `${FROM_NAME} <${FORM_MAILBOX[form]}>`;
+}
 
 /** Strip values that could enable header injection in the subject line. */
 function sanitizeHeaderValue(value: string): string {
@@ -40,8 +68,8 @@ export async function sendContactEmail(
     return false;
   }
 
-  const to = process.env.CONTACT_TO_EMAIL?.trim() || DEFAULT_TO;
-  const from = process.env.CONTACT_FROM_EMAIL?.trim() || DEFAULT_FROM;
+  const to = mailboxFor("contact");
+  const from = senderFor("contact");
 
   const name = sanitizeHeaderValue(data.name);
 
@@ -431,8 +459,7 @@ export async function sendBetaConfirmationEmail(
   const apiKey = process.env.RESEND_API_KEY;
   if (!apiKey) return false;
 
-  const from = process.env.CONTACT_FROM_EMAIL?.trim().replace(/^["']|["']$/g, "") ||
-    DEFAULT_FROM;
+  const from = senderFor(record.source ?? "beta");
 
   const copy = SOURCE_COPY[record.source ?? "beta"];
   const name = sanitizeHeaderValue(record.fullName);
@@ -614,8 +641,8 @@ export async function sendBetaNotificationEmail(
   const apiKey = process.env.RESEND_API_KEY;
   if (!apiKey) return false;
 
-  const to   = process.env.CONTACT_TO_EMAIL?.trim() || DEFAULT_TO;
-  const from = process.env.CONTACT_FROM_EMAIL?.trim().replace(/^["']|["']$/g, "") || DEFAULT_FROM;
+  const to   = mailboxFor(record.source);
+  const from = senderFor(record.source);
 
   const name  = sanitizeHeaderValue(record.fullName);
   const label = SOURCE_LABEL_INTERNAL[record.source];

@@ -42,9 +42,7 @@ See `.env.example` for the authoritative list and inline notes. Summary:
 
 | Variable | Required | Used by | Notes |
 | --- | --- | --- | --- |
-| `RESEND_API_KEY` | Yes | `submit-contact.ts`, `lib/email.ts` | Resend API key. Contact submissions are emailed to the inbox below. If unset, the action returns a generic delivery failure and retains input. |
-| `CONTACT_TO_EMAIL` | Optional | `lib/email.ts` | Recipient inbox. Default `info@bioanalytix.info`. |
-| `CONTACT_FROM_EMAIL` | Optional | `lib/email.ts` | Verified sender (Resend-verified domain). Default `noreply@bioanalytix.info`. |
+| `RESEND_API_KEY` | Yes | `submit-contact.ts`, `submit-beta.ts`, `lib/email.ts` | Resend API key. Form submissions are emailed to the per-form inbox. If unset, the action returns a generic delivery failure and retains input. |
 | `GOOGLE_SHEETS_SPREADSHEET_ID` | Yes | `submit-beta.ts`, `lib/submissions-store.ts` | Target private Google Sheet id. Beta/careers/collaboration requests are appended as rows. If unset, the action returns a generic failure and retains input. |
 | `GOOGLE_SERVICE_ACCOUNT_EMAIL` | Yes | `lib/submissions-store.ts` | Service-account email; the sheet must be shared with it as Editor. |
 | `GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY` | Yes | `lib/submissions-store.ts` | Service-account private key (escaped `\n` is normalized). |
@@ -54,10 +52,18 @@ See `.env.example` for the authoritative list and inline notes. Summary:
 
 ### Form delivery setup
 
-- **Contact form → email (Resend).** Create a Resend account, verify the
-  `bioanalytix.info` domain, and add `RESEND_API_KEY`. Submissions are emailed to
-  `CONTACT_TO_EMAIL` (default `info@bioanalytix.info`) with the visitor's address
-  as reply-to.
+- **Contact / careers / beta / collaboration → email (Resend).** Create a
+  Resend account, verify the `bioanalytix.info` domain, and add `RESEND_API_KEY`.
+  Each form has its own mailbox (defined in `lib/email.ts` → `FORM_MAILBOX`): its
+  internal notification is delivered there and its auto-confirmation is sent from
+  that same address, with the visitor's address as reply-to.
+
+  | Form | Internal notification → | Confirmation from |
+  | --- | --- | --- |
+  | Contact | `info@bioanalytix.info` | `info@bioanalytix.info` |
+  | Careers | `careers@bioanalytix.info` | `careers@bioanalytix.info` |
+  | Gnosis AI beta | `beta@bioanalytix.info` | `beta@bioanalytix.info` |
+  | Orasis AI collaboration | `partnerships@bioanalytix.info` | `partnerships@bioanalytix.info` |
 - **Beta / careers / collaboration → private Google Sheet.** All three intakes
   share one application form (`/beta`, `/careers`, `/data-partner`) and are
   appended as rows to a private Google Sheet, tagged by type (Beta access /
